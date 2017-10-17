@@ -1,4 +1,4 @@
-package edu.umsl.dao;
+package edu.umsl.java.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,7 +10,7 @@ import java.util.List;
 
 import javax.servlet.UnavailableException;
 
-import edu.umsl.beans.Topic;
+import edu.umsl.java.beans.Topic;
 
 public class TopicDao {
 	private Connection connection;

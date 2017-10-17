@@ -1,4 +1,4 @@
-package edu.umsl.beans;
+package edu.umsl.java.beans;
 
 public class Instructor {
 	private int id;

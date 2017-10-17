@@ -1,4 +1,4 @@
-package edu.umsl.web;
+package edu.umsl.java.web;
 
 import java.io.IOException;
 import java.util.List;
@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.umsl.beans.Topic;
-import edu.umsl.dao.TopicDao;
+import edu.umsl.java.beans.Topic;
+import edu.umsl.java.dao.TopicDao;
 
 /**
  * Servlet implementation class TopicServlet

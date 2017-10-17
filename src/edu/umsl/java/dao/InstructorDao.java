@@ -1,4 +1,4 @@
-package edu.umsl.dao;
+package edu.umsl.java.dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,19 +10,19 @@ import java.util.List;
 
 import javax.servlet.UnavailableException;
 
-import edu.umsl.beans.Course;
+import edu.umsl.java.beans.Instructor;
 
-public class CourseDao {
+public class InstructorDao {
 	private Connection connection;
 	private PreparedStatement results;
 	
-	public CourseDao() throws Exception {
+	public InstructorDao() throws Exception {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs5012g4db", "root", "");
 			
 			results = connection.prepareStatement(
-					"SELECT id, name, year, semester, instructor " + "FROM course ORDER BY name DESC ");
+					"SELECT id, name " + "FROM instructor ORDER BY name DESC ");
 			
 		} catch( Exception ex )
 		{
@@ -31,27 +31,24 @@ public class CourseDao {
 		}
 	}
 	
-	public List<Course> getCourseList() {
-		List<Course> courseList = new ArrayList<Course>();
+	public List<Instructor> getInstructorList() {
+		List<Instructor> instructorList = new ArrayList<Instructor>();
 		
 		try {
 			ResultSet res = results.executeQuery();
 			
 			while( res.next() ) {
-				Course course = new Course();
-				course.setId(res.getInt(1));
-				course.setName(res.getString(2));
-				course.setYear(res.getInt(3));
-				course.setSemester(res.getInt(4));
-				course.setInstructor(res.getInt(5));
-				courseList.add(course);
+				Instructor instructor = new Instructor();
+				instructor.setId(res.getInt(1));
+				instructor.setName(res.getString(2));
+				instructorList.add(instructor);
 			}
 				
 		} catch (SQLException sql_ex) {
 			sql_ex.printStackTrace();
 		}
 		
-		return courseList;
+		return instructorList;
 		
 	}
 	
@@ -63,5 +60,4 @@ public class CourseDao {
 			sql_ex.printStackTrace();
 		}
 	}
-
 }
