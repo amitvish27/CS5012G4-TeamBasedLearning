@@ -1,0 +1,17 @@
+.errorFont {
+    font-weight: normal;
+    color: red;
+    font-family: arial, helvetica, sans-serif;
+}
+
+.probpadding {
+    padding-left: 1em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    padding-right: 1em;
+}
+
+.imgcenter {
+    display: block;
+    margin: 0 auto;
+}
