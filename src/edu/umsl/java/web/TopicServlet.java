@@ -38,7 +38,6 @@ public class TopicServlet extends HttpServlet {
 			throws ServletException, IOException {
 		TopicDao topicDao = null;
 		CourseDao courseDao = null;
-		RequestDispatcher dispatcher = request.getRequestDispatcher("list.jsp");
 
 		int pg = 0;
 		String initpg = request.getParameter("pg");
@@ -79,7 +78,8 @@ public class TopicServlet extends HttpServlet {
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("topicslist.jsp");
 		dispatcher.forward(request, response);
 
 	}

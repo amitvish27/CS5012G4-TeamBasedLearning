@@ -25,9 +25,11 @@ function createNewTopic() {
 	var topicCont = $("#topicCont").val();
 	var s_course = $("#s_course").val();
 	
-	$.get("AddTopic", {
+	$.post("AddTopic", {
 		'topicCont' : topicCont,
 		's_course' : s_course
+	}, function( data ) {  
+		alert( "Data Loaded: " + data );
 	});
 }
 

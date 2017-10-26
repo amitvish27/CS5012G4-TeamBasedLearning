@@ -36,7 +36,6 @@
 					<li class="active"><a href="index.html">Home</a></li>
 					<li><a href="Course">Course</a></li>
 					<li><a href="Topic">Topic</a></li>
-					<li><a href="AboutUs">AboutUs</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="Login"><span
@@ -46,66 +45,70 @@
 		</div>
 	</nav>
 
-	<div class="container-fluid text-center">
+	<div class="container-fluid">
 		<input id="crtpg" type="hidden" value="${crtpg}" />
 		<div class="container">
-			<div class="row">
-				<div class="col-md-offset-2 col-md-8 h2">Topic</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-3 col-md-4 text-center">Year</div>
-				<div class="col-sm-7 col-md-6">
-					<select id="s_course_year">
-						<option value="">NONE</option>
-						<c:forEach var="course" items="${courseListByInstructor}">
-							<option value="${course.getYear()}">${course.getYear()}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-3 col-md-4 text-center">Semester</div>
-				<div class="col-sm-7 col-md-6">
-					<select id="s_course_sem">
-						<option value="">NONE</option>
-						<c:forEach var="course" items="${courseListByInstructor}">
-							<option value="${course.getSemester()}">${course.getSemester()}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-3 col-md-4 text-center">Course</div>
-				<div class="col-sm-7 col-md-6">
-					<select id="s_course" name="s_course">
-						<option value="">NONE</option>
-						<c:forEach var="course" items="${courseListByInstructor}">
-							<option value="${course.getId()}">${course.getName()}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
-					<span id="proberrmsg" class="errorFont"> <c:if
-							test="${param.err > 0}">Please provide the content of your topic.</c:if>
-					</span>
-					<p></p>
-					<textarea rows="2" class="form-control" id="topicCont"
-						name="topicCont" placeholder="Enter your topic title here"></textarea>
-					<p></p>
+			<div class="panel panel-default top-buffer">
+				<div class="panel-body form-group">
 
-				</div>
-				<div class="col-sm-1 col-md-1 text-center">
-					<p></p>
-					<button id="createTopic" class="btn btn-link" type="button"
-						onclick="createNewTopic()">
-						<span class="glyphicon glyphicon-plus"></span>Create New
-					</button>
-					<p></p>
+					<div class="row">
+						<div class="col-md-offset-2 col-md-8 h2 text-center">Topic</div>
+					</div>
+					<div class="row top-buffer">
+						<div class="col-md-offset-2 col-sm-1 col-md-1">Year:</div>
+						<div class="col-sm-3 col-md-4">
+							<select id="s_course_year" name="s_course_year"
+								class="form-control">
+								<option value="">NONE</option>
+								<c:forEach var="course" items="${courseListByInstructor}">
+									<option value="${course.getYear()}">${course.getYear()}</option>
+								</c:forEach>
+							</select>
+						</div>
+
+					</div>
+					<div class="row top-buffer">
+						<div class="col-md-offset-2 col-sm-1 col-md-1">Semester:</div>
+						<div class="col-sm-3 col-md-4">
+							<select id="s_course_sem" name="s_course_sem"
+								class="form-control">
+								<option value="">NONE</option>
+								<c:forEach var="course" items="${courseListByInstructor}">
+									<option value="${course.getSemester()}">${course.getSemester()}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="row top-buffer">
+						<div class="col-md-offset-2 col-sm-1 col-md-1">Course:</div>
+						<div class="col-sm-3 col-md-4">
+							<select id="s_course" name="s_course" class="form-control">
+								<option value="">NONE</option>
+								<c:forEach var="course" items="${courseListByInstructor}">
+									<option value="${course.getId()}">${course.getName()}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="row top-buffer ">
+						<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
+							<span id="proberrmsg" class="errorFont"> <c:if
+									test="${err > 0}">Please provide the content of your topic.</c:if>
+							</span>
+							<p></p>
+							<textarea rows="2" class="form-control" id="topicCont"
+								name="topicCont" placeholder="Enter your topic title here"></textarea>
+						</div>
+						<div class="col-sm-1 col-md-1 text-center">
+							<p></p>
+							<button id="createTopic" class="btn btn-link" type="submit"
+								onclick="createNewTopic()">
+								<span class="glyphicon glyphicon-plus"></span>Create New
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<div class="container">
@@ -150,7 +153,7 @@
 						</tr>
 						<c:forEach var="topic" items="${topicList}">
 							<tr>
-								<td class="text-center">${topic.getTitle()}</td>
+								<td>${topic.getTitle()}</td>
 							</tr>
 						</c:forEach>
 					</table>
