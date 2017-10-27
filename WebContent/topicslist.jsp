@@ -20,7 +20,7 @@
 <link href="css/tbla.css" rel="stylesheet">
 </head>
 <body>
-
+	<!-- Navbar -->
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -45,6 +45,7 @@
 		</div>
 	</nav>
 
+	<!-- Content Body -->
 	<div class="container-fluid">
 		<input id="crtpg" type="hidden" value="${crtpg}" />
 		<div class="container">
@@ -112,57 +113,71 @@
 		</div>
 
 		<div class="container">
-			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
-					<table width="100%" class="table table-bordered table-striped">
-						<tr>
-							<td colspan="4">
-								<table width="100%">
-									<tr>
-										<td width="70%" />
-										<td width="30%">
-
-											<div class="input-group">
-												<c:if test="${crtpg > 1}">
-													<button type="button" onclick="loadTopicsAtPage(0)"
-														style="height: 2.4em" class="btn btn-link">
-														<span class="glyphicon glyphicon-triangle-left"></span>
-													</button>
-												</c:if>
-												<input id="topicpage" name="topicpage" type="text"
-													style="width: 4em; height: 2.4em" class="form-control"
-													placeholder="${crtpg}/${maxpg}" />
-												<button class="btn btn-link" type="button"
-													onclick="goToTopicsAtPage()">
-													<span class="glyphicon glyphicon-share-alt"></span>
-												</button>
-												<c:if test="${crtpg < maxpg}">
-													<button type="button" onclick="loadTopicsAtPage(1)"
-														style="height: 2.4em" class="btn btn-link">
-														<span class="glyphicon glyphicon-triangle-right"></span>
-													</button>
-												</c:if>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center">Title</td>
-						</tr>
-						<c:forEach var="topic" items="${topicList}">
+			<div class="panel panel-default top-buffer">
+				<div class="panel-body ">
+					<table class="table table-striped" width="100%">
+						<thead>
 							<tr>
-								<td>${topic.getTitle()}</td>
+								<td width="70%" class="text-center h4">Title</td>
+								<td width="30%" class="text-center h4">Action</td>
 							</tr>
-						</c:forEach>
+						</thead>
+						<tbody>
+							<c:forEach var="topic" items="${topicList}">
+								<tr>
+									<td style="padding-left: 5em">${topic.getTitle()}</td>
+									<td class="text-center">
+										<div class="input-group-btn">
+											<button type="button" onclick="editThisTopicAjax()"
+												style="height: 2.4em" class="btn btn-link">
+												<span class="glyphicon glyphicon-edit"></span>
+											</button>
+											<button type="button" onclick="deleteThisTopicAjax()"
+												style="height: 2.4em" class="btn btn-link">
+												<span class="glyphicon glyphicon-trash"></span>
+											</button>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td width="70%">&nbsp;</td>
+								<td width="30%">
+									<table class="input-group">
+										<tr>
+											<td>
+												<button type="button" onclick="loadTopicsAtPage(0)"
+													style="height: 2.4em" class="btn btn-link"
+													<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
+													<span class="glyphicon glyphicon-triangle-left"></span>
+												</button>
+											</td>
+											<td><input id="topicpage" name="topicpage" type="text"
+												style="width: 4em; height: 2.4em" class="form-control "
+												placeholder="${crtpg}/${maxpg}"
+												onfocusout="goToTopicsAtPage()" /></td>
+											<td>
+												<button type="button" onclick="loadTopicsAtPage(1)"
+													style="height: 2.4em" class="btn btn-link"
+													<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
+													<span class="glyphicon glyphicon-triangle-right"></span>
+												</button>
+											</td>
+										</tr>
+									</table>
+
+								</td>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
+	<!-- Footer Note -->
 	<footer class="container-fluid text-center">
 		<p></p>
 	</footer>
