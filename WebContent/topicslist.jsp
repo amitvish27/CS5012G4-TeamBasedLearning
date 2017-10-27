@@ -20,7 +20,7 @@
 <link href="css/tbla.css" rel="stylesheet">
 </head>
 <body>
-
+	<!-- Navbar -->
 	<nav class="navbar navbar-inverse">
 		<div class="container-fluid">
 			<div class="navbar-header">
@@ -36,7 +36,6 @@
 					<li class="active"><a href="index.html">Home</a></li>
 					<li><a href="Course">Course</a></li>
 					<li><a href="Topic">Topic</a></li>
-					<li><a href="AboutUs">AboutUs</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="Login"><span
@@ -46,120 +45,139 @@
 		</div>
 	</nav>
 
-	<div class="container-fluid text-center">
+	<!-- Content Body -->
+	<div class="container-fluid">
 		<input id="crtpg" type="hidden" value="${crtpg}" />
 		<div class="container">
-			<div class="row">
-				<div class="col-md-offset-2 col-md-8 h2">Topic</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-3 col-md-4 text-center">Year</div>
-				<div class="col-sm-7 col-md-6">
-					<select id="s_course_year">
-						<option value="">NONE</option>
-						<c:forEach var="course" items="${courseListByInstructor}">
-							<option value="${course.getYear()}">${course.getYear()}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-3 col-md-4 text-center">Semester</div>
-				<div class="col-sm-7 col-md-6">
-					<select id="s_course_sem">
-						<option value="">NONE</option>
-						<c:forEach var="course" items="${courseListByInstructor}">
-							<option value="${course.getSemester()}">${course.getSemester()}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-3 col-md-4 text-center">Course</div>
-				<div class="col-sm-7 col-md-6">
-					<select id="s_course" name="s_course">
-						<option value="">NONE</option>
-						<c:forEach var="course" items="${courseListByInstructor}">
-							<option value="${course.getId()}">${course.getName()}</option>
-						</c:forEach>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
-					<span id="proberrmsg" class="errorFont"> <c:if
-							test="${param.err > 0}">Please provide the content of your topic.</c:if>
-					</span>
-					<p></p>
-					<textarea rows="2" class="form-control" id="topicCont"
-						name="topicCont" placeholder="Enter your topic title here"></textarea>
-					<p></p>
+			<div class="panel panel-default top-buffer">
+				<div class="panel-body form-group">
 
-				</div>
-				<div class="col-sm-1 col-md-1 text-center">
-					<p></p>
-					<button id="createTopic" class="btn btn-link" type="button"
-						onclick="createNewTopic()">
-						<span class="glyphicon glyphicon-plus"></span>Create New
-					</button>
-					<p></p>
+					<div class="row">
+						<div class="col-md-offset-2 col-md-8 h2 text-center">Topic</div>
+					</div>
+					<div class="row top-buffer">
+						<div class="col-md-offset-2 col-sm-1 col-md-1">Year:</div>
+						<div class="col-sm-3 col-md-4">
+							<select id="s_course_year" name="s_course_year"
+								class="form-control">
+								<option value="">NONE</option>
+								<c:forEach var="course" items="${courseListByInstructor}">
+									<option value="${course.getYear()}">${course.getYear()}</option>
+								</c:forEach>
+							</select>
+						</div>
+
+					</div>
+					<div class="row top-buffer">
+						<div class="col-md-offset-2 col-sm-1 col-md-1">Semester:</div>
+						<div class="col-sm-3 col-md-4">
+							<select id="s_course_sem" name="s_course_sem"
+								class="form-control">
+								<option value="">NONE</option>
+								<c:forEach var="course" items="${courseListByInstructor}">
+									<option value="${course.getSemester()}">${course.getSemester()}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="row top-buffer">
+						<div class="col-md-offset-2 col-sm-1 col-md-1">Course:</div>
+						<div class="col-sm-3 col-md-4">
+							<select id="s_course" name="s_course" class="form-control">
+								<option value="">NONE</option>
+								<c:forEach var="course" items="${courseListByInstructor}">
+									<option value="${course.getId()}">${course.getName()}</option>
+								</c:forEach>
+							</select>
+						</div>
+					</div>
+					<div class="row top-buffer ">
+						<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
+							<span id="proberrmsg" class="errorFont"> <c:if
+									test="${err > 0}">Please provide the content of your topic.</c:if>
+							</span>
+							<p></p>
+							<textarea rows="2" class="form-control" id="topicCont"
+								name="topicCont" placeholder="Enter your topic title here"></textarea>
+						</div>
+						<div class="col-sm-1 col-md-1 text-center">
+							<p></p>
+							<button id="createTopic" class="btn btn-link" type="submit"
+								onclick="createNewTopic()">
+								<span class="glyphicon glyphicon-plus"></span>Create New
+							</button>
+						</div>
+					</div>
 				</div>
 			</div>
-
 		</div>
 
 		<div class="container">
-			<div class="row">
-				<div class="col-md-offset-2 col-md-8">
-					<table width="100%" class="table table-bordered table-striped">
-						<tr>
-							<td colspan="4">
-								<table width="100%">
-									<tr>
-										<td width="70%" />
-										<td width="30%">
-
-											<div class="input-group">
-												<c:if test="${crtpg > 1}">
-													<button type="button" onclick="loadTopicsAtPage(0)"
-														style="height: 2.4em" class="btn btn-link">
-														<span class="glyphicon glyphicon-triangle-left"></span>
-													</button>
-												</c:if>
-												<input id="topicpage" name="topicpage" type="text"
-													style="width: 4em; height: 2.4em" class="form-control"
-													placeholder="${crtpg}/${maxpg}" />
-												<button class="btn btn-link" type="button"
-													onclick="goToTopicsAtPage()">
-													<span class="glyphicon glyphicon-share-alt"></span>
-												</button>
-												<c:if test="${crtpg < maxpg}">
-													<button type="button" onclick="loadTopicsAtPage(1)"
-														style="height: 2.4em" class="btn btn-link">
-														<span class="glyphicon glyphicon-triangle-right"></span>
-													</button>
-												</c:if>
-											</div>
-										</td>
-									</tr>
-								</table>
-							</td>
-						</tr>
-						<tr>
-							<td class="text-center">Title</td>
-						</tr>
-						<c:forEach var="topic" items="${topicList}">
+			<div class="panel panel-default top-buffer">
+				<div class="panel-body ">
+					<table class="table table-striped" width="100%">
+						<thead>
 							<tr>
-								<td class="text-center">${topic.getTitle()}</td>
+								<td width="70%" class="text-center h4">Title</td>
+								<td width="30%" class="text-center h4">Action</td>
 							</tr>
-						</c:forEach>
+						</thead>
+						<tbody>
+							<c:forEach var="topic" items="${topicList}">
+								<tr>
+									<td style="padding-left: 5em">${topic.getTitle()}</td>
+									<td class="text-center">
+										<div class="input-group-btn">
+											<button type="button" onclick="editThisTopicAjax()"
+												style="height: 2.4em" class="btn btn-link">
+												<span class="glyphicon glyphicon-edit"></span>
+											</button>
+											<button type="button" onclick="deleteThisTopicAjax()"
+												style="height: 2.4em" class="btn btn-link">
+												<span class="glyphicon glyphicon-trash"></span>
+											</button>
+										</div>
+									</td>
+								</tr>
+							</c:forEach>
+						</tbody>
+						<tfoot>
+							<tr>
+								<td width="70%">&nbsp;</td>
+								<td width="30%">
+									<table class="input-group">
+										<tr>
+											<td>
+												<button type="button" onclick="loadTopicsAtPage(0)"
+													style="height: 2.4em" class="btn btn-link"
+													<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
+													<span class="glyphicon glyphicon-triangle-left"></span>
+												</button>
+											</td>
+											<td><input id="topicpage" name="topicpage" type="text"
+												style="width: 4em; height: 2.4em" class="form-control "
+												placeholder="${crtpg}/${maxpg}"
+												onfocusout="goToTopicsAtPage()" /></td>
+											<td>
+												<button type="button" onclick="loadTopicsAtPage(1)"
+													style="height: 2.4em" class="btn btn-link"
+													<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
+													<span class="glyphicon glyphicon-triangle-right"></span>
+												</button>
+											</td>
+										</tr>
+									</table>
+
+								</td>
+							</tr>
+						</tfoot>
 					</table>
 				</div>
 			</div>
 		</div>
 	</div>
 
-
+	<!-- Footer Note -->
 	<footer class="container-fluid text-center">
 		<p></p>
 	</footer>

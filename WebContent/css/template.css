@@ -33,3 +33,9 @@ footer {
 		height: auto;
 	}
 }
+
+.table > tbody > tr > td {
+     vertical-align: middle;
+}
+
+.top-buffer { margin-top:1em; }
