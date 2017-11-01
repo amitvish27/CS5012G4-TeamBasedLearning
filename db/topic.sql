@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 26, 2017 at 05:20 PM
+-- Generation Time: Nov 01, 2017 at 08:47 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -42,7 +42,7 @@ CREATE TABLE `topic` (
 
 INSERT INTO `topic` (`id`, `title`, `course`, `creation_time`, `isdelete`) VALUES
 (1, 'this is topic1 ', 1, '2017-10-16 21:45:29', 0),
-(2, 'this is topic2', 2, '2017-10-16 21:45:29', 0),
+(2, 'this is topic2', 2, '2017-10-16 21:45:29', 1),
 (3, 'topics3', 1, '2017-10-23 15:42:53', 0),
 (4, 'topics4', 2, '2017-10-23 15:42:53', 0),
 (5, 'topics5', 1, '2017-10-23 15:46:57', 0),
@@ -61,7 +61,7 @@ INSERT INTO `topic` (`id`, `title`, `course`, `creation_time`, `isdelete`) VALUE
 (18, 'topics17', 2, '2017-10-23 15:46:58', 0),
 (19, 'topics18', 2, '2017-10-23 15:46:58', 0),
 (20, 'topics19', 1, '2017-10-23 15:46:58', 0),
-(21, 'topics20', 1, '2017-10-23 15:46:58', 0),
+(21, 'topics20', 1, '2017-10-23 15:46:58', 1),
 (22, 'topics21', 1, '2017-10-23 15:46:58', 0),
 (23, 'topics22', 1, '2017-10-23 15:46:58', 0),
 (24, 'topics24', 1, '2017-10-23 15:46:58', 0),
@@ -81,7 +81,15 @@ INSERT INTO `topic` (`id`, `title`, `course`, `creation_time`, `isdelete`) VALUE
 (38, 'topics39', 1, '2017-10-23 15:46:59', 0),
 (39, 'topics38', 1, '2017-10-23 15:46:59', 0),
 (40, 'topic59', 2, '2017-10-24 21:11:35', 0),
-(41, 'jhgasdfhgasjdf', 1, '2017-10-25 23:14:38', 0);
+(41, 'jhgasdfhgasjdf', 1, '2017-10-25 23:14:38', 1),
+(42, 'New Topic for Quiz', 1, '2017-10-26 15:59:31', 1),
+(43, 'asdfsdf', 1, '2017-10-31 19:55:46', 1),
+(44, 'qwerqwer', 1, '2017-11-01 01:52:30', 1),
+(45, 'Topic60', 1, '2017-11-01 02:00:36', 1),
+(46, 'asdfwefrf', 1, '2017-11-01 02:11:11', 1),
+(47, 'asdasfasdf', 1, '2017-11-01 02:12:32', 1),
+(48, 'new title', 1, '2017-11-01 16:42:54', 1),
+(49, 'HelloWorld', 6, '2017-11-01 19:22:44', 1);
 
 --
 -- Indexes for dumped tables
@@ -102,7 +110,7 @@ ALTER TABLE `topic`
 -- AUTO_INCREMENT for table `topic`
 --
 ALTER TABLE `topic`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 --
 -- Constraints for dumped tables
 --
