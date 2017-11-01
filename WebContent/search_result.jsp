@@ -27,54 +27,13 @@
 
 <style>
 div.relative {
-    position: relative;
-    left: 30px;
-   
+	position: relative;
+	left: 30px;
 }
 </style>
 </head>
 <body>
-<jsp:include page="top.jsp" />
-<jsp:useBean id="userbean" scope="page"
-	class="edu.umsl.java.beans.UserBean" />
-<jsp:useBean id="userdao" scope="request"
-	class="edu.umsl.java.dao.UserDao" />
-<%
-String fname = request.getParameter("first_name");
-String lname = request.getParameter("last_name");
-String ssoid = request.getParameter("ssoid");
+	<jsp:include page="top.jsp" />
 
-userbean.setFname(fname);
-userbean.setLname(lname);
-userbean.setSsoid(ssoid);
-userbean = userdao.getUserSearch(ssoid, fname, lname);
-
-%>
-
-
-			<table class="table table-bordered" style="width:50%">
-				
-					<tr>
-						
-						<th>SSOID</th>
-						<td><%=userbean.getSsoid()%></td>
-					</tr>
-				
-				
-					<tr>
-						
-						<th>First Name</th>
-						<td><%=userbean.getFname()%></td>
-					</tr>
-					
-					<tr>
-						
-						<th>Last Name</th>
-						<td><%=userbean.getLname()%></td>
-					</tr>
-				
-				
-				
-				
 </body>
 </html>

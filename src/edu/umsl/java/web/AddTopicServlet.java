@@ -39,10 +39,10 @@ public class AddTopicServlet extends HttpServlet {
 
 			} catch (Exception ex) {
 				ex.printStackTrace();
+				response.sendRedirect("Topic?err=" + 2 );
 			}
 		}
 	
-		System.out.println("Topic?err=" + err + ";"+topicCont+";"+courseIdString);
 		response.sendRedirect("Topic?err=" + err );
 	}
 

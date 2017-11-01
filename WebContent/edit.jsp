@@ -38,15 +38,13 @@ div.relative {
 
 <%
 String myid = request.getParameter("id");
-UserBean usr =  (UserBean) request.getAttribute("usr");
+//UserBean usr =  (UserBean) request.getAttribute("usr");
 
 %>
 
 <div class="relative">
 <form action = "UpdateUserServlet" method = "POST">
-         <br>SSOID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "text" name = "ssoid" value="<%=usr.getSsoid()%>"> 
-         <br>First Name: <input type = "text" name = "first_name" value ="<%=usr.getFname() %>" >
-         <br>Last Name: <input type = "text" name = "last_name"  value="<%=usr.getLname()%>">
+         
          <br>
          <input type = "checkbox" name = "role" values="admin"/> Instructor
          <input type = "checkbox" name = "role"  values="instructor" /> Admin

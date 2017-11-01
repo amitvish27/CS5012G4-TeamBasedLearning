@@ -25,10 +25,7 @@
 	
 </script>
 
-<jsp:useBean id="userbean" scope="page"
-	class="edu.umsl.java.beans.UserBean" />
-<jsp:useBean id="userdao" scope="request"
-	class="edu.umsl.java.dao.UserDao" />
+	
 <body>
 
 <jsp:include page="top.jsp" />
@@ -36,7 +33,7 @@
 <%
 String id = request.getParameter("id");
 out.println (id);
-userdao.deleteUser(id);
+//userdao.deleteUser(id);
 
 String redirectURL = "listuser";
 response.sendRedirect(redirectURL);

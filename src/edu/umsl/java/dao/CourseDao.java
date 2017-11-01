@@ -6,7 +6,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.UnavailableException;
 
@@ -34,7 +36,7 @@ public class CourseDao {
 			throw new UnavailableException(ex.getMessage());
 		}
 	}
-
+	
 	public List<Course> getCourseList() {
 		List<Course> courseList = new ArrayList<Course>();
 
@@ -99,13 +101,48 @@ public class CourseDao {
 	}
 
 	protected void finalize() {
-		try {
+		/*try {
 			results.close();
 			setInstructor.close();
 			connection.close();
 		} catch (SQLException sql_ex) {
 			sql_ex.printStackTrace();
-		}
+		}*/
 	}
-
+	
+	public List<Integer> getYearByInstructor() {
+		List<Integer> tempList = new ArrayList<>();
+		for (Course c: courseList) {
+			tempList.add(c.getYear());
+		}
+		Set<Integer> set = new HashSet<>();
+		set.addAll(tempList);
+		tempList.clear();
+		tempList.addAll(set);
+		return tempList;
+	}
+	
+	public List<Integer> getSemesterByInstructor(int year) {
+		List<Integer> tempList = new ArrayList<>();
+		for (Course c: courseList) {
+			if(c.getYear()==year) {
+				tempList.add(c.getSemester());
+			}
+		}
+		Set<Integer> set = new HashSet<>();
+		set.addAll(tempList);
+		tempList.clear();
+		tempList.addAll(set);
+		return tempList;
+	}
+	
+	public List<Course> getCourseByInstructor(int year, int semester) {
+		List<Course> tempList = new ArrayList<>();
+		for (Course c: courseList) {
+			if(c.getYear()==year && c.getSemester()==semester) {
+				tempList.add(c);
+			}
+		}
+		return tempList;
+	}
 }

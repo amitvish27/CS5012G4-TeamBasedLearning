@@ -1,4 +1,15 @@
 /* Remove the navbar's default margin-bottom and rounded borders */
+html,
+body {
+	margin:0;
+	padding:0;
+	height:100%;
+}
+#wrapper {
+	min-height:100%;
+	position:relative;
+}
+
 .navbar {
 	margin-bottom: 0;
 	border-radius: 0;
@@ -6,7 +17,7 @@
 
 /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
 .row.content {
-	height: 450px
+	height: 250px;
 }
 
 /* Set gray background color and 100% height */
@@ -16,11 +27,47 @@
 	height: 100%;
 }
 
+.errorFont {
+	font-weight: normal;
+	color: red;
+	font-family: arial, helvetica, sans-serif;
+}
+
+.probpadding {
+	padding-left: 1em;
+	padding-top: 2em;
+	padding-bottom: 2em;
+	padding-right: 1em;
+}
+
+.imgcenter {
+	display: block;
+	margin: 0 auto;
+}
+
+.table>tbody>tr>td {
+	vertical-align: middle;
+}
+
+.top-buffer {
+	margin-top: 5px;
+}
+.editButtonIcon{
+	color: #2ECC71;
+}
+.trashButtonIcon{
+	color: #DE0A0C;
+}
+
 /* Set black background color, white text and some padding */
 footer {
 	background-color: #555;
 	color: white;
 	padding: 15px;
+	width:100%;
+	position:absolute;
+	bottom:0;
+	left:0;
 }
 
 /* On small screens, set height to 'auto' for sidenav and grid */
@@ -33,9 +80,3 @@ footer {
 		height: auto;
 	}
 }
-
-.table > tbody > tr > td {
-     vertical-align: middle;
-}
-
-.top-buffer { margin-top:1em; }
