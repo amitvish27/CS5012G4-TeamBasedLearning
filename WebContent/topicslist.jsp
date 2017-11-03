@@ -15,7 +15,7 @@
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<script src="js/tbla.js">
+<script src="js/topicsPage.js">
 	
 </script>
 <link href="css/template.css" rel="stylesheet">
@@ -30,66 +30,63 @@
 		<div class="container-fluid">
 			<input id="crtpg" type="hidden" value="${crtpg}" />
 			<div class="container">
-				<form class="form-horizontal" action="AddTopic" method="post">
-					<div class="panel panel-default top-buffer">
-						<div class="panel-body form-group">
-							<div class="row">
-								<div class="col-md-offset-2 col-md-8 h2 text-center">Topic</div>
+
+				<div class="panel panel-default top-buffer">
+					<div class="panel-body form-group">
+						<div class="row">
+							<div class="col-md-offset-2 col-md-8 h2 text-center">Topic</div>
+						</div>
+						<div class="row top-buffer">
+							<div class="col-md-offset-2 col-sm-1 col-md-1">Year:</div>
+							<div class="col-sm-2 col-md-2">
+								<select id="s_course_year" name="s_course_year"
+									class="form-control">
+									<option value="">NONE</option>
+									<c:forEach var="course" items="${courseListByInstructor}">
+										<option value="${course.getYear()}">${course.getYear()}</option>
+									</c:forEach>
+								</select>
 							</div>
-							<div class="row top-buffer">
-								<div class="col-md-offset-2 col-sm-1 col-md-1">Year:</div>
-								<div class="col-sm-2 col-md-2">
-									<select id="s_course_year" name="s_course_year"
-										class="form-control">
-										<option value="">NONE</option>
-										<c:forEach var="course" items="${courseListByInstructor}">
-											<option value="${course.getYear()}">${course.getYear()}</option>
-										</c:forEach>
-									</select>
-								</div>
+						</div>
+						<div class="row top-buffer">
+							<div class="col-md-offset-2 col-sm-1 col-md-1">Semester:</div>
+							<div class="col-sm-2 col-md-2">
+								<select id="s_course_sem" name="s_course_sem"
+									class="form-control">
+									<option value="">NONE</option>
+									<c:forEach var="course" items="${courseListByInstructor}">
+										<option value="${course.getSemester()}">${course.getSemester()}</option>
+									</c:forEach>
+								</select>
 							</div>
-							<div class="row top-buffer">
-								<div class="col-md-offset-2 col-sm-1 col-md-1">Semester:</div>
-								<div class="col-sm-2 col-md-2">
-									<select id="s_course_sem" name="s_course_sem"
-										class="form-control">
-										<option value="">NONE</option>
-										<c:forEach var="course" items="${courseListByInstructor}">
-											<option value="${course.getSemester()}">${course.getSemester()}</option>
-										</c:forEach>
-									</select>
-								</div>
+						</div>
+						<div class="row top-buffer">
+							<div class="col-md-offset-2 col-sm-1 col-md-1">Course:</div>
+							<div class="col-sm-2 col-md-2">
+								<select id="s_course" name="s_course" class="form-control">
+									<option value="">NONE</option>
+									<c:forEach var="course" items="${courseListByInstructor}">
+										<option value="${course.getId()}">${course.getName()}</option>
+									</c:forEach>
+								</select>
 							</div>
-							<div class="row top-buffer">
-								<div class="col-md-offset-2 col-sm-1 col-md-1">Course:</div>
-								<div class="col-sm-2 col-md-2">
-									<select id="s_course" name="s_course" class="form-control">
-										<option value="">NONE</option>
-										<c:forEach var="course" items="${courseListByInstructor}">
-											<option value="${course.getId()}">${course.getName()}</option>
-										</c:forEach>
-									</select>
-								</div>
+						</div>
+						<div class="row top-buffer ">
+							<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
+								<span id="proberrmsg" class="errorFont"> <c:if
+										test="${param.err > 0}">Please select course & provide the content of your topic.</c:if>
+								</span>
 							</div>
-							<div class="row top-buffer ">
-								<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
-									<span id="proberrmsg" class="errorFont"> <c:if
-											test="${param.err > 0}">Please select course & provide the content of your topic.</c:if>
-									</span>
-									<p></p>
-									<textarea rows="2" class="form-control" id="topicCont"
-										name="topicCont" placeholder="Enter your topic title here"></textarea>
-								</div>
-								<div class="col-sm-1 col-md-1 text-center">
-									<p></p>
-									<button id="createTopic" class="btn btn-link" type="submit">
-										<span class="glyphicon glyphicon-plus"></span>Create New
-									</button>
-								</div>
+							<div class="col-sm-1 col-md-1 text-center">
+								<button type="button" class="btn btn-link" data-toggle="modal"
+									data-target="#createNewModal">
+									<span class="glyphicon glyphicon-plus"></span>Create New
+								</button>
 							</div>
 						</div>
 					</div>
-				</form>
+				</div>
+
 			</div>
 
 			<div class="container">
@@ -149,12 +146,51 @@
 												</td>
 											</tr>
 										</table>
-
 									</td>
 								</tr>
 							</tfoot>
 						</table>
 					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Create new modal -->
+		<div class="modal fade" id="createNewModal" role="dialog">
+			<div class="modal-dialog">
+				<!-- Modal content-->
+				<div class="modal-content">
+					<form class="form-horizontal" action="AddTopic" method="post">
+						<div class="modal-header">
+							<button type="button" class="close" data-dismiss="modal">&times;</button>
+							<h4 class="modal-title">Create New Topic</h4>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="s_Course" class="control-label col-md-2 col-sm-2">Course:</label>
+								<div class="col-md-4 col-sm-4">
+									<select id="s_course" name="s_course" class="form-control">
+										<option value="">NONE</option>
+										<c:forEach var="course" items="${courseListByInstructor}">
+											<option value="${course.getId()}">${course.getName()}</option>
+										</c:forEach>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="topicCont" class="control-label col-md-2 col-sm-2">Title:</label>
+								<div class="col-md-10 col-sm-10">
+									<textarea rows="2" class="form-control" id="topicCont"
+										name="topicCont" placeholder="Enter your topic title here"></textarea>
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button id="createTopic" type="submit" class="btn btn-default">Create</button>
+							<button type="button" class="btn btn-default"
+								data-dismiss="modal">Close</button>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>

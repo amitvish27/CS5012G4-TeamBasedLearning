@@ -21,7 +21,10 @@ function goToTopicsAtPage() {
 }
 
 function delTopicByID(id) {
-	document.location.href = "DelTopic?id=" + id;
+	var ans = confirm("Are you sure you want to delete the selected item?");
+	if(ans){
+		document.location.href = "DelTopic?id=" + id;
+	}
 }
 
 function editThisTopicAjax(v) {

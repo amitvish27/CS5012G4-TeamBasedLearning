@@ -12,9 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import edu.umsl.java.beans.Instructor;
-import edu.umsl.java.beans.StudentLogin;
 import edu.umsl.java.dao.InstructorDao;
-import edu.umsl.java.dao.StudentLoginDao;
 
 /**
  * Servlet implementation class LoginServlet
@@ -26,47 +24,45 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		String radio = request.getParameter("kind");
+		int loginAttempt = 1;
 		String uname = request.getParameter("sso_id");
 		String pwd = request.getParameter("password");
 		HttpSession session = request.getSession();
+		if (session.getAttribute("loginCount") == null) {
+			session.setAttribute("loginCount", loginAttempt);
+		} else {
+			loginAttempt = (Integer) session.getAttribute("loginCount") + 1;
+		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
 
-		try {
+		if (loginAttempt > 3) {
+			request.setAttribute("errorMessage",
+					"Login attempt maxed out." + " Please contact admin to activate your account.");
+			dispatcher.forward(request, response);
+		} else {
 
-			if (radio.equals("tea")) {
+			try {
 				InstructorDao instructorlogindao = new InstructorDao();
-				ArrayList<Instructor> list=null;
+				ArrayList<Instructor> list = null;
 				if (!(list = instructorlogindao.checkinstlogin(uname, pwd)).isEmpty()) {
 					session.setAttribute("username", list.get(0).getFirst_name());
 					session.setAttribute("userId", list.get(0).getId());
-					RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-					rd.forward(request, response);
-				} 
-				else {
-					request.setAttribute("errorMessage", "Invalid Username or Password");
-					dispatcher.forward(request, response);
-				}
-			} 
-			else {
-				StudentLoginDao studentlogindao = new StudentLoginDao();
-				ArrayList<StudentLogin> list=null;
-				if (!(list=studentlogindao.checkstulogin(uname, pwd)).isEmpty()) {
-					session.setAttribute("username", list.get(0).getSSO_ID());
-					RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-					rd.forward(request, response);
-				} 
-				else {
-					request.setAttribute("errorMessage", "Invalid Username or Password");
-					dispatcher.forward(request, response);
-				}
-			}
-		} catch (Exception e) {
-			request.setAttribute("errorMessage", "Invalid Username or Password");
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 
+					RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+					rd.forward(request, response);
+				} else {
+					session.setAttribute("loginCount", loginAttempt);
+					request.setAttribute("errorMessage", "Invalid Username or Password. Attempt: " + loginAttempt);
+
+					dispatcher.forward(request, response);
+				}
+
+			} catch (Exception e) {
+				request.setAttribute("errorMessage", "Server error.");
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 

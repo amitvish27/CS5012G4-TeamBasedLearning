@@ -14,8 +14,6 @@
 <script
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<script src="js/tbla.js"></script>
-
 <link href="css/template.css" rel="stylesheet">
 <link href="css/login.css" rel="stylesheet">
 </head>
@@ -41,14 +39,8 @@
 					<form action="Login" method="post">
 						<input type="text" name="sso_id" placeholder="Username" required />
 						<input type="password" name="password" placeholder="Password"
-							required />
-						<div class="well well-sm" style="text-align: center;">
-							<input type="radio" name="kind" value="tea" checked="checked" />
-							Instructor <input type="radio" name="kind" value="stu" />
-							Student
-						</div>
-						<input type="submit" name="login" class="login loginmodal-submit"
-							value="Login">
+							required /> <input type="submit" name="login"
+							class="login loginmodal-submit" value="Login">
 					</form>
 					<div class="login-help">
 						<a href="#">Register</a> - <a href="#">Forgot Password</a>
