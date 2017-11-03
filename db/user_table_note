@@ -1,0 +1,11 @@
+id = database generated
+ssoid= user id
+pwd=password
+fname=firstname
+lname=last name
+role= 0:admin, 1:instructor, 2:student
+email=email address
+dept=department
+snumber = student number
+cdate= create date
+active = 0: not active (delete), 1: active
