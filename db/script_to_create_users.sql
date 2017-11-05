@@ -1,0 +1,32 @@
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000001", "Instructor", "One", 1, "instructor1@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000002", "Instructor", "two", 1, "instructor2@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000003", "Instructor", "three", 1, "instructor3@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000004", "Instructor", "four", 1, "instructorone@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000005", "Instructor", "five", 1, "instructorone@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000006", "Instructor", "six", 1, "instructorone@umsl.edu", "Business","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000007", "Instructor", "seven", 1, "instructorone@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000008", "Instructor", "eight", 1, "instructorone@umsl.edu", "Math","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000009", "Instructor", "nine", 1, "instructorone@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("I0000010", "Instructor", "ten", 1, "instructorone@umsl.edu", "Art","",1);
+
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000001", "Admin", "One", 0, "Adminone@umsl.edu", "Art","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000002", "Admin", "two", 0, "Admin2@umsl.edu", "Math","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000003", "Admin", "three", 0, "Admin3@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000004", "Admin", "four", 0, "Admin4@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000005", "Admin", "five", 0, "iAdmin5@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000006", "Admin", "six", 0, "Admin6@umsl.edu", "Business","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000007", "Admin", "seven", 0, "Admin7@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000008", "Admin", "eight", 0, "Admin8@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000009", "Admin", "nine", 0, "Admin9@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("A0000010", "Admin", "ten", 0, "Admin10@umsl.edu", "CS","",1);
+
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000001", "Student", "One", 2, "student1@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000002", "Student", "two", 2, "student2@umsl.edu", "Art","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000003", "Student", "three", 2, "student3@umsl.edu", "Math","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000004", "Student", "four", 2, "student4@umsl.edu", "Business","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000005", "Student", "five", 2, "student5@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000006", "Student", "siz", 2, "student6@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000007", "Student", "seven", 2, "student7@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000008", "Student", "eight", 2, "student8@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000009", "Student", "nine", 2, "student9@umsl.edu", "CS","",1);
+insert into user (ssoid, fname,lname, role, email, dept, snumber, active) values ("U0000010", "Student", "ten", 2, "student10@umsl.edu", "CS","",1);
