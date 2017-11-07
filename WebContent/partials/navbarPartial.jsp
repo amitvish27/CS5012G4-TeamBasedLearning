@@ -12,6 +12,11 @@
 			<ul class="nav navbar-nav">
 				<li><a href="Course">Course</a></li>
 				<li><a href="Topic">Topic</a></li>
+				<li><a href="#">Quesiton Bank</a></li>
+				<li><a href="#">Students</a></li>
+				<li><a href="#">Quiz</a></li>
+				<li><a href="#">Group</a></li>
+				<li><a href="#">Manage User</a></li>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%@include file="loginButtonPartial.jsp"%>

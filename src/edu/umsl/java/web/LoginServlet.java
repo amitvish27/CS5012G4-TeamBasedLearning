@@ -25,8 +25,8 @@ public class LoginServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		int loginAttempt = 1;
-		String uname = request.getParameter("sso_id");
-		String pwd = request.getParameter("password");
+		String sso_id = request.getParameter("sso_id");
+		String pswd = request.getParameter("password");
 		HttpSession session = request.getSession();
 		if (session.getAttribute("loginCount") == null) {
 			session.setAttribute("loginCount", loginAttempt);
@@ -45,10 +45,12 @@ public class LoginServlet extends HttpServlet {
 			try {
 				InstructorDao instructorlogindao = new InstructorDao();
 				ArrayList<Instructor> list = null;
-				if (!(list = instructorlogindao.checkinstlogin(uname, pwd)).isEmpty()) {
-					session.setAttribute("username", list.get(0).getFirst_name());
-					session.setAttribute("userId", list.get(0).getId());
-
+				if (!(list = instructorlogindao.checkinstlogin(sso_id, pswd)).isEmpty()) {
+					session.setAttribute("username", list.get(0).getFname());
+					session.setAttribute("userLastName", list.get(0).getLname());
+					session.setAttribute("userId", list.get(0).getSsoid());
+					session.setAttribute("userRole", list.get(0).getRole());
+					
 					RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 					rd.forward(request, response);
 				} else {
@@ -60,7 +62,6 @@ public class LoginServlet extends HttpServlet {
 
 			} catch (Exception e) {
 				request.setAttribute("errorMessage", "Server error.");
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}

@@ -2,10 +2,11 @@ package edu.umsl.java.beans;
 
 public class Course {
 	private int id;
-	private String name;
-	private int instructor;
+	private String code;
+	private String title;
+	private String instructor;
 	private int year;
-	private int semester;
+	private String semester;
 	
 	public int getId() {
 		return id;
@@ -15,19 +16,19 @@ public class Course {
 		this.id = id;
 	}
 	
-	public String getName() {
-		return name;
+	public String getCode() {
+		return code;
 	}
 	
-	public void setName(String name) {
-		this.name = name;
+	public void setCode(String code) {
+		this.code = code;
 	}
 	
-	public int getInstructor() {
+	public String getInstructor() {
 		return instructor;
 	}
 	
-	public void setInstructor(int instructor) {
+	public void setInstructor(String instructor) {
 		this.instructor = instructor;
 	}
 	
@@ -39,12 +40,20 @@ public class Course {
 		this.year = year;
 	}
 	
-	public int getSemester() {
+	public String getSemester() {
 		return semester;
 	}
 	
-	public void setSemester(int semester) {
+	public void setSemester(String semester) {
 		this.semester = semester;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 	
 }

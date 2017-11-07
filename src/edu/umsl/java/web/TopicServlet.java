@@ -63,10 +63,9 @@ public class TopicServlet extends HttpServlet {
 			
 			topicDao = new TopicDao();
 			courseDao = new CourseDao();
-			
 			courseDao.setCourseInstructor(userId);
-			List<Course> courseListByInstructor = courseDao.getCourseListByInstructor();
 			
+			List<Course> courseListByInstructor = courseDao.getCourseListByInstructor();
 			request.setAttribute("courseListByInstructor", courseListByInstructor);
 
 			int count = topicDao.getTopicCount();

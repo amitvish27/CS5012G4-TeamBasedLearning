@@ -323,7 +323,7 @@ INSERT INTO `topic` (`id`, `title`, `courseid`, `created`, `instructorid`, `dele
 (95, 'Health Management Pattern—Asepsis And Safety', 5, '2017-11-05 01:11:51', 0, 0),
 (96, 'Activity-Exercise', 5, '2017-11-05 01:11:52', 0, 0),
 (97, 'Nutritional-Metabolic Pattern', 1, '2017-11-05 01:11:52', 0, 0),
-(98, 'Activity-Exercise Pattern—Oxygenation', 13, '2017-11-05 01:11:52', 0, 0);
+(98, 'Activity-Exercise Pattern&Oxygenation', 13, '2017-11-05 01:11:52', 0, 0);
 
 -- --------------------------------------------------------
 

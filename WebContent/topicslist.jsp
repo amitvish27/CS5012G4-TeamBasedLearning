@@ -66,7 +66,7 @@
 								<select id="s_course" name="s_course" class="form-control">
 									<option value="">NONE</option>
 									<c:forEach var="course" items="${courseListByInstructor}">
-										<option value="${course.getId()}">${course.getName()}</option>
+										<option value="${course.getId()}">${course.getCode()} - ${course.getTitle()}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -172,7 +172,7 @@
 									<select id="s_course" name="s_course" class="form-control">
 										<option value="">NONE</option>
 										<c:forEach var="course" items="${courseListByInstructor}">
-											<option value="${course.getId()}">${course.getName()}</option>
+											<option value="${course.getId()}">${course.getCode()} - ${course.getTitle()}</option>
 										</c:forEach>
 									</select>
 								</div>

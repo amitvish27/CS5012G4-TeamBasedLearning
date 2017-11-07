@@ -2,72 +2,80 @@ package edu.umsl.java.beans;
 
 public class Instructor {
 	private int id;
-	private String first_name;
-	private String SSO_ID;
-	private String password;
-	private String last_name;
-	private String department;
-	private String time_created;
-	private int del;
-	
-	public String getFirst_name() {
-		return first_name;
-	}
-
-	public void setFirst_name(String first_name) {
-		this.first_name = first_name;
-	}
-
-	public String getLast_name() {
-		return last_name;
-	}
-
-	public void setLast_name(String last_name) {
-		this.last_name = last_name;
-	}
-
-	public String getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(String deaprtment) {
-		this.department = deaprtment;
-	}
-
-	public String getTime_created() {
-		return time_created;
-	}
-
-	public void setTime_created(String time_created) {
-		this.time_created = time_created;
-	}
-
-	public int getDel() {
-		return del;
-	}
-
-	public void setDel(int del) {
-		this.del = del;
-	}
-
+	private String ssoid;
+	private String pswd;
+	private String fname;
+	private String lname;
+	private String email;
+	private String dept;
+	private String createdby;
+	private String modifiedby;
+	private int role;
+	private int active;
 	public int getId() {
 		return id;
 	}
-	
 	public void setId(int id) {
 		this.id = id;
 	}
-	
-	public String getSSO_ID() {
-		return SSO_ID;
+	public String getSsoid() {
+		return ssoid;
 	}
-	public void setSSO_ID(String sSO_ID) {
-		SSO_ID = sSO_ID;
+	public void setSsoid(String ssoid) {
+		this.ssoid = ssoid;
 	}
-	public String getPassword() {
-		return password;
+	public String getPswd() {
+		return pswd;
 	}
-	public void setPassword(String password) {
-		this.password = password;
+	public void setPswd(String pswd) {
+		this.pswd = pswd;
+	}
+	public String getFname() {
+		return fname;
+	}
+	public void setFname(String fname) {
+		this.fname = fname;
+	}
+	public String getLname() {
+		return lname;
+	}
+	public void setLname(String lname) {
+		this.lname = lname;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public String getCreatedby() {
+		return createdby;
+	}
+	public void setCreatedby(String createdby) {
+		this.createdby = createdby;
+	}
+	public String getModifiedby() {
+		return modifiedby;
+	}
+	public void setModifiedby(String modifiedby) {
+		this.modifiedby = modifiedby;
+	}
+	public int getRole() {
+		return role;
+	}
+	public void setRole(int role) {
+		this.role = role;
+	}
+	public int getActive() {
+		return active;
+	}
+	public void setActive(int active) {
+		this.active = active;
 	}
 }

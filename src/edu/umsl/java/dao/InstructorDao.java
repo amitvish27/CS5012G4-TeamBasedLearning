@@ -11,23 +11,26 @@ import java.util.List;
 import javax.servlet.UnavailableException;
 
 import edu.umsl.java.beans.Instructor;
+import edu.umsl.java.util.ReadProperties;
 
 public class InstructorDao {
 	private Connection connection;
 	private PreparedStatement instListRS;
 	private PreparedStatement loginInstRS;
-
+	private ReadProperties rp;
+	
 	public InstructorDao() throws Exception {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs5012g4db", "root", "");
+			rp = new ReadProperties();
+			Class.forName(rp.getDbDriver());
+			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
 
 			instListRS = connection.prepareStatement(
-					"SELECT  `id`, `SSO_ID`, `password`, `first_name`, `last_name`, `department`, `time_created`, `del` "
-							+ "FROM instructor WHERE del=0 ORDER BY time_created DESC ");
-			loginInstRS = connection
-					.prepareStatement("SELECT `id`, `SSO_ID`, `password`, `first_name`, `last_name`, `department`, `time_created`, `del`"
-							 + "FROM instructor WHERE SSO_ID=? and password=?");
+					"SELECT  `id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `createdby`, `modifiedby`, `role`, `active` "
+							+ "FROM user WHERE deleted=0 ORDER BY created DESC ");
+			loginInstRS = connection.prepareStatement(
+					"SELECT  `id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `createdby`, `modifiedby`, `role`, `active` "
+							 + "FROM user WHERE ssoid=? and pswd=?");
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -43,15 +46,19 @@ public class InstructorDao {
 
 			while (res.next()) {
 				Instructor instructor = new Instructor();
-				instructor.setId(res.getInt(1));
-				instructor.setSSO_ID(res.getString(2));
-				instructor.setPassword(res.getString(3));
-				instructor.setFirst_name(res.getString(4));
-				instructor.setLast_name(res.getString(5));
-				instructor.setDepartment(res.getString(6));
-				instructor.setTime_created(res.getString(7));
-				instructor.setDel(res.getInt(8));
 				
+				instructor.setId(res.getInt(1));
+				instructor.setSsoid(res.getString(2));
+				instructor.setPswd(res.getString(3));
+				instructor.setFname(res.getString(4));
+				instructor.setLname(res.getString(5));
+				instructor.setEmail(res.getString(6));
+				instructor.setDept(res.getString(7));
+				instructor.setCreatedby(res.getString(8));
+				instructor.setModifiedby(res.getString(9));
+				instructor.setRole(res.getInt(10));
+				instructor.setActive(res.getInt(11));
+
 				instructorList.add(instructor);
 			}
 
@@ -63,24 +70,27 @@ public class InstructorDao {
 
 	}
 
-	public ArrayList<Instructor> checkinstlogin(String id, String password) throws SQLException {
+	public ArrayList<Instructor> checkinstlogin(String ssoid, String pswd) throws SQLException {
 		ArrayList<Instructor> list = new ArrayList<Instructor>();
 		try {
-			loginInstRS.setString(1, id);
-			loginInstRS.setString(2, password);
+			loginInstRS.setString(1, ssoid);
+			loginInstRS.setString(2, pswd);
 
-			ResultSet resultsRS = loginInstRS.executeQuery();
-			while (resultsRS.next()) {
+			ResultSet res = loginInstRS.executeQuery();
+			while (res.next()) {
 				Instructor instructor = new Instructor();
 				
-				instructor.setId(resultsRS.getInt(1));
-				instructor.setSSO_ID(resultsRS.getString(2));
-				instructor.setPassword(resultsRS.getString(3));
-				instructor.setFirst_name(resultsRS.getString(4));
-				instructor.setLast_name(resultsRS.getString(5));
-				instructor.setDepartment(resultsRS.getString(6));
-				instructor.setTime_created(resultsRS.getString(7));
-				instructor.setDel(resultsRS.getInt(8));
+				instructor.setId(res.getInt(1));
+				instructor.setSsoid(res.getString(2));
+				instructor.setPswd(res.getString(3));
+				instructor.setFname(res.getString(4));
+				instructor.setLname(res.getString(5));
+				instructor.setEmail(res.getString(6));
+				instructor.setDept(res.getString(7));
+				instructor.setCreatedby(res.getString(8));
+				instructor.setModifiedby(res.getString(9));
+				instructor.setRole(res.getInt(10));
+				instructor.setActive(res.getInt(11));
 				
 				list.add(instructor);
 			}

@@ -13,23 +13,28 @@ import java.util.Set;
 import javax.servlet.UnavailableException;
 
 import edu.umsl.java.beans.Course;
+import edu.umsl.java.util.ReadProperties;
 
 public class CourseDao {
 	private Connection connection;
 	private PreparedStatement results;
 	private PreparedStatement setInstructor;
 	private List<Course> courseList;
+	private ReadProperties rp;
 	
 	public CourseDao() throws Exception {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs5012g4db", "root", "");
+			rp = new ReadProperties();
+			Class.forName(rp.getDbDriver());
+			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
 
 			results = connection.prepareStatement(
-					"SELECT id, name, year, semester, instructor " + "FROM course ORDER BY name DESC ");
+					"SELECT id, code, title, year, semester, instructor " 
+							+ "FROM course WHERE deleted=0 "
+							+ "ORDER BY created DESC ");
 
 			setInstructor = connection.prepareStatement(
-					"SELECT id, name, year, semester " + "FROM course WHERE instructor=? " + "ORDER BY name DESC");
+					"SELECT id, code, title, year, semester " + "FROM course WHERE instructor=? " + "ORDER BY created DESC");
 			
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -46,10 +51,11 @@ public class CourseDao {
 			while (res.next()) {
 				Course course = new Course();
 				course.setId(res.getInt(1));
-				course.setName(res.getString(2));
-				course.setYear(res.getInt(3));
-				course.setSemester(res.getInt(4));
-				course.setInstructor(res.getInt(5));
+				course.setCode(res.getString(2));
+				course.setTitle(res.getString(3));
+				course.setYear(res.getInt(4));
+				course.setSemester(res.getString(5));
+				course.setInstructor(res.getString(6));
 				courseList.add(course);
 			}
 
@@ -86,18 +92,17 @@ public class CourseDao {
 			while (res.next()) {
 				Course course = new Course();
 				course.setId(res.getInt(1));
-				course.setName(res.getString(2));
-				course.setYear(res.getInt(3));
-				course.setSemester(res.getInt(4));
+				course.setCode(res.getString(2));
+				course.setTitle(res.getString(3));
+				course.setYear(res.getInt(4));
+				course.setSemester(res.getString(5));
 				courseList.add(course);
 			}
 
 		} catch (SQLException sql_ex) {
 			sql_ex.printStackTrace();
 		}
-
 		return courseList;
-
 	}
 
 	protected void finalize() {
@@ -122,21 +127,21 @@ public class CourseDao {
 		return tempList;
 	}
 	
-	public List<Integer> getSemesterByInstructor(int year) {
-		List<Integer> tempList = new ArrayList<>();
+	public List<String> getSemesterByInstructor(int year) {
+		List<String> tempList = new ArrayList<>();
 		for (Course c: courseList) {
 			if(c.getYear()==year) {
 				tempList.add(c.getSemester());
 			}
 		}
-		Set<Integer> set = new HashSet<>();
+		Set<String> set = new HashSet<>();
 		set.addAll(tempList);
 		tempList.clear();
 		tempList.addAll(set);
 		return tempList;
 	}
 	
-	public List<Course> getCourseByInstructor(int year, int semester) {
+	public List<Course> getCourseByInstructor(int year, String semester) {
 		List<Course> tempList = new ArrayList<>();
 		for (Course c: courseList) {
 			if(c.getYear()==year && c.getSemester()==semester) {

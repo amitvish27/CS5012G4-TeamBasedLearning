@@ -11,6 +11,7 @@ import java.util.List;
 import javax.servlet.UnavailableException;
 
 import edu.umsl.java.beans.Topic;
+import edu.umsl.java.util.ReadProperties;
 
 public class TopicDao {
 	private Connection connection;
@@ -20,54 +21,31 @@ public class TopicDao {
 	private PreparedStatement delTopic;
 	private PreparedStatement getTopic;
 	private PreparedStatement saveTopic;
-
+	private ReadProperties rp;
+	
 	public TopicDao() throws Exception {
 		try {
-			Class.forName("com.mysql.jdbc.Driver");
-			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/cs5012g4db", "root", "");
+			rp = new ReadProperties();
+			Class.forName(rp.getDbDriver());
+			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
 
-			results = connection.prepareStatement("SELECT id, title, course, creation_time, isdelete "
-					+ "FROM topic WHERE isdelete=0 ORDER BY creation_time DESC LIMIT ?, ? ");
+			results = connection.prepareStatement("SELECT id, title, courseid, instructorid "
+					+ "FROM topic WHERE deleted=0 ORDER BY created DESC LIMIT ?, ? ");
 
-			topiccnt = connection.prepareStatement("SELECT COUNT(id) FROM topic " + "WHERE isdelete=0");
+			topiccnt = connection.prepareStatement("SELECT COUNT(id) FROM topic " + "WHERE deleted=0");
 
-			addTopic = connection.prepareStatement("INSERT INTO topic (title, course) " + "VALUES (?,?)");
+			addTopic = connection.prepareStatement("INSERT INTO topic (title, courseid) " + "VALUES (?,?)");
 			
-			getTopic = connection.prepareStatement("SELECT title FROM topic WHERE id = ? AND isdelete = 0");
+			getTopic = connection.prepareStatement("SELECT title FROM topic WHERE id = ? AND deleted = 0");
 
-			saveTopic = connection.prepareStatement("UPDATE topic SET title = ? WHERE id = ? AND isdelete = 0");
+			saveTopic = connection.prepareStatement("UPDATE topic SET title = ? WHERE id = ? AND deleted = 0");
 			
-			delTopic = connection.prepareStatement("UPDATE topic SET isdelete = 1 WHERE id = ?");
+			delTopic = connection.prepareStatement("UPDATE topic SET deleted = 1 WHERE id = ?");
 
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new UnavailableException(ex.getMessage());
 		}
-	}
-
-	/*
-	 * public List<Topic> getTopicList() { List<Topic> topicList = new
-	 * ArrayList<Topic>();
-	 * 
-	 * try { ResultSet res = results.executeQuery();
-	 * 
-	 * while( res.next() ) { Topic topic = new Topic(); topic.setId(res.getInt(1));
-	 * topic.setTitle(res.getString(2)); topic.setCourse(res.getInt(3));
-	 * topic.setTimestamp(res.getString(4)); topic.setIsDelete(res.getInt(5));
-	 * topicList.add(topic); }
-	 * 
-	 * } catch (SQLException sql_ex) { sql_ex.printStackTrace(); }
-	 * 
-	 * return topicList;
-	 * 
-	 * }
-	 */
-
-	protected void finalize() {
-		/*
-		 * try { results.close(); connection.close(); } catch( SQLException sql_ex) {
-		 * sql_ex.printStackTrace(); }
-		 */
 	}
 
 	public int getTopicCount() {
@@ -97,11 +75,12 @@ public class TopicDao {
 
 			while (res.next()) {
 				Topic topic = new Topic();
+
 				topic.setId(res.getInt(1));
 				topic.setTitle(res.getString(2));
-				topic.setCourse(res.getInt(3));
-				topic.setTimestamp(res.getString(4));
-				topic.setIsDelete(res.getInt(5));
+				topic.setCourseid(res.getInt(3));
+				topic.setInstructorid(res.getInt(4));
+				
 				topicList.add(topic);
 			}
 
