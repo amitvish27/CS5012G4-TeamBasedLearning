@@ -4,7 +4,7 @@ public class Topic {
 	private int id;
 	private String title;
 	private int courseid;
-	private int instructorid;
+	private String instructorid;
 	
 	public int getId() {
 		return id;
@@ -24,10 +24,10 @@ public class Topic {
 	public void setCourseid(int courseid) {
 		this.courseid = courseid;
 	}
-	public int getInstructorid() {
+	public String getInstructorid() {
 		return instructorid;
 	}
-	public void setInstructorid(int instructorid) {
+	public void setInstructorid(String instructorid) {
 		this.instructorid = instructorid;
 	}
 	

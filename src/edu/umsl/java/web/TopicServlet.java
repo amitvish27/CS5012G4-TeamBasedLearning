@@ -66,8 +66,13 @@ public class TopicServlet extends HttpServlet {
 			courseDao.setCourseInstructor(userId);
 			
 			List<Course> courseListByInstructor = courseDao.getCourseListByInstructor();
+			List<Integer> yearList = courseDao.getDistinctYear(courseListByInstructor);
+			List<String> semList = courseDao.getDistinctSemester(courseListByInstructor);
+			
 			request.setAttribute("courseListByInstructor", courseListByInstructor);
-
+			request.setAttribute("courseYearList", yearList);
+			request.setAttribute("courseSemList", semList);
+			
 			int count = topicDao.getTopicCount();
 
 			int totalpg = (int) Math.ceil(count / 10.0);

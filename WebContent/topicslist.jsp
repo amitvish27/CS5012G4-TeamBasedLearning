@@ -42,8 +42,8 @@
 								<select id="s_course_year" name="s_course_year"
 									class="form-control">
 									<option value="">NONE</option>
-									<c:forEach var="course" items="${courseListByInstructor}">
-										<option value="${course.getYear()}">${course.getYear()}</option>
+									<c:forEach var="courseYear" items="${courseYearList}">
+										<option value="${courseYear}">${courseYear}</option>
 									</c:forEach>
 								</select>
 							</div>
@@ -54,8 +54,8 @@
 								<select id="s_course_sem" name="s_course_sem"
 									class="form-control">
 									<option value="">NONE</option>
-									<c:forEach var="course" items="${courseListByInstructor}">
-										<option value="${course.getSemester()}">${course.getSemester()}</option>
+									<c:forEach var="courseSem" items="${courseSemList}">
+										<option value="${courseSem}">${courseSem}</option>
 									</c:forEach>
 								</select>
 							</div>

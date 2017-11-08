@@ -79,7 +79,7 @@ public class TopicDao {
 				topic.setId(res.getInt(1));
 				topic.setTitle(res.getString(2));
 				topic.setCourseid(res.getInt(3));
-				topic.setInstructorid(res.getInt(4));
+				topic.setInstructorid(res.getString(4));
 				
 				topicList.add(topic);
 			}

@@ -115,12 +115,24 @@ public class CourseDao {
 		}*/
 	}
 	
-	public List<Integer> getYearByInstructor() {
+	public List<Integer> getDistinctYear(List<Course> list) {
 		List<Integer> tempList = new ArrayList<>();
-		for (Course c: courseList) {
+		for (Course c: list) {
 			tempList.add(c.getYear());
 		}
 		Set<Integer> set = new HashSet<>();
+		set.addAll(tempList);
+		tempList.clear();
+		tempList.addAll(set);
+		return tempList;
+	}
+	
+	public List<String> getDistinctSemester(List<Course> list) {
+		List<String> tempList = new ArrayList<>();
+		for (Course c: list) {
+			tempList.add(c.getSemester());
+		}
+		Set<String> set = new HashSet<>();
 		set.addAll(tempList);
 		tempList.clear();
 		tempList.addAll(set);
