@@ -51,7 +51,7 @@ public class GetUserServlet extends HttpServlet {
 
 		UserDao usrdao = null;
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("edit.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("editUser.jsp");
 		String myid = request.getParameter("id");
 		
 

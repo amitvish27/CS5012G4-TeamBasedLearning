@@ -1,6 +1,7 @@
 package edu.umsl.java.web;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -34,7 +35,7 @@ public class SearchUserServlet extends HttpServlet {
 		// TODO Auto-generated method stub
 		UserDao usrdao = null;
 		
-		RequestDispatcher dispatcher = request.getRequestDispatcher("search.jsp");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("searchUser.jsp");
 		String ssoid = request.getParameter("ssoid");
 		String fname = request.getParameter("first_name");
 		String lname = request.getParameter("last_name");
@@ -42,9 +43,8 @@ public class SearchUserServlet extends HttpServlet {
 		try {
 			usrdao = new UserDao();
 
-			UserBean usr = usrdao.getUserSearch(ssoid, fname, lname);
-			
-			request.setAttribute("usr", usr);
+			List<UserBean> usrlist = usrdao.getUserSearchList(ssoid, fname, lname);
+			request.setAttribute("usrlist", usrlist);
 			request.setAttribute("usrdao", usrdao);
 
 			
@@ -54,8 +54,8 @@ public class SearchUserServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		response.sendRedirect("search_result.jsp");
-		//dispatcher.forward(request, response);
+		
+		 request.getRequestDispatcher("searchUserResult.jsp").forward(request, response);
 		
 	}
 
