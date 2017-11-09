@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import edu.umsl.java.beans.Course;
 import edu.umsl.java.beans.Topic;
@@ -36,6 +37,13 @@ public class TopicServlet extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
+		String userId;
+		HttpSession session = request.getSession();
+		if(session.getAttribute("username")==null) {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
+		
+		
 		TopicDao topicDao = null;
 		CourseDao courseDao = null;
 
@@ -51,14 +59,20 @@ public class TopicServlet extends HttpServlet {
 		}
 
 		try {
+			userId = String.valueOf(session.getAttribute("userId"));
+			
 			topicDao = new TopicDao();
 			courseDao = new CourseDao();
-
-			courseDao.setCourseInstructor("1");
+			courseDao.setCourseInstructor(userId);
+			
 			List<Course> courseListByInstructor = courseDao.getCourseListByInstructor();
-
+			List<Integer> yearList = courseDao.getDistinctYear(courseListByInstructor);
+			List<String> semList = courseDao.getDistinctSemester(courseListByInstructor);
+			
 			request.setAttribute("courseListByInstructor", courseListByInstructor);
-
+			request.setAttribute("courseYearList", yearList);
+			request.setAttribute("courseSemList", semList);
+			
 			int count = topicDao.getTopicCount();
 
 			int totalpg = (int) Math.ceil(count / 10.0);
