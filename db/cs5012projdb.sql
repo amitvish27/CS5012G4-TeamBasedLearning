@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2017 at 09:15 PM
+-- Generation Time: Nov 10, 2017 at 02:52 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -71,9 +71,10 @@ INSERT INTO `course` (`id`, `code`, `title`, `year`, `semester`, `created`, `ins
 (25, 'CS2703', 'Data Programming', 2016, 'Summer', '2017-11-04 22:38:24', 'jh6q3t', 0),
 (26, 'FI3233', 'Financial Derivatives', 2016, 'Winter', '2017-11-04 22:38:25', 'jh6q3t', 0),
 (27, 'MA1682', 'Precalculus', 2015, 'Summer', '2017-11-04 22:38:25', 'jppdle', 0),
-(28, 'IS3828', 'Electronic Business', 2015, 'Fall', '2017-11-04 22:38:25', 'fr5rae', 0),
+(28, 'IS3828', 'Electronic BusinessNew', 2015, 'Fall', '2017-11-04 22:38:25', 'instructor', 0),
 (29, 'IS2098', 'Information Systems Freshman W', 2016, 'Winter', '2017-11-04 22:38:25', 'instructor', 0),
-(30, 'FI2292', 'International Financial Market', 2015, 'Spring', '2017-11-04 22:38:25', 'fr5rae', 0);
+(30, 'FI2292', 'International Financial Market', 2015, 'Spring', '2017-11-04 22:38:25', 'instructor', 0),
+(31, 'CS5012', 'WebDevelopment', 2017, 'Fall', '2017-11-08 18:45:35', 'instructor', 1);
 
 -- --------------------------------------------------------
 
@@ -323,7 +324,8 @@ INSERT INTO `topic` (`id`, `title`, `courseid`, `created`, `instructorid`, `dele
 (95, 'Health Management Pattern—Asepsis And Safety', 5, '2017-11-05 01:11:51', 'nt669p', 0),
 (96, 'Activity-Exercise', 5, '2017-11-05 01:11:52', 'instructor', 0),
 (97, 'Nutritional-Metabolic Pattern', 1, '2017-11-05 01:11:52', 'nt669p', 0),
-(98, 'Activity-Exercise Pattern—Oxygenation', 13, '2017-11-05 01:11:52', 'instructor', 0);
+(98, 'Activity-Exercise Pattern&Oxygenation', 13, '2017-11-05 01:11:52', 'instructor', 0),
+(99, 'Ajax&Jquery', 31, '2017-11-10 01:04:14', 'instructor', 0);
 
 -- --------------------------------------------------------
 
@@ -347,7 +349,7 @@ CREATE TABLE `topic_inst` (
 CREATE TABLE `user` (
   `id` int(5) NOT NULL COMMENT 'Internal table id, AutoIncrement',
   `ssoid` varchar(10) NOT NULL COMMENT 'sso id for login and session details',
-  `pswd` varchar(30) DEFAULT NULL COMMENT 'password',
+  `pswd` varchar(50) DEFAULT NULL COMMENT 'password',
   `fname` varchar(60) NOT NULL COMMENT 'first name of the user',
   `lname` varchar(60) DEFAULT NULL COMMENT 'last name of the user',
   `email` varchar(50) NOT NULL COMMENT 'email of the user',
@@ -370,7 +372,7 @@ INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `c
 (4, 'ar2y89', 'passwd', 'Addie', 'Reyes', 'addie.reyes@mail.com', 'Business', '2017-11-04 21:41:33', 'yh1234', '2017-11-04 21:41:33', 'yh1234', 0, 0, 1),
 (5, 'arksk0', 'passwd', 'Agnes', 'Rogers', 'agnes.rogers@mail.com', 'Arts', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1),
 (6, 'cdgsyj', 'passwd', 'Claude', 'Dixon', 'claude.dixon@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1),
-(7, 'instructor', 'passwd', 'Clyde', 'Patel', 'clyde.patel@mail.com', 'Nursing', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 1, 1),
+(7, 'instructor', 'passwd', 'Clyde', 'Patel', 'clyde.patel@mail.com', 'Nursing', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'instructor', 0, 1, 1),
 (8, 'cjqxc2', 'passwd', 'Cora', 'Jackson', 'cora.jackson@mail.com', 'Computer Science', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 0, 1),
 (9, 'dt4pyv', 'passwd', 'Daisy', 'Turner', 'daisy.turner@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 0, 1),
 (10, 'dcjlpi', 'passwd', 'Dan', 'Cunningham', 'dan.cunningham@mail.com', 'Information Systems', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1),
@@ -533,7 +535,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=31;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=32;
 --
 -- AUTO_INCREMENT for table `course_inst`
 --
@@ -583,7 +585,7 @@ ALTER TABLE `student_sgroup`
 -- AUTO_INCREMENT for table `topic`
 --
 ALTER TABLE `topic`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=99;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=100;
 --
 -- AUTO_INCREMENT for table `topic_inst`
 --

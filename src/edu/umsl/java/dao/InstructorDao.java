@@ -20,13 +20,12 @@ public class InstructorDao {
 	private PreparedStatement saveInstRS;
 	private PreparedStatement saveInstPswdRS;
 	private PreparedStatement setActive;
-	private ReadProperties rp;
 
 	public InstructorDao() throws Exception {
 		try {
-			rp = new ReadProperties();
-			Class.forName(rp.getDbDriver());
-			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
+			ReadProperties.loadPropertiesFile();
+			Class.forName(ReadProperties.getDbDriver());
+			connection = DriverManager.getConnection(ReadProperties.getDbUrl(), ReadProperties.getDbUser(), ReadProperties.getDbPswd());
 
 			instListRS = connection.prepareStatement(
 					"SELECT  `id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `createdby`, `modifiedby`, `role`, `active` "

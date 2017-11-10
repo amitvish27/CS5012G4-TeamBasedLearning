@@ -21,13 +21,12 @@ public class TopicDao {
 	private PreparedStatement delTopic;
 	private PreparedStatement getTopic;
 	private PreparedStatement saveTopic;
-	private ReadProperties rp;
 	
 	public TopicDao() throws Exception {
 		try {
-			rp = new ReadProperties();
-			Class.forName(rp.getDbDriver());
-			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
+			ReadProperties.loadPropertiesFile();
+			Class.forName(ReadProperties.getDbDriver());
+			connection = DriverManager.getConnection(ReadProperties.getDbUrl(), ReadProperties.getDbUser(), ReadProperties.getDbPswd());
 
 			results = connection.prepareStatement("SELECT id, title, courseid, instructorid "
 					+ "FROM topic WHERE deleted=0 ORDER BY created DESC LIMIT ?, ? ");

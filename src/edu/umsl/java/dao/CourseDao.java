@@ -26,13 +26,12 @@ public class CourseDao {
 	private PreparedStatement countCourse;
 	private PreparedStatement setInstructor;
 	private List<Course> courseList;
-	private ReadProperties rp;
 
 	public CourseDao() throws Exception {
 		try {
-			rp = new ReadProperties();
-			Class.forName(rp.getDbDriver());
-			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
+			ReadProperties.loadPropertiesFile();
+			Class.forName(ReadProperties.getDbDriver());
+			connection = DriverManager.getConnection(ReadProperties.getDbUrl(), ReadProperties.getDbUser(), ReadProperties.getDbPswd());
 
 			results = connection.prepareStatement("SELECT id, code, title, year, semester, instructor "
 					+ "FROM course WHERE deleted=0 " + "ORDER BY created DESC ");
