@@ -1,7 +1,6 @@
 package edu.umsl.java.web;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -28,6 +27,7 @@ public class LoginServlet extends HttpServlet {
 		String sso_id = request.getParameter("sso_id");
 		String pswd = request.getParameter("password");
 		HttpSession session = request.getSession();
+		//get login attempt count if available
 		if (session.getAttribute("loginCount") == null) {
 			session.setAttribute("loginCount", loginAttempt);
 		} else {
@@ -35,28 +35,47 @@ public class LoginServlet extends HttpServlet {
 		}
 
 		RequestDispatcher dispatcher = request.getRequestDispatcher("login.jsp");
-
+		//check if attempt exceeds 3
 		if (loginAttempt > 3) {
 			request.setAttribute("errorMessage",
 					"Login attempt maxed out." + " Please contact admin to activate your account.");
+			try {
+				new InstructorDao().setInstActive(sso_id, 0, sso_id);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 			dispatcher.forward(request, response);
 		} else {
 
 			try {
-				InstructorDao instructorlogindao = new InstructorDao();
-				ArrayList<Instructor> list = null;
-				if (!(list = instructorlogindao.checkinstlogin(sso_id, pswd)).isEmpty()) {
-					session.setAttribute("username", list.get(0).getFname());
-					session.setAttribute("userLastName", list.get(0).getLname());
-					session.setAttribute("userId", list.get(0).getSsoid());
-					session.setAttribute("userRole", list.get(0).getRole());
-					
-					RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
-					rd.forward(request, response);
-				} else {
-					session.setAttribute("loginCount", loginAttempt);
-					request.setAttribute("errorMessage", "Invalid Username or Password. Attempt: " + loginAttempt);
+				Instructor inst = new InstructorDao().getInstructorBySsoId(sso_id);
+				//check if user account is active
+				if(inst.getSsoid() == null) {
+					request.setAttribute("errorMessage", "Account does not exists. ");
+					dispatcher.forward(request, response);
+				}
+				else if (inst.getActive() == 1) {
+					//check the password
+					if (inst.getPswd().equals(pswd)) {
 
+						session.setAttribute("username", inst.getFname());
+						session.setAttribute("userLastName", inst.getLname());
+						session.setAttribute("userId", inst.getSsoid());
+						session.setAttribute("userRole", inst.getRole());
+
+						RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
+						rd.forward(request, response);
+					} else {
+						//password incorrect 
+						session.setAttribute("loginCount", loginAttempt);
+						request.setAttribute("errorMessage", "Invalid Username or Password. Attempt: " + loginAttempt);
+
+						dispatcher.forward(request, response);
+					}
+					
+				} else if (inst.getActive() == 0) {
+					//user account deactivated 
+					request.setAttribute("errorMessage", "Your account is deactivated. Please contact Admin to activate your account. ");
 					dispatcher.forward(request, response);
 				}
 

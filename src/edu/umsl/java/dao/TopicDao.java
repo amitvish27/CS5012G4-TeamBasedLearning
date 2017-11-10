@@ -34,7 +34,7 @@ public class TopicDao {
 
 			topiccnt = connection.prepareStatement("SELECT COUNT(id) FROM topic " + "WHERE deleted=0");
 
-			addTopic = connection.prepareStatement("INSERT INTO topic (title, courseid) " + "VALUES (?,?)");
+			addTopic = connection.prepareStatement("INSERT INTO topic (title, courseid, instructorid) " + "VALUES (?,?,?)");
 			
 			getTopic = connection.prepareStatement("SELECT title FROM topic WHERE id = ? AND deleted = 0");
 
@@ -91,10 +91,11 @@ public class TopicDao {
 		return topicList;
 	}
 
-	public void addTopic(String topicCont, int courseId) {
+	public void addTopic(String topicCont, int courseId, String ssoId) {
 		try {
 			addTopic.setString(1, topicCont);
 			addTopic.setInt(2, courseId);
+			addTopic.setString(3, ssoId);
 
 			addTopic.executeUpdate();
 		} catch (SQLException sql_ex) {
