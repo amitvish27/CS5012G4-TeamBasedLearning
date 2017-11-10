@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import edu.umsl.java.beans.PageBean;
 import edu.umsl.java.beans.UserBean;
@@ -30,7 +31,14 @@ public class ListUserServletFname extends HttpServlet {
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		int recPerPage=10;
+		HttpServletRequest req = (HttpServletRequest) request;
+	    HttpSession session = req.getSession(true);
+	    String role_string = (String) session.getAttribute("role");
+	    int role = Integer.parseInt(role_string);
+	    UserBean user = new UserBean();
+	    user.setRole(role);
+	    
+	    int recPerPage=10;
 		String pageString=request.getParameter("page");  
 		
 		//pageString = "1";
@@ -48,7 +56,7 @@ public class ListUserServletFname extends HttpServlet {
 		try {
 			usrdao = new UserDao();
 			
-			PageBean pb = usrdao.getCount();
+			PageBean pb = usrdao.getCount(user.getView1(), user.getView2());
 			pb.setSortBy("fname");
 			if (pageInteger<=1) {
 				pb.setCurrentPage(0);
@@ -64,7 +72,7 @@ public class ListUserServletFname extends HttpServlet {
 					pb.setNextPage(pb.getCurrentPage());
 			}
 			
-			List<UserBean> usrlist = usrdao.getUserListFname(0, 1, pb.getCurrentPage(), recPerPage);
+			List<UserBean> usrlist = usrdao.getUserListFname(user.getView1(), user.getView2(), pb.getCurrentPage(), recPerPage);
 			request.setAttribute("usrlist", usrlist);
 			
 			request.setAttribute("pb", pb);

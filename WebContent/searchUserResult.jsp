@@ -25,6 +25,21 @@
 	
 </script>
 
+
+<script>
+function checkSubmit() {
+	if (!$("input[name='id']:checked").val()) {
+	   alert('Nothing is checked!');
+	   return false;
+	}
+	else {
+		return true
+	}
+	
+}
+</script>
+
+
 <style>
 div.relative {
     position: relative;
@@ -46,7 +61,7 @@ String active="";
 List<UserBean> myuserlist = (List<UserBean>) request.getAttribute("usrlist");
 if (myuserlist.size()>0) {
 %>
-	<form ACTION="GetUserServlet" method="POST">
+	<form ACTION="GetUserServlet" method="POST" onsubmit="return checkSubmit()">
 	<table class="table table-bordered" style="width:50%">
 
 <%	
@@ -85,6 +100,14 @@ if (myuserlist.size()>0) {
 						<td><%=user.getLname()%></td>
 					</tr>
 					
+					<tr>
+						<th>Email</th>
+						<td><%=user.getEmail()%></td>
+					</tr>
+					<tr>
+						<th>Department</th>
+						<td><%=user.getDept()%></td>
+					</tr>
 					<tr>
 						<th>Role</th>
 						<td><%=role%></td>

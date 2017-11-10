@@ -39,6 +39,8 @@ public class SearchUserServlet extends HttpServlet {
 		String ssoid = request.getParameter("ssoid");
 		String fname = request.getParameter("first_name");
 		String lname = request.getParameter("last_name");
+		String email = request.getParameter("email");
+		String dept = request.getParameter("dept");
 		
 		try {
 			usrdao = new UserDao();

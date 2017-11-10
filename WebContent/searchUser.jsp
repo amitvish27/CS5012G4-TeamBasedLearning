@@ -51,10 +51,12 @@ String ssoid = request.getParameter("ssoid");
 	<div class="relative">
 		<form action="SearchUserServlet" method="POST">
 		<!--  form action="searchUserResult.jsp" method="POST" -->
+		<i>use '%' as wildcard </i><br>
 			<br> SSOID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input
 				type="text" name="ssoid"> <br /> First Name: <input
 				type="text" name="first_name">  <br /> Last Name: <input
-				type="text" name="last_name" /> <br />  <input type="submit" value="Search" />
+				type="text" name="last_name" /> <br /> 
+				<input type="submit" value="Search" />
 		</form>
 
 	</div>

@@ -38,14 +38,17 @@ public class UpdateUserServlet extends HttpServlet {
 		String firstname = request.getParameter("first_name");
 		String lastname = request.getParameter("last_name");
 		String ssoid = request.getParameter("ssoid");
-		String[] ab = request.getParameterValues("role");
+		String role = request.getParameter("role");
+		String email = request.getParameter("email");
+		String dept = request.getParameter("dept");
+		String active = request.getParameter("active");
 
 		
-		if (firstname.length() > 0 && lastname.length() > 0 && ssoid.length() > 0) {
+		if (firstname.length() > 0 && lastname.length() > 0 && ssoid.length() > 0 && role.length()>0) {
 			
 			try {
 				userdao = new UserDao();
-				userdao.updateUser(ssoid, firstname, lastname, id);
+				userdao.updateUser(ssoid, firstname, lastname, id, role, email, dept, active);
 
 			} catch (Exception e) {
 				// TODO Auto-generated catch block

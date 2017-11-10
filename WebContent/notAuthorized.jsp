@@ -33,33 +33,22 @@ div.relative {
 }
 </style>
 </head>
+
+
+<title>Not Authorized</title>
+
 <body>
-<jsp:include page="top.jsp" />
 
+<%
+String role = (String) session.getAttribute("role");
 
-<div class="relative">
-<form action = "AddUserServlet" method = "POST">
-         <br>
-          SSOID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "text" name = "ssoid" required>
-         <br />
-         First Name: &nbsp;&nbsp;<input type = "text" name = "first_name" required>
-         <br />
-         Last Name:&nbsp;&nbsp; <input type = "text" name = "last_name" required/>
-         <br />
-         Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <input type = "text" name = "email" required/>
-         <br />
-         Department: <input type = "text" name = "dept" required/>
-         <br/>
-         <input type = "radio" name = "role" value="0"/> Admin
-         <input type = "radio" name = "role"  value="1" checked/> Instructor
+%>
 
-         
-         <br/>
-         <input type = "submit" value = "Add" />
-      </form>
-
+<div class="alert alert-info">
+  <strong>Info: </strong> Not Authorized -- Role:  <%out.println(role);%>
 </div>
 
-</body>
 
+ 
+</body>
 </html>

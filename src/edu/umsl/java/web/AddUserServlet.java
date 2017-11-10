@@ -40,7 +40,10 @@ public class AddUserServlet extends HttpServlet {
 		String firstname = request.getParameter("first_name");
 		String lastname = request.getParameter("last_name");
 		String ssoid = request.getParameter("ssoid");
-		String [] ab = request.getParameterValues("role");
+		String role = request.getParameter("role");
+		String email = request.getParameter("email");
+		String dept = request.getParameter("dept");
+		
 		
 		if (firstname.length()>0 && lastname.length()>0 && ssoid.length()>0) {
 			
@@ -48,6 +51,9 @@ public class AddUserServlet extends HttpServlet {
 			userbean.setFname(firstname);
 			userbean.setLname(lastname);
 			userbean.setSsoid(ssoid);
+			userbean.setEmail(email);
+			userbean.setRole(Integer.parseInt(role));
+			userbean.setDept(dept);
 		
 			try {
 				userdao = new UserDao();

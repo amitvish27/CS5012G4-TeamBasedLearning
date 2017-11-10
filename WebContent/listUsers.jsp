@@ -26,21 +26,37 @@
 	
 </script>
 
-<script type="text/javascript" src="js/user.js"></script>
+<script type="text/javascript" src="/js/user.js"></script>
 <script>
 	function dbAlert() {
 		alert(arguments[0]);
 	}
+	
+	 
+	function validateForm(number) {
+		    var page_n = document.forms["pagejump"]["page"].value;
+		    if (page_n > number ) {
+		        alert("There is no such page");
+		        return false;
+		    }
+		}
+
+	
+	function confirmFunction() {
+	    confirm("Press a button!");
+	}
+	
 </script>
-<title>User List</title>
+
+<title>Registration</title>
 
 </head>
 <body>
 	<jsp:include page="top.jsp" />
 	<%
 		
-	String xx = (String) session.getAttribute("role");
-	out.println("session role: "+xx);
+	//String xx = (String) session.getAttribute("role");
+	//out.println("session role: "+xx);
 	
 		List<UserBean> myuserlist = (List<UserBean>) request.getAttribute("usrlist");
 		PageBean pb = (PageBean) request.getAttribute("pb");
@@ -61,7 +77,8 @@
 
 		}
 		//session
-		String xxx = (String) session.getAttribute("role");
+		String role = (String) session.getAttribute("role");
+		int role_i = Integer.parseInt(role);
 		String message = (String) session.getAttribute("message");
 		if (message != null) {
 	%>
@@ -84,7 +101,11 @@
 
 
 	<div class="container">
-		<h2>Admin and Instructor</h2>
+	<%if (role_i==0) { %>
+		<h2>Admin Page</h2>
+	<%}else { %>	
+	<h2>Instructor Page</h2>
+	<%} %>
 		<p>List of all admin and instructor</p>
 		<form ACTION="GetUserServlet" method="POST">
 			<table class="table table-hover">
@@ -117,8 +138,8 @@
 
 			</table>
 
-			<input type="submit" value="Edit"> <input type="submit"
-				value="Delete" onclick="form.action='deleteUser.jsp';"></input>
+			<input type="submit" value="Edit"> 
+			<input type="submit" value="Delete" onclick="form.action='deleteUser.jsp';" ></input>
 		</form>
 	</div>
 
@@ -139,6 +160,7 @@
 				} else {
 					prev = 1;
 				}
+				
 			%>
 		
 	</div>
@@ -161,14 +183,16 @@
 </ul>
 </div>
 
+ 
 
 <div class="relative">
-<form action = "<%=sortByServlet%>" method = "GET">
+	<form name ="pagejump" id = "pagejump" action = "<%=sortByServlet%>" method = "GET"  onsubmit="return validateForm(<%=pb.getTotalPages() %>)" >
          
-         Page: <input type = "text" name = "page" style="width: 30px;">
-         
-         <input type = "submit" value = "Go" />
+         Page: <input type = "text" name = "page" style="width: 30px;"/>
+         <input type = "submit" value = "Go"  />
       </form>
+
+ 
 
 </div>
 			

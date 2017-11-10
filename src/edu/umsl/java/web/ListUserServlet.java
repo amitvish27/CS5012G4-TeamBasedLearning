@@ -33,14 +33,10 @@ public class ListUserServlet extends HttpServlet {
 	    int role = Integer.parseInt(role_string);
 	    UserBean user = new UserBean();
 	    user.setRole(role);
-	    int view1 = user.getView1();
-	    int view2 = user.getView2();
-	    
-	    
+	    	    
 	    int recPerPage=10;
 		String pageString=request.getParameter("page");  
 		
-		//pageString = "1";
 		int pageInteger=0;
 		
 		if(pageString != null && !pageString.isEmpty()) {
@@ -54,7 +50,7 @@ public class ListUserServlet extends HttpServlet {
 		try {
 			usrdao = new UserDao();
 			
-			PageBean pb = usrdao.getCount();
+			PageBean pb = usrdao.getCount(user.getView1(), user.getView2());
 			pb.setSortBy("id");
 			if (pageInteger<=1) {
 				pb.setCurrentPage(0);

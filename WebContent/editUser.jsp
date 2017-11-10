@@ -43,14 +43,36 @@ UserBean usr =  (UserBean) request.getAttribute("usr");
 %>
 
 <div class="relative">
-<form action = "UpdateUserServlet" method = "POST">
-         <br>SSOID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "text" name = "ssoid" value="<%=usr.getSsoid()%>"> 
-         <br>First Name: <input type = "text" name = "first_name" value ="<%=usr.getFname() %>" >
-         <br>Last Name: <input type = "text" name = "last_name"  value="<%=usr.getLname()%>">
+<form action = "UpdateUserServlet" method = "POST" ">
+         <br>SSOID:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "text" name = "ssoid" value="<%=usr.getSsoid()%>"> 
+         <br>First Name: &nbsp;&nbsp;<input type = "text" name = "first_name" value ="<%=usr.getFname() %>" >
+         <br>Last Name: &nbsp;&nbsp;<input type = "text" name = "last_name"  value="<%=usr.getLname()%>">
+         <br>Email:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type = "text" name = "email"  value="<%=usr.getEmail()%>">
+         <br>Department: <input type = "text" name = "dept"  value="<%=usr.getDept()%>">
+         
          <br>
-         <input type = "checkbox" name = "role" values="admin"/> Instructor
-         <input type = "checkbox" name = "role"  values="instructor" /> Admin
+        <% if (usr.getRole() ==0) { %>
+	         <input type = "radio" name = "role" value="0" checked/>Admin&nbsp;&nbsp;
+	         <input type = "radio"  name = "role"  value="1" />Instructor
+         <%} else if (usr.getRole()==1)  {%>
+         	<input type = "radio"  name = "role" value="0"/>Admin&nbsp;&nbsp;
+         	<input type = "radio"  name = "role"  value="1" checked />Instructor
+         
+         <%} %>
          <br/>
+         
+         
+        <% if (usr.getActive()==0) { %>
+	         <input type = "radio" name = "active" value="0" checked/>Inactive&nbsp;&nbsp;
+	         <input type = "radio"  name = "active"  value="1" />Active
+         <%} else if (usr.getActive()==1)  {%>
+         	
+         	<input type = "radio"  name = "active"  value="1" checked />Active
+         
+         <%} %>
+         <br/><br/>
+         
+         
          <input type = "hidden" name = "id" value= "<%=myid%>">
          <input type = "submit" value = "Update" />
       </form>
