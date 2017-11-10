@@ -31,20 +31,16 @@ function editThisTopicAjax(v) {
 	$("#editbtn" + v).html("<span class=\"glyphicon glyphicon-save editButtonIcon\"></span>");
 	$("#editbtn" + v).attr("class", "btn btn-link");
 	$("#editbtn" + v).attr("onclick", "updateThisTopicAjax(" + v + ")");
-
-	$.get("GetTopic", {
-		id : v
-	}, function(data, status) {
-		$("#title" + v).html(data);
-	});
+	
+	var titleVal = $("#title" + v).text();
+	var titleHtml = "<textarea id=\"titlearea" + v + "\" rows=\"2\" class=\"form-control\">" + titleVal + "</textarea>"; 
+	$("#title" + v).html(titleHtml);
 }
 
 function updateThisTopicAjax(v) {
 	var title = $("#titlearea" + v).val();
 
 	$("#title" + v).html(title);
-
-	//var math = document.getElementById("title" + v);
 	
 	$("#editbtn" + v).html("<span class=\"glyphicon glyphicon-edit editButtonIcon\"></span>");
 	$("#editbtn" + v).attr("class", "btn btn-link");
@@ -54,6 +50,13 @@ function updateThisTopicAjax(v) {
 		id : v,
 		title : title
 	}, function(data, status) {
+		clearCreateNewModal();
 	});
+}
+
+function clearCreateNewModal() {
+	$("#mod_course").val('');
+	$("#mod_topicCont").val('');
+	$("#createNewModal").modal('hide');
 }
 

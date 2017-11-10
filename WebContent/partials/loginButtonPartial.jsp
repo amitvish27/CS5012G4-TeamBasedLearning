@@ -8,10 +8,13 @@
 				<button class="btn btn-link dropdown-toggle" type="button"
 					id="logoutButton" data-toggle="dropdown"
 					style="padding: 12px 12px;">
-					<span class="glyphicon glyphicon-user"></span> ${username} <span
+					<span class="glyphicon glyphicon-user"></span> ${username} ${userLastName} <span
 						class="caret"></span>
 				</button>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="logoutButton">
+					<li role="presentation"><a role="menuitem" tabindex="-1"
+						href="Profile">Profile</a></li>
+					<li class="divider"></li>
 					<li role="presentation"><a role="menuitem" tabindex="-1"
 						href="Logout">Logout</a></li>
 				</ul>
