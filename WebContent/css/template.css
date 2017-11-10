@@ -49,6 +49,12 @@ body {
 	vertical-align: middle;
 }
 
+.vcenter {
+    display: inline-block;
+    vertical-align: middle;
+    float: none;
+}
+
 .top-buffer {
 	margin-top: 5px;
 }
@@ -57,6 +63,10 @@ body {
 }
 .trashButtonIcon{
 	color: #DE0A0C;
+}
+.tooltip-inner {
+    white-space:pre-wrap;
+    max-width:none;
 }
 
 /* Set black background color, white text and some padding */

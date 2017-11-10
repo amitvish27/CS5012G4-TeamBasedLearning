@@ -26,6 +26,7 @@
 		<!-- Content Body -->
 		<div class="container-fluid ">
 			<div class="container text-center">
+				
 				<c:choose>
 					<c:when test="${username!=null}">
 						<h1>Welcome!!! ${username}</h1>
