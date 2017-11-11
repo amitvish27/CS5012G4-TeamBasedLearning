@@ -36,7 +36,7 @@ public class SaveProfileServlet extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 		InstructorDao instDao = null;
-		String divclass = "modal-dialog";
+		String divclass = "modal-dialog modal-sm alert ";
 		String msgText = "";
 
 		try {
@@ -52,8 +52,10 @@ public class SaveProfileServlet extends HttpServlet {
 				String dept = request.getParameter("dept");
 
 				instDao.saveInstProfile(ssoid, fname, lname, email, dept, modifiedby);
-				divclass = "modal-dialog alert alert-success";
+				divclass += "alert-success";
 				msgText = "Profile update Successful.";
+				session.setAttribute("userFirstName", fname);
+				session.setAttribute("userLastName", lname);
 
 			}
 			// else if type password then dp save passwd
@@ -67,11 +69,11 @@ public class SaveProfileServlet extends HttpServlet {
 				if (inst.getPswd().equals(currpwd)) {
 					// update password
 					instDao.saveInstPswd(ssoid, newpwd, modifiedby);
-					divclass = "modal-dialog alert alert-success";
+					divclass += "alert-success";
 					msgText = "Password update Successful.";
 				} else {
 					// password not match
-					divclass = "modal-dialog alert alert-danger";
+					divclass += "alert-danger";
 					msgText = "Your password is incorrect.";
 				}
 			}

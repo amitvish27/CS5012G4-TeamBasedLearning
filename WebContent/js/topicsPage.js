@@ -60,3 +60,7 @@ function clearCreateNewModal() {
 	$("#createNewModal").modal('hide');
 }
 
+function searchTopics()
+{
+	
+}

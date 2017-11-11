@@ -34,48 +34,59 @@
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body form-group">
 						<div class="row">
-							<div class="col-md-offset-2 col-md-8 h2 text-center">Topic</div>
+							<div class="col-md-offset-2 col-md-8 h2 text-center">Topic
+								Creation and Management</div>
 						</div>
-						<div class="row top-buffer">
-							<div class="col-md-offset-2 col-sm-1 col-md-1">Year:</div>
-							<div class="col-sm-2 col-md-2">
-								<select id="s_course_year" name="s_course_year"
-									class="form-control">
-									<option value="">NONE</option>
-									<c:forEach var="courseYear" items="${courseYearList}">
-										<option value="${courseYear}">${courseYear}</option>
-									</c:forEach>
+						<div class="form-inline top-buffer">
+							<div class="form-group">
+								<label for="s_course_year">Year:</label> <select
+									id="s_course_year" name="course_year" class="form-control">
+									<option selected value=""></option>
+									<option value="2015">2015</option>
+									<option value="2016">2016</option>
+									<option value="2017">2017</option>
+									<option value="2018">2018</option>
+									<option value="2019">2019</option>
+									<option value="2020">2020</option>
 								</select>
 							</div>
-						</div>
-						<div class="row top-buffer">
-							<div class="col-md-offset-2 col-sm-1 col-md-1">Semester:</div>
-							<div class="col-sm-2 col-md-2">
-								<select id="s_course_sem" name="s_course_sem"
+							<div class="form-group">
+								<label for="pwd">Semester:</label> <select
+									id="s_course_semester" name="s_course_semester"
 									class="form-control">
-									<option value="">NONE</option>
-									<c:forEach var="courseSem" items="${courseSemList}">
-										<option value="${courseSem}">${courseSem}</option>
-									</c:forEach>
+									<option selected value=""></option>
+									<option value="Fall">Fall</option>
+									<option value="Spring">Spring</option>
+									<option value="Summer">Summer</option>
+									<option value="Winter">Winter</option>
 								</select>
 							</div>
-						</div>
-						<div class="row top-buffer">
-							<div class="col-md-offset-2 col-sm-1 col-md-1">Course:</div>
-							<div class="col-sm-2 col-md-2">
-								<select id="s_course" name="s_course" class="form-control">
-									<option value="">NONE</option>
-									<c:forEach var="course" items="${courseListByInstructor}">
+							<div class="form-group">
+								<label for="s_course">Course:</label> <select id="s_course"
+									name="s_course" class="form-control">
+									<option selected value=""></option>
+									<c:forEach var="course" items="${courseList}">
 										<option value="${course.getId()}">${course.getCode()}
 											- ${course.getTitle()}</option>
 									</c:forEach>
 								</select>
 							</div>
+							<br> <br>
+							<div class="form-group">
+								<div class="checkbox col-md-8 col-sm-8">
+									<label><input type="checkbox" id="s_createdbyme" name="s_createdbyme">
+										Show only Created By Me</label>
+								</div>
+								<div class="col-md-2 col-sm-2">
+									<button type="button" class="btn btn-default" onclick="searchTopics()">Search</button>
+								</div>
+							</div>
 						</div>
+
 						<div class="row top-buffer ">
 							<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
 								<span id="proberrmsg" class="errorFont"> <c:if
-										test="${param.err > 0}">Please select course & provide the content of your topic.</c:if>
+										test="${param.err > 0}">Please select course & provide the content of your topic to create new.</c:if>
 								</span>
 							</div>
 							<div class="col-sm-1 col-md-1 text-center">
@@ -174,8 +185,8 @@
 								<div class="col-md-4 col-sm-4">
 									<select id="mod_course" name="mod_course" class="form-control"
 										required>
-										<option value="">NONE</option>
-										<c:forEach var="course" items="${courseListByInstructor}">
+										<option value=""></option>
+										<c:forEach var="course" items="${courseList}">
 											<option value="${course.getId()}">${course.getCode()}
 												- ${course.getTitle()}</option>
 										</c:forEach>
@@ -183,11 +194,13 @@
 								</div>
 							</div>
 							<div class="form-group">
-								<label for="mod_topicCont" class="control-label col-md-2 col-sm-2"><span
+								<label for="mod_topicCont"
+									class="control-label col-md-2 col-sm-2"><span
 									class="errorFont">*</span>Title:</label>
 								<div class="col-md-10 col-sm-10">
-									<textarea rows="2" class="form-control" id="mod_topicCont" required
-										name="mod_topicCont" placeholder="Enter your topic title here"></textarea>
+									<textarea rows="2" class="form-control" id="mod_topicCont"
+										required name="mod_topicCont"
+										placeholder="Enter your topic title here"></textarea>
 								</div>
 							</div>
 						</div>

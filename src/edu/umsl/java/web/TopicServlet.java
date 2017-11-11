@@ -23,33 +23,21 @@ import edu.umsl.java.dao.TopicDao;
 public class TopicServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public TopicServlet() {
-		super();
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
-	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		String userId;
+		
 		HttpSession session = request.getSession();
-		if(session.getAttribute("username")==null) {
+		if (session.getAttribute("userFirstName") == null) {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
-		
-		
+
 		TopicDao topicDao = null;
 		CourseDao courseDao = null;
 
 		int pg = 0;
 		String initpg = request.getParameter("pg");
-
+		String userId;
+		
 		if (initpg != null) {
 			try {
 				pg = Integer.parseInt(initpg);
@@ -59,43 +47,49 @@ public class TopicServlet extends HttpServlet {
 		}
 
 		try {
+			int count;
 			userId = String.valueOf(session.getAttribute("userId"));
+			boolean checkcreatedbyme = request.getParameter("s_createdbyme")!=null;
 			
 			topicDao = new TopicDao();
 			courseDao = new CourseDao();
-			courseDao.setCourseInstructor(userId);
 			
-			List<Course> courseListByInstructor = courseDao.getCourseListByInstructor();
-			List<Integer> yearList = courseDao.getDistinctYear(courseListByInstructor);
-			List<String> semList = courseDao.getDistinctSemester(courseListByInstructor);
-			
-			request.setAttribute("courseListByInstructor", courseListByInstructor);
-			request.setAttribute("courseYearList", yearList);
-			request.setAttribute("courseSemList", semList);
-			
-			int count = topicDao.getTopicCount();
+			if(checkcreatedbyme)
+			{
+				courseDao.setCourseInstructor(userId);
+				List<Course> courseListByInstructor = courseDao.getCourseListByInstructor();
+				request.setAttribute("courseList", courseListByInstructor);
+			}
+			else {
+				List<Course> courseList = courseDao.getCourseList();
+				request.setAttribute("courseList", courseList);
+				count = topicDao.getTopicCount();
 
-			int totalpg = (int) Math.ceil(count / 10.0);
-			request.setAttribute("maxpg", totalpg);
+				int totalpg = (int) Math.ceil(count / 10.0);
+				request.setAttribute("maxpg", totalpg);
 
-			if (pg < 1) {
-				pg = 1;
-			} else if (pg > totalpg) {
-				pg = totalpg;
+				if (pg < 1) {
+					pg = 1;
+				} else if (pg > totalpg) {
+					pg = totalpg;
+				}
+
+				request.setAttribute("crtpg", pg);
+
+				List<Topic> topicList = topicDao.getTopicListByPage(pg);
+				request.setAttribute("topicList", topicList);
 			}
 			
-			request.setAttribute("crtpg", pg);
-			
-			List<Topic> topicList = topicDao.getTopicListByPage(pg);
-			request.setAttribute("topicList", topicList);
-		
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-		
+
 		RequestDispatcher dispatcher = request.getRequestDispatcher("topicslist.jsp");
 		dispatcher.forward(request, response);
+	}
 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		doGet(request, response);
 	}
 
 }

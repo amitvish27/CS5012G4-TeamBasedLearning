@@ -173,7 +173,8 @@
 								<div class="col-md-4 col-sm-4">
 									<select id="course_year" name="course_year"
 										class="form-control" required>
-										<option selected value="2017">2017</option>
+										<option selected value=""></option>
+										<option value="2017">2017</option>
 										<option value="2018">2018</option>
 										<option value="2019">2019</option>
 										<option value="2020">2020</option>
@@ -187,7 +188,8 @@
 								<div class="col-md-4 col-sm-4">
 									<select id="course_semester" name="course_semester"
 										class="form-control" required>
-										<option selected value="Fall">Fall</option>
+										<option selected value=""></option>
+										<option value="Fall">Fall</option>
 										<option value="Spring">Spring</option>
 										<option value="Summer">Summer</option>
 										<option value="Winter">Winter</option>

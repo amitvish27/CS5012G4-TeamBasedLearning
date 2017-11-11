@@ -61,23 +61,34 @@ function onUpdate() {
 			}
 			localStorage.clear();
 
-			$.get("SaveProfile", {
-				type : "profileUpdate",
-				ssoid : $("#ssoid").text(),
-				fname : $("#Fname").val(),
-				lname : $("#Lname").val(),
-				email : $("#email").val(),
-				dept : $("#dept").val()
-			}, function(data, status) {
-				$("#msgModal").html(data);
-				$('#msgModal').modal('show');
-			});
+			$
+					.get(
+							"SaveProfile",
+							{
+								type : "profileUpdate",
+								ssoid : $("#ssoid").text(),
+								fname : $("#Fname").val(),
+								lname : $("#Lname").val(),
+								email : $("#email").val(),
+								dept : $("#dept").val()
+							},
+							function(data, status) {
+								$("#msgModal").html(data);
+								$('#msgModal').modal('show');
+								var loginname = '<span class="glyphicon glyphicon-user"></span> '
+										+ $("#Fname").val()
+										+ ' '
+										+ $("#Lname").val()
+										+ ' <span'
+										+ 'class="caret"></span>';
+								$('#loginusername').html(loginname);
+							});
 		} else {
 			onReset();
 		}
 	}
 }
-//Profile page Tab Password Selected
+// Profile page Tab Password Selected
 function passwordMatch() {
 	var currpswd = $("#currpwd").val();
 	var password = $("#newpwd").val();
@@ -122,8 +133,7 @@ function passwordUpdate() {
 		});
 	}
 }
-function clearPasswordProfile()
-{
+function clearPasswordProfile() {
 	$("#newpwd").val('');
 	$("#currpwd").val('');
 	$("#cnfmpwd").val('');
@@ -131,8 +141,7 @@ function clearPasswordProfile()
 	$("#pswdresult").html("");
 }
 
-
-//Login Page Forgot password modal 
+// Login Page Forgot password modal
 function verifyForgotPswd() {
 	var mod_ssoid = $("#mod_ssoid").val();
 	var mod_email = $("#mod_email").val();

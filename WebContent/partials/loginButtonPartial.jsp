@@ -1,15 +1,15 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <c:choose>
-	<c:when test="${username!=null}">
+	<c:when test="${userFirstName!=null}">
 		<script src="js/timeout.js"></script>
 		<li><div id="SecondsUntilExpire" style="display: none;"></div>
 			<div class="dropdown">
 				<button class="btn btn-link dropdown-toggle" type="button"
 					id="logoutButton" data-toggle="dropdown"
 					style="padding: 12px 12px;">
-					<span class="glyphicon glyphicon-user"></span> ${username} ${userLastName} <span
-						class="caret"></span>
+					<p id="loginusername"><span class="glyphicon glyphicon-user"></span> ${userFirstName} ${userLastName} <span
+						class="caret"></span></p>
 				</button>
 				<ul class="dropdown-menu" role="menu" aria-labelledby="logoutButton">
 					<li role="presentation"><a role="menuitem" tabindex="-1"
