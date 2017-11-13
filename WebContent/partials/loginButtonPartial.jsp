@@ -21,7 +21,7 @@
 			</div></li>
 	</c:when>
 	<c:otherwise>
-		<li><a href="login.jsp"> <span
+		<li><a href="Login"> <span
 				class="glyphicon glyphicon-log-in"></span> Login
 		</a></li>
 	</c:otherwise>

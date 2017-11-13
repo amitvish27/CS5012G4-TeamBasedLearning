@@ -71,14 +71,10 @@
 									</c:forEach>
 								</select>
 							</div>
-							<br> <br>
 							<div class="form-group">
-								<div class="checkbox col-md-8 col-sm-8">
+								<div class="checkbox">
 									<label><input type="checkbox" id="s_createdbyme" name="s_createdbyme">
 										Show only Created By Me</label>
-								</div>
-								<div class="col-md-2 col-sm-2">
-									<button type="button" class="btn btn-default" onclick="searchTopics()">Search</button>
 								</div>
 							</div>
 						</div>
@@ -88,12 +84,6 @@
 								<span id="proberrmsg" class="errorFont"> <c:if
 										test="${param.err > 0}">Please select course & provide the content of your topic to create new.</c:if>
 								</span>
-							</div>
-							<div class="col-sm-1 col-md-1 text-center">
-								<button type="button" class="btn btn-link" data-toggle="modal"
-									data-target="#createNewModal">
-									<span class="glyphicon glyphicon-plus"></span>Create New
-								</button>
 							</div>
 						</div>
 					</div>
@@ -107,8 +97,15 @@
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<td width="70%" class="text-center h4">Title</td>
-									<td width="30%" class="text-center h4">Action</td>
+									<th style="padding-left: 5em">Topics list</th>
+									<th><button type="button" class="btn btn-link"
+											data-toggle="modal" data-target="#createNewModal">
+											<span class="glyphicon glyphicon-plus"></span> Add new record
+										</button></th>
+								</tr>
+								<tr>
+									<th width="70%">Title</th>
+									<th width="30%" class="text-center">Action</th>
 								</tr>
 							</thead>
 							<tbody>

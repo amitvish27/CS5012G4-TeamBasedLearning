@@ -51,12 +51,7 @@
 										test="${param.err > 0}">Please select the required content of your course.</c:if>
 								</span>
 							</div>
-							<div class="col-sm-1 col-md-1 text-center">
-								<button type="button" class="btn btn-link" data-toggle="modal"
-									data-target="#createNewModal">
-									<span class="glyphicon glyphicon-plus"></span>Create New
-								</button>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -68,11 +63,21 @@
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<td class="h4">Code</td>
-									<td class="h4">Title</td>
-									<td class="h4">Year</td>
-									<td class="h4">Semester</td>
-									<td class="text-center h4">Action</td>
+								<th style="padding-left: 5em">Course list</th>
+								<th>&nbsp;</th>
+								<th>&nbsp;</th>
+								<th>&nbsp;</th>
+								<th><button type="button" class="btn btn-link" data-toggle="modal"
+									data-target="#createNewModal">
+									<span class="glyphicon glyphicon-plus"></span> Add new record
+								</button></th>
+								</tr>
+								<tr>
+									<th>Code</th>
+									<th>Title</th>
+									<th>Year</th>
+									<th>Semester</th>
+									<th class="text-center">Action</th>
 								</tr>
 							</thead>
 							<tbody>

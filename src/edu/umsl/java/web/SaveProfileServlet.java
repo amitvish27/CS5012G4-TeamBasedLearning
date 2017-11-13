@@ -27,14 +27,15 @@ public class SaveProfileServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		response.setContentType("text/html");
-		PrintWriter out = response.getWriter();
-
 		HttpSession session = request.getSession();
 		String modifiedby = (String) session.getAttribute("userId");
 		if (modifiedby == null) {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
+		
+		response.setContentType("text/html");
+		PrintWriter out = response.getWriter();
+		
 		InstructorDao instDao = null;
 		String divclass = "modal-dialog modal-sm alert ";
 		String msgText = "";
