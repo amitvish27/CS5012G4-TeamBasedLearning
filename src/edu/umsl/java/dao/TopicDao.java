@@ -147,12 +147,14 @@ public class TopicDao {
 			, String s_course_year, String s_course_semester) throws Exception { 
 		JsonObject result =null;
 		String searchSQL = "";
+		int st = 10 * (initpg - 1);
+		
 		searchSQL = "SELECT id, title, courseid, instructorid "
 				+ "FROM topic WHERE deleted=0 ";
 		String searchBy ="";
 				
 		String orderBy = " ORDER BY " + sortColName + " " + sortDir;
-		String limit = " LIMIT " + initpg + ", " + pgSize;
+		String limit = " LIMIT " + st + ", " + pgSize;
 		
 		for(int i=0;i<searchColumn.length;i++) {
 			if(!(searchColumn[i].equals("") || searchValue[i].equals(""))) {
@@ -164,7 +166,7 @@ public class TopicDao {
 		PreparedStatement searchStmt;
 		ResultSet rs; 
 		JsonArrayBuilder jsonTopicAry = Json.createArrayBuilder();
-		System.out.println(">>> THE SQL GEN : " + searchSQL);
+
 		searchStmt = connection.prepareStatement(searchSQL);
 		rs = searchStmt.executeQuery();
 		int countRecord=0;//count total records with the result without the limit
@@ -190,37 +192,38 @@ public class TopicDao {
 		rs = searchStmt.executeQuery();
 		rs.next();
 		countRecord = rs.getInt("count");
-		
+		int totalpg = (int) Math.ceil(countRecord / 10.0);
 		searchStmt.close();
 		rs.close();
 		
 		JsonArrayBuilder jsonCourseAry = Json.createArrayBuilder();
 		for(Course c: new CourseDao().getCourseList()) {
-			if(!s_course_year.equals("") && !s_course_semester.equals("") 
+			 
+			if (!s_course_year.equals("") && !s_course_semester.equals("")
 					&& s_course_year.equals(String.valueOf(c.getYear()))
 					&& s_course_semester.equals(c.getSemester())) {
+				jsonCourseAry.add(Json.createObjectBuilder().add("id", c.getId()).add("code", c.getCode()).add("title", c.getTitle()));
+			}
+			else if(!s_course_year.equals("") && s_course_year.equals(String.valueOf(c.getYear()))) {
 				jsonCourseAry.add(Json.createObjectBuilder().add("id", c.getId()).add("code", c.getCode()).add("title", c.getTitle()));	
-			} 
-			else if (!s_course_year.equals("") && !s_course_semester.equals("")
-					&& s_course_year.equals(String.valueOf(c.getYear()))) {
-				jsonCourseAry.add(Json.createObjectBuilder().add("id", c.getId()).add("code", c.getCode()).add("title", c.getTitle()));
 			}
-			else if (s_course_year.equals("") && !s_course_semester.equals("")
-					&& s_course_semester.equals(c.getSemester())) {
-				jsonCourseAry.add(Json.createObjectBuilder().add("id", c.getId()).add("code", c.getCode()).add("title", c.getTitle()));
-			} else
-			{
-				//jsonCourseAry.add(Json.createObjectBuilder().add("id", c.getId()).add("code", c.getCode()).add("title", c.getTitle()));
-			}
+			
+		}
+		boolean flagCourseChanged=false;
+		if(!searchValue[1].equals(""))
+		{
+			flagCourseChanged =true;
 		}
 		
 		result = Json.createObjectBuilder()
+				.add("flagCourseChanged", flagCourseChanged)
 				.add("countRecord", countRecord)
+				.add("maxpg", totalpg)
 				.add("pg", initpg)
 				.add("topics", jsonTopicAry)
 				.add("course", jsonCourseAry)
 				.build();
-		System.out.println(">>> THE result GEN : " + result);
+
 		return result;
 	}
 

@@ -1,4 +1,4 @@
-//$( document ).ready( searchTopics );
+$( document ).ready( searchTopics );
 
 function loadTopicsAtPage(u) {
 	var pgnum = parseInt(document.getElementById("crtpg").value);
@@ -8,15 +8,17 @@ function loadTopicsAtPage(u) {
 	} else {
 		pgnum++;
 	}
-
-	document.location.href = "Topic?pg=" + pgnum;
+	var newpg = $("#crtpg").val(pgnum);
+	var maxpg = $("#maxpg").val();
+	searchTopics();
 }
 
 function goToTopicsAtPage() {
 	var pgn = document.getElementById("topicpage").value;
-
+	$("#topicpage").val('');
 	if (pgn.length != 0) {
-		document.location.href = "Topic?pg=" + pgn;
+		$("#crtpg").val(pgn);
+		searchTopics();
 	}
 }
 
@@ -67,31 +69,75 @@ function searchTopics()
 	var year = $("#s_course_year").val();
 	var sem = $("#s_course_semester").val();
 	var course = $("#s_course").val();
-	
+	var sortColName = "title";
+	var sortDir = $("#titleSortDir").val();
+	var pgSize = $("#selShowEntries").val();
+	console.log("<<<>>>" + pgSize);
 	$.ajax({
 		type: "POST",
 		url: "Topic",
 		dataType: "json",
 		data: {
 			pg: currPage,
-			pgSize:10,
+			pgSize:pgSize,
 			s_createdbyme: showOnlyByMe,
 			s_course_year: year,
 			s_course_semester: sem,
 			s_course: course,
-			sortColName: "title",
-			sortDir: "ASC"
+			sortColName: sortColName,
+			sortDir: sortDir
 		},
 		success: function(data) {
 			var topicBody = getTableBody(data.topics);
 			$("#topic_table_body").html(topicBody);
-			var courseData = getCourseBody(data.course);
-			$("#s_course").html(courseData);
+			if(!data.flagCourseChanged)
+			{
+				var courseData = getCourseBody(data.course);
+				$("#s_course").html(courseData);
+			}
 			$("#mod_course").html(courseData);
+			$("#maxpg").val(data.maxpg);
+			$("#crtpg").val(data.pg);
+			handlePagination(data.pg,data.maxpg);
 		}
 	});
-
 }
+
+function sortTitle() {
+	var iconClass = $("#titleSortIcon").attr('class');
+	if( iconClass === "glyphicon glyphicon-sort")
+	{
+		$("#titleSortIcon").attr('class', 'glyphicon glyphicon-sort-by-attributes');
+		$("#titleSortDir").val('ASC');
+	} 
+	else if (iconClass === "glyphicon glyphicon-sort-by-attributes")
+	{
+		$("#titleSortIcon").attr('class', 'glyphicon glyphicon-sort-by-attributes-alt');
+		$("#titleSortDir").val('DESC');
+	}
+	else if(iconClass === "glyphicon glyphicon-sort-by-attributes-alt")
+	{	
+		$("#titleSortIcon").attr('class', 'glyphicon glyphicon-sort');
+		$("#titleSortDir").val('');
+	}
+	searchTopics();
+}
+
+function handlePagination(newpg,maxpg ) {
+	if(newpg<=1) {
+		$("#page_prevBtn").attr("disabled", "disabled");
+	} else {
+		$("#page_prevBtn").removeAttr("disabled");
+	}
+
+	if(newpg>=maxpg) {
+		$("#page_nextBtn").attr("disabled", "disabled");
+	} else {
+		$("#page_nextBtn").removeAttr("disabled");
+	}
+	$("#topicpage").attr("placeholder", ""+newpg+"/"+maxpg);
+}
+
 
 function getTableBody(list) {
 	var bodyHtml="";

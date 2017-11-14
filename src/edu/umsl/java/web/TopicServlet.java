@@ -1,8 +1,9 @@
 package edu.umsl.java.web;
 
 import java.io.IOException;
-import java.util.List;
+import java.io.PrintWriter;
 
+import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.umsl.java.beans.Course;
-import edu.umsl.java.beans.Topic;
-import edu.umsl.java.dao.CourseDao;
 import edu.umsl.java.dao.TopicDao;
 
 /**
@@ -25,61 +23,25 @@ public class TopicServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		
+
 		HttpSession session = request.getSession();
 		if (session.getAttribute("userFirstName") == null) {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 
-		TopicDao topicDao = null;
-		CourseDao courseDao = null;
-
-		int pg = 0;
-		String initpg = request.getParameter("pg");
-		String userId;
-		
-		if (initpg != null) {
-			try {
-				pg = Integer.parseInt(initpg);
-			} catch (NumberFormatException ex) {
-				pg = 1;
-			}
-		}
-
 		try {
-			int count;
-			userId = String.valueOf(session.getAttribute("userId"));
-			boolean checkcreatedbyme = request.getParameter("s_createdbyme")!=null;
-			
-			topicDao = new TopicDao();
-			courseDao = new CourseDao();
-			
-			if(checkcreatedbyme)
-			{
-				courseDao.setCourseInstructor(userId);
-				List<Course> courseListByInstructor = courseDao.getCourseListByInstructor();
-				request.setAttribute("courseList", courseListByInstructor);
+			JsonObject jsonObject = getTopicJson(session, request);
+			int count = jsonObject.getInt("countRecord");
+			int pg = jsonObject.getInt("pg");
+			int totalpg = (int) Math.ceil(count / 10.0);
+			request.setAttribute("maxpg", totalpg);
+			if (pg < 1) {
+				pg = 1;
+			} else if (pg > totalpg) {
+				pg = totalpg;
 			}
-			else {
-				List<Course> courseList = courseDao.getCourseList();
-				request.setAttribute("courseList", courseList);
-				count = topicDao.getTopicCount();
+			request.setAttribute("crtpg", pg);
 
-				int totalpg = (int) Math.ceil(count / 10.0);
-				request.setAttribute("maxpg", totalpg);
-
-				if (pg < 1) {
-					pg = 1;
-				} else if (pg > totalpg) {
-					pg = totalpg;
-				}
-
-				request.setAttribute("crtpg", pg);
-
-				List<Topic> topicList = topicDao.getTopicListByPage(pg);
-				request.setAttribute("topicList", topicList);
-			}
-			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -88,8 +50,68 @@ public class TopicServlet extends HttpServlet {
 		dispatcher.forward(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		HttpSession session = request.getSession();
+		if (session.getAttribute("userFirstName") == null) {
+			request.getRequestDispatcher("login.jsp").forward(request, response);
+		}
+
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		JsonObject jsonObject = getTopicJson(session, request);
+		out.print(jsonObject);
+		out.flush();
+		out.close();
 	}
 
+	protected JsonObject getTopicJson(HttpSession session, HttpServletRequest request) {
+
+		int pg = 0, pgSize = 10;
+		String initpg = (request.getParameter("pg") != null) ? request.getParameter("pg") : "1";
+		String userId;
+		String sortColName = (request.getParameter("sortColName") != null) ? request.getParameter("sortColName")
+				: "title";
+		String sortDir = (request.getParameter("sortDir") != null) ? request.getParameter("sortDir") : "ASC";
+
+		String s_course_year = (request.getParameter("s_course_year") != null) ? request.getParameter("s_course_year")
+				: "";
+		String s_course_semester = (request.getParameter("s_course_semester") != null)
+				? request.getParameter("s_course_semester")
+				: "";
+		String s_course = (request.getParameter("s_course") != null) ? request.getParameter("s_course") : "";
+
+		if (initpg != null) {
+			try {
+				pg = Integer.parseInt(initpg);
+				pgSize = Integer.parseInt(request.getParameter("pgSize"));
+			} catch (NumberFormatException ex) {
+				pg = 1;
+			}
+		}
+
+		JsonObject jsonObject = null;
+		
+		try {
+			TopicDao topicDao = new TopicDao();
+			userId = String.valueOf(session.getAttribute("userId"));
+			String[] searchColumn = {"instructorid","courseid"};
+			String[] searchValue = {"", ""};
+			
+			boolean checkcreatedbyme = Boolean.parseBoolean(request.getParameter("s_createdbyme"));
+			if ((checkcreatedbyme)) {
+				searchColumn[0] = "instructorid";
+				searchValue[0] = userId;
+			}
+			if(!s_course.equals("")) {
+				searchColumn[1] = "courseid";
+				searchValue[1] = s_course;
+			} 
+			
+			jsonObject = topicDao.getTopicJson(sortColName, sortDir, pg, pgSize, searchColumn, searchValue, s_course_year, s_course_semester);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return jsonObject;
+	}
 }

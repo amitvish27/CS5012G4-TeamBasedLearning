@@ -28,7 +28,8 @@
 
 		<!-- Content Body -->
 		<div class="container-fluid">
-			<input id="crtpg" type="hidden" value="${crtpg}" />
+			<input id="crtpg" type="hidden" value="${crtpg}" /> <input
+				id="maxpg" type="hidden" value="${maxpg}" />
 			<div class="container">
 
 				<div class="panel panel-default top-buffer">
@@ -40,7 +41,8 @@
 						<div class="form-inline top-buffer">
 							<div class="form-group">
 								<label for="s_course_year">Year:</label> <select
-									id="s_course_year" name="course_year" class="form-control">
+									id="s_course_year" name="course_year" class="form-control"
+									onchange="searchTopics()">
 									<option selected value=""></option>
 									<option value="2015">2015</option>
 									<option value="2016">2016</option>
@@ -53,7 +55,7 @@
 							<div class="form-group">
 								<label for="pwd">Semester:</label> <select
 									id="s_course_semester" name="s_course_semester"
-									class="form-control">
+									class="form-control" onchange="searchTopics()">
 									<option selected value=""></option>
 									<option value="Fall">Fall</option>
 									<option value="Spring">Spring</option>
@@ -63,18 +65,15 @@
 							</div>
 							<div class="form-group">
 								<label for="s_course">Course:</label> <select id="s_course"
-									name="s_course" class="form-control">
+									name="s_course" class="form-control" onchange="searchTopics()">
 									<option selected value=""></option>
-									<c:forEach var="course" items="${courseList}">
-										<option value="${course.getId()}">${course.getCode()}
-											- ${course.getTitle()}</option>
-									</c:forEach>
 								</select>
 							</div>
 							<div class="form-group">
-								<div class="checkbox">
-									<label><input type="checkbox" id="s_createdbyme" name="s_createdbyme">
-										Show only Created By Me</label>
+								<div class="checkbox col-md-8 col-sm-8">
+									<label><input type="checkbox" id="s_createdbyme"
+										name="s_createdbyme" onclick="searchTopics()"> Show
+										only Created By Me</label>
 								</div>
 							</div>
 						</div>
@@ -85,6 +84,7 @@
 										test="${param.err > 0}">Please select course & provide the content of your topic to create new.</c:if>
 								</span>
 							</div>
+							<div class="col-sm-1 col-md-1 text-center"></div>
 						</div>
 					</div>
 				</div>
@@ -97,48 +97,49 @@
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<th style="padding-left: 5em">Topics list</th>
-									<th><button type="button" class="btn btn-link"
-											data-toggle="modal" data-target="#createNewModal">
+									<th width="70%" style="padding-left: 5em">Topics list</th>
+									<th width="30%" style="padding-left: 5em"><button
+											type="button" class="btn btn-link" data-toggle="modal"
+											data-target="#createNewModal">
 											<span class="glyphicon glyphicon-plus"></span> Add new record
 										</button></th>
 								</tr>
 								<tr>
-									<th width="70%">Title</th>
+									<th width="70%" style="padding-left: 5em">Title <input
+										type="hidden" id="titleSortDir" value="" />
+										<button type="button" class="btn btn-link"
+											onclick="sortTitle()">
+											<span id="titleSortIcon" class="glyphicon glyphicon-sort"></span>
+										</button>
+									</th>
 									<th width="30%" class="text-center">Action</th>
 								</tr>
 							</thead>
-							<tbody>
-								<c:forEach var="topic" items="${topicList}">
-									<tr>
-										<td id="title${topic.getId()}" style="padding-left: 5em">${topic.getTitle()}</td>
-										<td class="text-center">
-											<div class="input-group-btn">
-												<button id="editbtn${topic.getId()}" type="button"
-													onclick="editThisTopicAjax(${topic.getId()})"
-													style="height: 2.4em" class="btn btn-link">
-													<span class="glyphicon glyphicon-edit editButtonIcon"></span>
-												</button>
-												<button type="button"
-													onclick="delTopicByID(${topic.getId()})"
-													style="height: 2.4em" class="btn btn-link">
-													<span class="glyphicon glyphicon-trash trashButtonIcon"></span>
-												</button>
-											</div>
-										</td>
-									</tr>
-								</c:forEach>
+							<tbody id="topic_table_body">
+
 							</tbody>
 							<tfoot>
 								<tr>
-									<td width="70%">&nbsp;</td>
+									<td width="70%">
+										<div class="form-inline">
+											<div class="form-group">
+												Show <select class="form-control" id="selShowEntries"
+													onchange="searchTopics()">
+													<option value=10>10</option>
+													<option value=25>25</option>
+													<option value=50>50</option>
+													<option value=100>100</option>
+												</select> Entries
+											</div>
+										</div>
+									</td>
 									<td width="30%">
 										<table class="input-group">
 											<tr>
 												<td>
-													<button type="button" onclick="loadTopicsAtPage(0)"
-														style="height: 2.4em" class="btn btn-link"
-														<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
+													<button id="page_prevBtn" type="button"
+														onclick="loadTopicsAtPage(0)" style="height: 2.4em"
+														class="btn btn-link">
 														<span class="glyphicon glyphicon-triangle-left"></span>
 													</button>
 												</td>
@@ -147,9 +148,9 @@
 													placeholder="${crtpg}/${maxpg}"
 													onfocusout="goToTopicsAtPage()" /></td>
 												<td>
-													<button type="button" onclick="loadTopicsAtPage(1)"
-														style="height: 2.4em" class="btn btn-link"
-														<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
+													<button id="page_nextBtn" type="button"
+														onclick="loadTopicsAtPage(1)" style="height: 2.4em"
+														class="btn btn-link">
 														<span class="glyphicon glyphicon-triangle-right"></span>
 													</button>
 												</td>
@@ -182,11 +183,6 @@
 								<div class="col-md-4 col-sm-4">
 									<select id="mod_course" name="mod_course" class="form-control"
 										required>
-										<option value=""></option>
-										<c:forEach var="course" items="${courseList}">
-											<option value="${course.getId()}">${course.getCode()}
-												- ${course.getTitle()}</option>
-										</c:forEach>
 									</select>
 								</div>
 							</div>
