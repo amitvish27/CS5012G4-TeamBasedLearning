@@ -71,7 +71,7 @@ public class TopicServlet extends HttpServlet {
 		String initpg = (request.getParameter("pg") != null) ? request.getParameter("pg") : "1";
 		String userId;
 		String sortColName = (request.getParameter("sortColName") != null) ? request.getParameter("sortColName")
-				: "title";
+				: "created";
 		String sortDir = (request.getParameter("sortDir") != null) ? request.getParameter("sortDir") : "ASC";
 
 		String s_course_year = (request.getParameter("s_course_year") != null) ? request.getParameter("s_course_year")
