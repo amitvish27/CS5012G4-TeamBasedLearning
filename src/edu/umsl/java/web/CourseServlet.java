@@ -25,7 +25,7 @@ public class CourseServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		if(session.getAttribute("username")==null) {
+		if(session.getAttribute("userFirstName")==null) {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 		

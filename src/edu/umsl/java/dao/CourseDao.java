@@ -26,13 +26,13 @@ public class CourseDao {
 	private PreparedStatement countCourse;
 	private PreparedStatement setInstructor;
 	private List<Course> courseList;
-	private ReadProperties rp;
 
 	public CourseDao() throws Exception {
 		try {
-			rp = new ReadProperties();
-			Class.forName(rp.getDbDriver());
-			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
+			ReadProperties.loadPropertiesFile();
+			Class.forName(ReadProperties.getDbDriver());
+			connection = DriverManager.getConnection(ReadProperties.getDbUrl(), ReadProperties.getDbUser(),
+					ReadProperties.getDbPswd());
 
 			results = connection.prepareStatement("SELECT id, code, title, year, semester, instructor "
 					+ "FROM course WHERE deleted=0 " + "ORDER BY created DESC ");
@@ -47,8 +47,9 @@ public class CourseDao {
 					"INSERT INTO Course (code, title, year, semester, instructor) " + "VALUES (?, ?, ?, ?, ?)");
 
 			delCourse = connection.prepareStatement("UPDATE course SET deleted = 1 WHERE id = ?");
-			
-			saveCourse = connection.prepareStatement("UPDATE course SET code=?, title=?, year=?, semester=?, instructor=? WHERE id = ?");
+
+			saveCourse = connection.prepareStatement(
+					"UPDATE course SET code=?, title=?, year=?, semester=?, instructor=? WHERE id = ?");
 
 			countCourse = connection.prepareStatement("SELECT COUNT(id) FROM course WHERE deleted = 0");
 
@@ -85,13 +86,13 @@ public class CourseDao {
 	}
 
 	public Course getCourseById(int id) {
-		
+
 		Course course = null;
 		try {
 			courseById.setInt(0, id);
 			ResultSet res = courseById.executeQuery();
 			res.next();
-			
+
 			course = new Course();
 			course.setId(res.getInt(1));
 			course.setCode(res.getString(2));
@@ -99,7 +100,7 @@ public class CourseDao {
 			course.setYear(res.getInt(4));
 			course.setSemester(res.getString(5));
 			course.setInstructor(res.getString(6));
-			
+
 		} catch (SQLException sql_ex) {
 			sql_ex.printStackTrace();
 		}
@@ -134,7 +135,8 @@ public class CourseDao {
 	public void saveCourse(int id, String courCode, String courTitle, int courYear, String seme, String instID)
 			throws SQLException {
 		try {
-			// UPDATE course SET code=?, title=?, year=?, semester=?, instructor=? WHERE id = ?
+			// UPDATE course SET code=?, title=?, year=?, semester=?, instructor=? WHERE id
+			// = ?
 			saveCourse.setString(1, courCode);
 			saveCourse.setString(2, courTitle);
 			saveCourse.setInt(3, courYear);
@@ -146,7 +148,7 @@ public class CourseDao {
 			sqlException.printStackTrace();
 		}
 	}
-	
+
 	public void addCourse(String courCode, String courTitle, int courYear, String seme, String instID)
 			throws SQLException {
 		try {
@@ -183,13 +185,10 @@ public class CourseDao {
 		}
 	}
 
-	/*public Course getCourseById(int id) {
-		for (Course course : courseList) {
-			if (course.getId() == id)
-				return course;
-		}
-		return null;
-	}*/
+	/*
+	 * public Course getCourseById(int id) { for (Course course : courseList) { if
+	 * (course.getId() == id) return course; } return null; }
+	 */
 
 	public void setCourseInstructor(String instructor) {
 		try {
@@ -222,10 +221,15 @@ public class CourseDao {
 	}
 
 	protected void finalize() {
-		/*
-		 * try { results.close(); setInstructor.close(); connection.close(); } catch
-		 * (SQLException sql_ex) { sql_ex.printStackTrace(); }
-		 */
+
+		try {
+			results.close();
+			setInstructor.close();
+			connection.close();
+		} catch (SQLException sql_ex) {
+			sql_ex.printStackTrace();
+		}
+
 	}
 
 	public List<Integer> getDistinctYear(List<Course> list) {

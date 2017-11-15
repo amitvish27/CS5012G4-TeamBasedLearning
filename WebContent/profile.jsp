@@ -183,10 +183,11 @@ Should have special character (!@#$%&*._+)">Hover
 								<div class="form-group">
 									<div class="col-sm-offset-2 col-sm-2">
 										<button id="pswdUpdateBtn" type="button"
-											class="btn btn-default" onclick="passwordUpdate()" disabled>Update</button>
+											class="btn btn-default" onclick="passwordUpdate()"
+											tabindex="-1" disabled>Update</button>
 									</div>
 									<div class="col-sm-2">
-										<button class="btn btn-default" type="button"
+										<button class="btn btn-default" type="button" tabindex="-1"
 											onclick="clearPasswordProfile()">Reset</button>
 									</div>
 								</div>

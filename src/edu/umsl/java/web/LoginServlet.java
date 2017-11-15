@@ -20,6 +20,11 @@ import edu.umsl.java.dao.InstructorDao;
 public class LoginServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		request.getRequestDispatcher("login.jsp").forward(request, response);
+	}
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -44,13 +49,14 @@ public class LoginServlet extends HttpServlet {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
+			session.removeAttribute("loginCount");
 			dispatcher.forward(request, response);
 		} else {
 
 			try {
 				Instructor inst = new InstructorDao().getInstructorBySsoId(sso_id);
 				//check if user account is active
-				if(inst.getSsoid() == null) {
+				if(inst==null || inst.getSsoid() == null) {
 					request.setAttribute("errorMessage", "Account does not exists. ");
 					dispatcher.forward(request, response);
 				}
@@ -58,11 +64,12 @@ public class LoginServlet extends HttpServlet {
 					//check the password
 					if (inst.getPswd().equals(pswd)) {
 
-						session.setAttribute("username", inst.getFname());
+						session.setAttribute("userFirstName", inst.getFname());
 						session.setAttribute("userLastName", inst.getLname());
 						session.setAttribute("userId", inst.getSsoid());
 						session.setAttribute("userRole", inst.getRole());
-
+						//on successful login remove the login count variable
+						session.removeAttribute("loginCount");
 						RequestDispatcher rd = request.getRequestDispatcher("index.jsp");
 						rd.forward(request, response);
 					} else {
@@ -75,7 +82,7 @@ public class LoginServlet extends HttpServlet {
 					
 				} else if (inst.getActive() == 0) {
 					//user account deactivated 
-					request.setAttribute("errorMessage", "Your account is deactivated. Please contact Admin to activate your account. ");
+					request.setAttribute("errorMessage", "Your account is deactivated. Please contact Admin.");
 					dispatcher.forward(request, response);
 				}
 

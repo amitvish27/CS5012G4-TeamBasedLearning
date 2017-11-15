@@ -28,8 +28,8 @@
 			<div class="container text-center">
 				
 				<c:choose>
-					<c:when test="${username!=null}">
-						<h1>Welcome!!! ${username}</h1>
+					<c:when test="${userFirstName!=null}">
+						<h1>Welcome!!! ${userFirstName}</h1>
 						<p>Team-Based Learning App</p>
 						<hr>
 					</c:when>

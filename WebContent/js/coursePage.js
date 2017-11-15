@@ -48,6 +48,7 @@ function editThisCourseAjax(v) {
 	
 	var yearHtml =`<select id="course_year" name="course_year"
 						class="form-control">
+						<option selected value=""></option>
 						<option value="2015">2015</option>
 						<option value="2016">2016</option>
 						<option value="2017">2017</option>
@@ -55,8 +56,9 @@ function editThisCourseAjax(v) {
 						<option value="2019">2019</option>
 						<option value="2020">2020</option>
 					</select>`;
-	var semHtml =`<select id="course_year" name="course_year"
+	var semHtml =`<select id="course_semester" name="course_semester"
 						class="form-control">
+						<option selected value=""></option>
 						<option value="Fall">Fall</option>
 						<option value="Spring">Spring</option>
 						<option value="Summer">Summer</option>
@@ -103,8 +105,8 @@ function updateThisCourseAjax(v) {
 function clearCreateNewModal() {
 	$("#course_code").val('');
 	$("#course_title").val('');
-	$("#course_year").val('2017');
-	$("#course_semester").val('Fall');
+	$("#course_year").val('');
+	$("#course_semester").val('');
 	$("#instructor_id").val('');
 	$("#createNewModal").modal('hide');
 }

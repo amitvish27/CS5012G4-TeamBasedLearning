@@ -1,5 +1,8 @@
 package edu.umsl.java.dao;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,74 +14,76 @@ import java.util.List;
 import javax.servlet.UnavailableException;
 
 import edu.umsl.java.beans.Instructor;
+import edu.umsl.java.util.PasswordEncrypter;
 import edu.umsl.java.util.ReadProperties;
 
 public class InstructorDao {
+
+	private static final String secretKey = "UMSLTEAMBASED";
+
 	private Connection connection;
 	private PreparedStatement instListRS;
 	private PreparedStatement SsoIdInstRS;
 	private PreparedStatement saveInstRS;
 	private PreparedStatement saveInstPswdRS;
 	private PreparedStatement setActive;
-	private ReadProperties rp;
 
 	public InstructorDao() throws Exception {
 		try {
-			rp = new ReadProperties();
-			Class.forName(rp.getDbDriver());
-			connection = DriverManager.getConnection(rp.getDbUrl(), rp.getDbUser(), rp.getDbPswd());
+			ReadProperties.loadPropertiesFile();
+			Class.forName(ReadProperties.getDbDriver());
+			connection = DriverManager.getConnection(ReadProperties.getDbUrl(), ReadProperties.getDbUser(),
+					ReadProperties.getDbPswd());
 
 			instListRS = connection.prepareStatement(
 					"SELECT  `id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `createdby`, `modifiedby`, `role`, `active` "
 							+ "FROM user WHERE deleted=0 ORDER BY created DESC ");
-			
+
 			SsoIdInstRS = connection.prepareStatement(
 					"SELECT  `id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `createdby`, `modifiedby`, `role`, `active` "
 							+ "FROM user WHERE ssoid=?");
-			
+
 			saveInstRS = connection.prepareStatement(
-					"UPDATE `user` SET `fname`=?,`lname`=?,`email`=?,`dept`=?,`modifiedby`=?"
-					+ "WHERE ssoid=?");
-			
-			saveInstPswdRS = connection.prepareStatement(
-					"UPDATE `user` SET `pswd`=?,`modifiedby`=?"
-					+ "WHERE ssoid=?");
-			
-			setActive = connection.prepareStatement(
-					"UPDATE `user` SET `active`=?,`modifiedby`=?"
-							+ "WHERE ssoid=?");
-			
+					"UPDATE `user` SET `fname`=?,`lname`=?,`email`=?,`dept`=?,`modifiedby`=?" + "WHERE ssoid=?");
+
+			saveInstPswdRS = connection.prepareStatement("UPDATE `user` SET `pswd`=?,`modifiedby`=?" + "WHERE ssoid=?");
+
+			setActive = connection.prepareStatement("UPDATE `user` SET `active`=?,`modifiedby`=?" + "WHERE ssoid=?");
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 			throw new UnavailableException(ex.getMessage());
 		}
 	}
-	
+
 	public void setInstActive(String ssoid, int active, String modifiedby) {
 		try {
 			setActive.setInt(1, active);
 			setActive.setString(2, modifiedby);
 			setActive.setString(3, ssoid);
-			
+
 			setActive.executeUpdate();
 		} catch (SQLException sql_ex) {
 			sql_ex.printStackTrace();
 		}
 	}
-	
+
 	public void saveInstPswd(String ssoid, String pswd, String modifiedby) {
 		try {
-			saveInstPswdRS.setString(1, pswd);
+			String encryptedPswd = PasswordEncrypter.encrypt(pswd, secretKey);
+
+			saveInstPswdRS.setString(1, encryptedPswd);
 			saveInstPswdRS.setString(2, modifiedby);
 			saveInstPswdRS.setString(3, ssoid);
-			
+
 			saveInstPswdRS.executeUpdate();
-		} catch (SQLException sql_ex) {
-			sql_ex.printStackTrace();
+		} catch (UnsupportedEncodingException | GeneralSecurityException | SQLException ex) {
+			ex.printStackTrace();
 		}
 	}
-	
-	public void saveInstProfile(String ssoid, String fname, String lname, String email, String dept, String modifiedby) {
+
+	public void saveInstProfile(String ssoid, String fname, String lname, String email, String dept,
+			String modifiedby) {
 		try {
 			saveInstRS.setString(1, fname);
 			saveInstRS.setString(2, lname);
@@ -100,10 +105,13 @@ public class InstructorDao {
 
 			while (res.next()) {
 				Instructor instructor = new Instructor();
-
 				instructor.setId(res.getInt(1));
 				instructor.setSsoid(res.getString(2));
-				instructor.setPswd(res.getString(3));
+				
+				System.out.println("paswd : " + res.getString(3));
+				String decryptedPswd = PasswordEncrypter.decrypt(res.getString(3), secretKey);
+				instructor.setPswd(decryptedPswd);
+
 				instructor.setFname(res.getString(4));
 				instructor.setLname(res.getString(5));
 				instructor.setEmail(res.getString(6));
@@ -116,8 +124,8 @@ public class InstructorDao {
 				instructorList.add(instructor);
 			}
 
-		} catch (SQLException sql_ex) {
-			sql_ex.printStackTrace();
+		} catch (GeneralSecurityException | IOException | SQLException ex) {
+			ex.printStackTrace();
 		}
 
 		return instructorList;
@@ -130,21 +138,26 @@ public class InstructorDao {
 			SsoIdInstRS.setString(1, ssoid);
 
 			ResultSet res = SsoIdInstRS.executeQuery();
-			res.next();
-			instructor = new Instructor();
-			instructor.setId(res.getInt(1));
-			instructor.setSsoid(res.getString(2));
-			instructor.setPswd(res.getString(3));
-			instructor.setFname(res.getString(4));
-			instructor.setLname(res.getString(5));
-			instructor.setEmail(res.getString(6));
-			instructor.setDept(res.getString(7));
-			instructor.setCreatedby(res.getString(8));
-			instructor.setModifiedby(res.getString(9));
-			instructor.setRole(res.getInt(10));
-			instructor.setActive(res.getInt(11));
-		} catch (SQLException sqlException) {
-			sqlException.printStackTrace();
+			if(res.next()) {
+				instructor = new Instructor();
+				instructor.setId(res.getInt(1));
+				instructor.setSsoid(res.getString(2));
+				
+				String decryptedPswd = PasswordEncrypter.decrypt(res.getString(3), secretKey);
+				instructor.setPswd(decryptedPswd);
+
+				instructor.setFname(res.getString(4));
+				instructor.setLname(res.getString(5));
+				instructor.setEmail(res.getString(6));
+				instructor.setDept(res.getString(7));
+				instructor.setCreatedby(res.getString(8));
+				instructor.setModifiedby(res.getString(9));
+				instructor.setRole(res.getInt(10));
+				instructor.setActive(res.getInt(11));
+			}
+			
+		} catch (GeneralSecurityException | IOException | SQLException ex) {
+			ex.printStackTrace();
 		}
 
 		return instructor;

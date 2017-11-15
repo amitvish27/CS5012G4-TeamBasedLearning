@@ -51,12 +51,7 @@
 										test="${param.err > 0}">Please select the required content of your course.</c:if>
 								</span>
 							</div>
-							<div class="col-sm-1 col-md-1 text-center">
-								<button type="button" class="btn btn-link" data-toggle="modal"
-									data-target="#createNewModal">
-									<span class="glyphicon glyphicon-plus"></span>Create New
-								</button>
-							</div>
+							
 						</div>
 					</div>
 				</div>
@@ -68,11 +63,21 @@
 						<table class="table table-striped table-hover">
 							<thead>
 								<tr>
-									<td class="h4">Code</td>
-									<td class="h4">Title</td>
-									<td class="h4">Year</td>
-									<td class="h4">Semester</td>
-									<td class="text-center h4">Action</td>
+								<th style="padding-left: 5em">Course list</th>
+								<th>&nbsp;</th>
+								<th>&nbsp;</th>
+								<th>&nbsp;</th>
+								<th><button type="button" class="btn btn-link" data-toggle="modal"
+									data-target="#createNewModal">
+									<span class="glyphicon glyphicon-plus"></span> Add new record
+								</button></th>
+								</tr>
+								<tr>
+									<th>Code</th>
+									<th>Title</th>
+									<th>Year</th>
+									<th>Semester</th>
+									<th class="text-center">Action</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -173,7 +178,8 @@
 								<div class="col-md-4 col-sm-4">
 									<select id="course_year" name="course_year"
 										class="form-control" required>
-										<option selected value="2017">2017</option>
+										<option selected value=""></option>
+										<option value="2017">2017</option>
 										<option value="2018">2018</option>
 										<option value="2019">2019</option>
 										<option value="2020">2020</option>
@@ -187,7 +193,8 @@
 								<div class="col-md-4 col-sm-4">
 									<select id="course_semester" name="course_semester"
 										class="form-control" required>
-										<option selected value="Fall">Fall</option>
+										<option selected value=""></option>
+										<option value="Fall">Fall</option>
 										<option value="Spring">Spring</option>
 										<option value="Summer">Summer</option>
 										<option value="Winter">Winter</option>

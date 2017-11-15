@@ -5,9 +5,9 @@ import java.util.Properties;
 
 public class ReadProperties {
 	private static Properties prop ;
-	
-	public ReadProperties() {
-		loadPropertiesFile();
+		
+	public static Properties getProp() {
+		return prop;
 	}
 	
 	public static void loadPropertiesFile() {
@@ -21,27 +21,39 @@ public class ReadProperties {
 		} 
 	}
 	
-	public String getDbDriver() {
+	public static String getDbDriver() {
 		String temp = null;
 		temp = prop.getProperty("DbDriver");
 		return temp;
 	}
 	
-	public String getDbUrl() {
+	public static String getDbUrl() {
 		String temp = null;
 		temp = prop.getProperty("DbUrl");
 		return temp;
 	}	
 
-	public String getDbUser() {
+	public static String getDbUser() {
 		String temp = null;
 		temp = prop.getProperty("DbUser");
 		return temp;
 	}	
 	
-	public String getDbPswd() {
+	public static String getDbPswd() {
 		String temp = null;
 		temp = prop.getProperty("DbPswd");
 		return temp;
 	}
+	public static String getMailUser() {
+		String temp = null;
+		temp = prop.getProperty("mail.user");
+		return temp;
+	}
+	public static String getMailPswd() {
+		String temp = null;
+		temp = prop.getProperty("mail.pswd");
+		return temp;
+	}
+	
 }
+

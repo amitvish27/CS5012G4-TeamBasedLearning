@@ -4,7 +4,6 @@ build/
 .project
 
 listcsv
-src/edu/umsl/java/util/Sample.java
 
 # Compiled class file
 *.class

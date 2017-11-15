@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 08, 2017 at 09:15 PM
+-- Generation Time: Nov 14, 2017 at 07:29 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -71,9 +71,11 @@ INSERT INTO `course` (`id`, `code`, `title`, `year`, `semester`, `created`, `ins
 (25, 'CS2703', 'Data Programming', 2016, 'Summer', '2017-11-04 22:38:24', 'jh6q3t', 0),
 (26, 'FI3233', 'Financial Derivatives', 2016, 'Winter', '2017-11-04 22:38:25', 'jh6q3t', 0),
 (27, 'MA1682', 'Precalculus', 2015, 'Summer', '2017-11-04 22:38:25', 'jppdle', 0),
-(28, 'IS3828', 'Electronic Business', 2015, 'Fall', '2017-11-04 22:38:25', 'fr5rae', 0),
+(28, 'IS3828', 'Electronic BusinessNew', 2015, 'Fall', '2017-11-04 22:38:25', 'instructor', 0),
 (29, 'IS2098', 'Information Systems Freshman W', 2016, 'Winter', '2017-11-04 22:38:25', 'instructor', 0),
-(30, 'FI2292', 'International Financial Market', 2015, 'Spring', '2017-11-04 22:38:25', 'fr5rae', 0);
+(30, 'FI2292', 'International Financial Market', 2015, 'Spring', '2017-11-04 22:38:25', 'instructor', 0),
+(31, 'CS5012', 'WebDevelopment', 2017, 'Fall', '2017-11-08 18:45:35', 'instructor', 1),
+(32, 'CS5023', 'WebDevelopment', 2017, 'Fall', '2017-11-13 17:17:37', 'instructor', 1);
 
 -- --------------------------------------------------------
 
@@ -323,7 +325,8 @@ INSERT INTO `topic` (`id`, `title`, `courseid`, `created`, `instructorid`, `dele
 (95, 'Health Management Pattern—Asepsis And Safety', 5, '2017-11-05 01:11:51', 'nt669p', 0),
 (96, 'Activity-Exercise', 5, '2017-11-05 01:11:52', 'instructor', 0),
 (97, 'Nutritional-Metabolic Pattern', 1, '2017-11-05 01:11:52', 'nt669p', 0),
-(98, 'Activity-Exercise Pattern—Oxygenation', 13, '2017-11-05 01:11:52', 'instructor', 0);
+(98, 'Activity-Exercise Pattern&Oxygenation', 13, '2017-11-05 01:11:52', 'instructor', 0),
+(99, 'Ajax&Jquery', 31, '2017-11-10 01:04:14', 'instructor', 0);
 
 -- --------------------------------------------------------
 
@@ -347,7 +350,7 @@ CREATE TABLE `topic_inst` (
 CREATE TABLE `user` (
   `id` int(5) NOT NULL COMMENT 'Internal table id, AutoIncrement',
   `ssoid` varchar(10) NOT NULL COMMENT 'sso id for login and session details',
-  `pswd` varchar(30) DEFAULT NULL COMMENT 'password',
+  `pswd` varchar(50) DEFAULT NULL COMMENT 'password',
   `fname` varchar(60) NOT NULL COMMENT 'first name of the user',
   `lname` varchar(60) DEFAULT NULL COMMENT 'last name of the user',
   `email` varchar(50) NOT NULL COMMENT 'email of the user',
@@ -358,83 +361,84 @@ CREATE TABLE `user` (
   `modifiedby` varchar(10) DEFAULT NULL COMMENT 'sso id of the user who modified',
   `deleted` int(1) DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes',
   `role` int(1) DEFAULT NULL COMMENT 'role 0-student, 1-instructor, 2-admin',
-  `active` int(1) DEFAULT '0' COMMENT 'active? 0-Inactive, 1-active, 2-firstTimeLogin'
+  `active` int(1) DEFAULT '0' COMMENT 'active? 0-Inactive, 1-active, 2-firstTimeLogin',
+  `snumber` int(11) DEFAULT NULL COMMENT 'Student Number'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `created`, `createdby`, `modified`, `modifiedby`, `deleted`, `role`, `active`) VALUES
-(1, 'student', 'passwd', 'Ada', 'Hill', 'ada.hill@mail.com', 'Finance', '2017-11-04 21:24:58', 'asv123', '2017-11-04 21:24:58', 'asv123', 0, 0, 1),
-(4, 'ar2y89', 'passwd', 'Addie', 'Reyes', 'addie.reyes@mail.com', 'Business', '2017-11-04 21:41:33', 'yh1234', '2017-11-04 21:41:33', 'yh1234', 0, 0, 1),
-(5, 'arksk0', 'passwd', 'Agnes', 'Rogers', 'agnes.rogers@mail.com', 'Arts', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1),
-(6, 'cdgsyj', 'passwd', 'Claude', 'Dixon', 'claude.dixon@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1),
-(7, 'instructor', 'passwd', 'Clyde', 'Patel', 'clyde.patel@mail.com', 'Nursing', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 1, 1),
-(8, 'cjqxc2', 'passwd', 'Cora', 'Jackson', 'cora.jackson@mail.com', 'Computer Science', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 0, 1),
-(9, 'dt4pyv', 'passwd', 'Daisy', 'Turner', 'daisy.turner@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 0, 1),
-(10, 'dcjlpi', 'passwd', 'Dan', 'Cunningham', 'dan.cunningham@mail.com', 'Information Systems', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1),
-(11, 'dmsb34', 'passwd', 'Daniel', 'Marshall', 'daniel.marshall@mail.com', 'Finance', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1),
-(12, 'dcxvbb', 'passwd', 'David', 'Chavez', 'david.chavez@mail.com', 'Mathematics', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 0, 1),
-(13, 'dcrs4p', 'passwd', 'Della', 'Cook', 'della.cook@mail.com', 'Information Systems', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1),
-(14, 'dcqqma', 'passwd', 'Dora', 'Carter', 'dora.carter@mail.com', 'Finance', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1),
-(15, 'ewxf91', 'passwd', 'Earl', 'Wagner', 'earl.wagner@mail.com', 'Arts', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1),
-(16, 'ehr4rz', 'passwd', 'Ed', 'Hicks', 'ed.hicks@mail.com', 'Mathematics', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1),
-(17, 'eh3gwr', 'passwd', 'Edgar', 'Holmes', 'edgar.holmes@mail.com', 'Information Systems', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1),
-(18, 'er2z7u', 'passwd', 'Edith', 'Robinson', 'edith.robinson@mail.com', 'Arts', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1),
-(19, 'eajdgi', 'passwd', 'Edna', 'Adams', 'edna.adams@mail.com', 'Computer Science', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1),
-(20, 'eawdq0', 'passwd', 'Edward', 'Alexander', 'edward.alexander@mail.com', 'Information Systems', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 0, 1),
-(21, 'ehtewx', 'passwd', 'Edwin', 'Hunt', 'edwin.hunt@mail.com', 'Arts', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1),
-(22, 'fr5rae', 'passwd', 'Frank', 'Reynolds', 'frank.reynolds@mail.com', 'Mathematics', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 1, 1),
-(23, 'fwmzfm', 'passwd', 'Fred', 'West', 'fred.west@mail.com', 'Business', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1),
-(24, 'fwniq8', 'passwd', 'Frederick', 'Woods', 'frederick.woods@mail.com', 'Finance', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1),
-(25, 'gjpys5', 'passwd', 'George', 'Jordan', 'george.jordan@mail.com', 'Computer Science', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1),
-(26, 'grrtcu', 'passwd', 'Georgia', 'Ross', 'georgia.ross@mail.com', 'Nursing', '2017-11-04 21:41:35', 'yh1234', '2017-11-04 21:41:35', 'yh1234', 0, 0, 1),
-(27, 'ghlc4a', 'passwd', 'Gertrude', 'Harris', 'gertrude.harris@mail.com', 'Computer Science', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 0, 1),
-(28, 'ghh9fw', 'passwd', 'Grace', 'Hernandez', 'grace.hernandez@mail.com', 'Arts', '2017-11-04 21:41:35', 'asv123', '2017-11-04 21:41:35', 'asv123', 0, 0, 1),
-(29, 'grxy71', 'passwd', 'Guy', 'Rose', 'guy.rose@mail.com', 'Business', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 0, 1),
-(30, 'hmxzjy', 'passwd', 'Harriet', 'Myers', 'harriet.myers@mail.com', 'Business', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1),
-(31, 'jkxeed', 'passwd', 'Jessie', 'King', 'jessie.king@mail.com', 'Business', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1),
-(32, 'jppdle', 'passwd', 'Jessie', 'Peters', 'jessie.peters@mail.com', 'Finance', '2017-11-04 21:41:35', 'asv123', '2017-11-04 21:41:35', 'asv123', 0, 1, 1),
-(33, 'jmgyjb', 'passwd', 'Jim', 'Mason', 'jim.mason@mail.com', 'Arts', '2017-11-04 21:41:35', 'yh1234', '2017-11-04 21:41:35', 'yh1234', 0, 0, 1),
-(34, 'jbioiy', 'passwd', 'Joe', 'Bryant', 'joe.bryant@mail.com', 'Information Systems', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1),
-(35, 'jh6q3t', 'passwd', 'John', 'Henderson', 'john.henderson@mail.com', 'Computer Science', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 1, 1),
-(36, 'jh8nww', 'passwd', 'Joseph', 'Hamilton', 'joseph.hamilton@mail.com', 'Nursing', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 0, 1),
-(37, 'jeebw5', 'passwd', 'Josephine', 'Evans', 'josephine.evans@mail.com', 'Business', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1),
-(38, 'jht0e6', 'passwd', 'Julia', 'Hall', 'julia.hall@mail.com', 'Nursing', '2017-11-04 21:41:35', 'asv123', '2017-11-04 21:41:35', 'asv123', 0, 0, 1),
-(39, 'jc460i', 'passwd', 'Julius', 'Castro', 'julius.castro@mail.com', 'Computer Science', '2017-11-04 21:41:36', 'asv123', '2017-11-04 21:41:36', 'asv123', 0, 0, 1),
-(40, 'kl5aug', 'passwd', 'Kate', 'Long', 'kate.long@mail.com', 'Mathematics', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1),
-(41, 'kcijns', 'passwd', 'Katherine', 'Collins', 'katherine.collins@mail.com', 'Nursing', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1),
-(42, 'kb2cwk', 'passwd', 'Kathryn', 'Butler', 'kathryn.butler@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1),
-(43, 'khfh27', 'passwd', 'Katie', 'Hughes', 'katie.hughes@mail.com', 'Mathematics', '2017-11-04 21:41:36', 'yt1234', '2017-11-04 21:41:36', 'yt1234', 0, 0, 1),
-(44, 'ltkke1', 'passwd', 'Laura', 'Thompson', 'laura.thompson@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'yt1234', '2017-11-04 21:41:36', 'yt1234', 0, 0, 1),
-(45, 'lwce7f', 'passwd', 'Lulu', 'Watson', 'lulu.watson@mail.com', 'Finance', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1),
-(46, 'lbfthp', 'passwd', 'Luther', 'Boyd', 'luther.boyd@mail.com', 'Computer Science', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1),
-(47, 'lbwl17', 'passwd', 'Lydia', 'Brooks', 'lydia.brooks@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 1, 1),
-(48, 'mg1f78', 'passwd', 'Mabel', 'Gonzalez', 'mabel.gonzalez@mail.com', 'Business', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1),
-(49, 'mwazy6', 'passwd', 'Mae', 'Wood', 'mae.wood@mail.com', 'Arts', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1),
-(50, 'mpi7sb', 'passwd', 'Maggie', 'Parker', 'maggie.parker@mail.com', 'Finance', '2017-11-04 21:41:36', 'yt1234', '2017-11-04 21:41:36', 'yt1234', 0, 0, 1),
-(51, 'mbwu14', 'passwd', 'Mamie', 'Bailey', 'mamie.bailey@mail.com', 'Nursing', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1),
-(52, 'mjb98p', 'passwd', 'Margaret', 'Jones', 'margaret.jones@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1),
-(53, 'nrpoqt', 'passwd', 'Nancy', 'Rivera', 'nancy.rivera@mail.com', 'Nursing', '2017-11-04 21:41:36', 'asv123', '2017-11-04 21:41:36', 'asv123', 0, 0, 1),
-(55, 'ns7sfr', 'passwd', 'Nannie', 'Sanders', 'nannie.sanders@mail.com', 'Arts', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1),
-(56, 'nt669p', 'passwd', 'Nellie', 'Thomas', 'nellie.thomas@mail.com', 'Mathematics', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1),
-(57, 'nmp4iv', 'passwd', 'Nettie', 'Morgan', 'nettie.morgan@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'yt1234', 0, 0, 1),
-(58, 'nfiyol', 'passwd', 'Nora', 'Flores', 'nora.flores@mail.com', 'Arts', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'yt1234', 0, 0, 1),
-(59, 'offn92', 'passwd', 'Olive', 'Fisher', 'olive.fisher@mail.com', 'Mathematics', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1),
-(60, 'orsg1b', 'passwd', 'Oliver', 'Rice', 'oliver.rice@mail.com', 'Information Systems', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 0, 1),
-(61, 'or7hui', 'passwd', 'Oscar', 'Ruiz', 'oscar.ruiz@mail.com', 'Nursing', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1),
-(62, 'ome7r3', 'passwd', 'Otto', 'Meyer', 'otto.meyer@mail.com', 'Finance', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'yt1234', 0, 0, 1),
-(63, 'rykv5t', 'passwd', 'Rose', 'Young', 'rose.young@mail.com', 'Business', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1),
-(64, 'rwrg4c', 'passwd', 'Roy', 'Webb', 'roy.webb@mail.com', 'Arts', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1),
-(65, 'tgc0oh', 'passwd', 'Thomas', 'Graham', 'thomas.graham@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1),
-(66, 'tfyvww', 'passwd', 'Tom', 'Freeman', 'tom.freeman@mail.com', 'Arts', '2017-11-04 21:46:36', 'fz1234', '2017-11-04 21:46:36', 'fz1234', 0, 1, 1),
-(67, 'vsv0p0', 'passwd', 'Viola', 'Sullivan', 'viola.sullivan@mail.com', 'Arts', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 0, 1),
-(68, 'wwcel0', 'passwd', 'Walter', 'Wallace', 'walter.wallace@mail.com', 'Information Systems', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1),
-(69, 'asv123', 'passwd', 'Ameet', 'Vishwakarma', 'ameet.vishwakarma@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 2, 1),
-(70, 'yh1234', 'passwd', 'Yang', 'Huang', 'yang.huang@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1),
-(71, 'yt1234', 'passwd', 'Yuneus', 'Tanudyaya', 'yuneus.tanudyaya@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1),
-(72, 'fz1234', 'passwd', 'Frank', 'Zhao', 'frank.zhao@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1);
+INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `created`, `createdby`, `modified`, `modifiedby`, `deleted`, `role`, `active`, `snumber`) VALUES
+(1, 'student', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ada', 'Hill', 'ada.hill@mail.com', 'Finance', '2017-11-04 21:24:58', 'asv123', '2017-11-04 21:24:58', 'asv123', 0, 0, 1, 15787575),
+(4, 'ar2y89', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Addie', 'Reyes', 'addie.reyes@mail.com', 'Business', '2017-11-04 21:41:33', 'yh1234', '2017-11-04 21:41:33', 'yh1234', 0, 0, 1, 91893072),
+(5, 'arksk0', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Agnes', 'Rogers', 'agnes.rogers@mail.com', 'Arts', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 48840382),
+(6, 'cdgsyj', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Claude', 'Dixon', 'claude.dixon@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 20609289),
+(7, 'instructor', 'iRh7dcqt6ynMBP3DJVQ2iQ==:Q8A6igGsj19jDu7jBpSgEQ==', 'Clyde', 'Patel', 'amitvish27@gmail.com', 'Nursing', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'instructor', 0, 1, 1, 29878310),
+(8, 'cjqxc2', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Cora', 'Jackson', 'cora.jackson@mail.com', 'Computer Science', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 0, 1, 83011409),
+(9, 'dt4pyv', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Daisy', 'Turner', 'daisy.turner@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 0, 1, 80964404),
+(10, 'dcjlpi', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Dan', 'Cunningham', 'dan.cunningham@mail.com', 'Information Systems', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 91510632),
+(11, 'dmsb34', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Daniel', 'Marshall', 'daniel.marshall@mail.com', 'Finance', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1, 14587116),
+(12, 'dcxvbb', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'David', 'Chavez', 'david.chavez@mail.com', 'Mathematics', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 0, 1, 50327199),
+(13, 'dcrs4p', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Della', 'Cook', 'della.cook@mail.com', 'Information Systems', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1, 98902944),
+(14, 'dcqqma', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Dora', 'Carter', 'dora.carter@mail.com', 'Finance', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1, 18019053),
+(15, 'ewxf91', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Earl', 'Wagner', 'earl.wagner@mail.com', 'Arts', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1, 61682089),
+(16, 'ehr4rz', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ed', 'Hicks', 'ed.hicks@mail.com', 'Mathematics', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1, 15386407),
+(17, 'eh3gwr', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Edgar', 'Holmes', 'edgar.holmes@mail.com', 'Information Systems', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1, 78055387),
+(18, 'er2z7u', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Edith', 'Robinson', 'edith.robinson@mail.com', 'Arts', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1, 94379705),
+(19, 'eajdgi', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Edna', 'Adams', 'edna.adams@mail.com', 'Computer Science', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1, 45092069),
+(20, 'eawdq0', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Edward', 'Alexander', 'edward.alexander@mail.com', 'Information Systems', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 0, 1, 47856084),
+(21, 'ehtewx', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Edwin', 'Hunt', 'edwin.hunt@mail.com', 'Arts', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1, 31649040),
+(22, 'fr5rae', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Frank', 'Reynolds', 'frank.reynolds@mail.com', 'Mathematics', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 1, 1, 58412412),
+(23, 'fwmzfm', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Fred', 'West', 'fred.west@mail.com', 'Business', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1, 89475618),
+(24, 'fwniq8', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Frederick', 'Woods', 'frederick.woods@mail.com', 'Finance', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1, 60666236),
+(25, 'gjpys5', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'George', 'Jordan', 'george.jordan@mail.com', 'Computer Science', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1, 68982635),
+(26, 'grrtcu', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Georgia', 'Ross', 'georgia.ross@mail.com', 'Nursing', '2017-11-04 21:41:35', 'yh1234', '2017-11-04 21:41:35', 'yh1234', 0, 0, 1, 46612095),
+(27, 'ghlc4a', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Gertrude', 'Harris', 'gertrude.harris@mail.com', 'Computer Science', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 0, 1, 31630758),
+(28, 'ghh9fw', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Grace', 'Hernandez', 'grace.hernandez@mail.com', 'Arts', '2017-11-04 21:41:35', 'asv123', '2017-11-04 21:41:35', 'asv123', 0, 0, 1, 98947322),
+(29, 'grxy71', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Guy', 'Rose', 'guy.rose@mail.com', 'Business', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 0, 1, 27251370),
+(30, 'hmxzjy', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Harriet', 'Myers', 'harriet.myers@mail.com', 'Business', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1, 72357446),
+(31, 'jkxeed', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Jessie', 'King', 'jessie.king@mail.com', 'Business', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1, 83044210),
+(32, 'jppdle', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Jessie', 'Peters', 'jessie.peters@mail.com', 'Finance', '2017-11-04 21:41:35', 'asv123', '2017-11-04 21:41:35', 'asv123', 0, 1, 1, 29606632),
+(33, 'jmgyjb', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Jim', 'Mason', 'jim.mason@mail.com', 'Arts', '2017-11-04 21:41:35', 'yh1234', '2017-11-04 21:41:35', 'yh1234', 0, 0, 1, 86241530),
+(34, 'jbioiy', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Joe', 'Bryant', 'joe.bryant@mail.com', 'Information Systems', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1, 70081336),
+(35, 'jh6q3t', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'John', 'Henderson', 'john.henderson@mail.com', 'Computer Science', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 1, 1, 56489774),
+(36, 'jh8nww', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Joseph', 'Hamilton', 'joseph.hamilton@mail.com', 'Nursing', '2017-11-04 21:41:35', 'yt1234', '2017-11-04 21:41:35', 'yt1234', 0, 0, 1, 77428044),
+(37, 'jeebw5', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Josephine', 'Evans', 'josephine.evans@mail.com', 'Business', '2017-11-04 21:41:35', 'fz1234', '2017-11-04 21:41:35', 'fz1234', 0, 0, 1, 41183189),
+(38, 'jht0e6', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Julia', 'Hall', 'julia.hall@mail.com', 'Nursing', '2017-11-04 21:41:35', 'asv123', '2017-11-04 21:41:35', 'asv123', 0, 0, 1, 46116764),
+(39, 'jc460i', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Julius', 'Castro', 'julius.castro@mail.com', 'Computer Science', '2017-11-04 21:41:36', 'asv123', '2017-11-04 21:41:36', 'asv123', 0, 0, 1, 64773235),
+(40, 'kl5aug', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Kate', 'Long', 'kate.long@mail.com', 'Mathematics', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1, 75459299),
+(41, 'kcijns', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Katherine', 'Collins', 'katherine.collins@mail.com', 'Nursing', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1, 71917263),
+(42, 'kb2cwk', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Kathryn', 'Butler', 'kathryn.butler@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1, 75814241),
+(43, 'khfh27', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Katie', 'Hughes', 'katie.hughes@mail.com', 'Mathematics', '2017-11-04 21:41:36', 'yt1234', '2017-11-04 21:41:36', 'yt1234', 0, 0, 1, 33634703),
+(44, 'ltkke1', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Laura', 'Thompson', 'laura.thompson@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'yt1234', '2017-11-04 21:41:36', 'yt1234', 0, 0, 1, 11515494),
+(45, 'lwce7f', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Lulu', 'Watson', 'lulu.watson@mail.com', 'Finance', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1, 99986624),
+(46, 'lbfthp', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Luther', 'Boyd', 'luther.boyd@mail.com', 'Computer Science', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1, 53124427),
+(47, 'lbwl17', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Lydia', 'Brooks', 'lydia.brooks@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 1, 1, 15820669),
+(48, 'mg1f78', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Mabel', 'Gonzalez', 'mabel.gonzalez@mail.com', 'Business', '2017-11-04 21:41:36', 'fz1234', '2017-11-04 21:41:36', 'fz1234', 0, 0, 1, 89142911),
+(49, 'mwazy6', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Mae', 'Wood', 'mae.wood@mail.com', 'Arts', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1, 52967001),
+(50, 'mpi7sb', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Maggie', 'Parker', 'maggie.parker@mail.com', 'Finance', '2017-11-04 21:41:36', 'yt1234', '2017-11-04 21:41:36', 'yt1234', 0, 0, 1, 49220813),
+(51, 'mbwu14', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Mamie', 'Bailey', 'mamie.bailey@mail.com', 'Nursing', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1, 55276118),
+(52, 'mjb98p', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Margaret', 'Jones', 'margaret.jones@mail.com', 'Information Systems', '2017-11-04 21:41:36', 'yh1234', '2017-11-04 21:41:36', 'yh1234', 0, 0, 1, 86228944),
+(53, 'nrpoqt', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Nancy', 'Rivera', 'nancy.rivera@mail.com', 'Nursing', '2017-11-04 21:41:36', 'asv123', '2017-11-04 21:41:36', 'asv123', 0, 0, 1, 88084085),
+(55, 'ns7sfr', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Nannie', 'Sanders', 'nannie.sanders@mail.com', 'Arts', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 15912972),
+(56, 'nt669p', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Nellie', 'Thomas', 'nellie.thomas@mail.com', 'Mathematics', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1, 15830275),
+(57, 'nmp4iv', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Nettie', 'Morgan', 'nettie.morgan@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'yt1234', 0, 0, 1, 60660035),
+(58, 'nfiyol', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Nora', 'Flores', 'nora.flores@mail.com', 'Arts', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'yt1234', 0, 0, 1, 73530353),
+(59, 'offn92', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Olive', 'Fisher', 'olive.fisher@mail.com', 'Mathematics', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1, 79493783),
+(60, 'orsg1b', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Oliver', 'Rice', 'oliver.rice@mail.com', 'Information Systems', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 0, 1, 87337004),
+(61, 'or7hui', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Oscar', 'Ruiz', 'oscar.ruiz@mail.com', 'Nursing', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1, 10011160),
+(62, 'ome7r3', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Otto', 'Meyer', 'otto.meyer@mail.com', 'Finance', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'yt1234', 0, 0, 1, 68848417),
+(63, 'rykv5t', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Rose', 'Young', 'rose.young@mail.com', 'Business', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 43411663),
+(64, 'rwrg4c', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Roy', 'Webb', 'roy.webb@mail.com', 'Arts', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 88450069),
+(65, 'tgc0oh', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Thomas', 'Graham', 'thomas.graham@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 32863142),
+(66, 'tfyvww', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Tom', 'Freeman', 'tom.freeman@mail.com', 'Arts', '2017-11-04 21:46:36', 'fz1234', '2017-11-04 21:46:36', 'fz1234', 0, 1, 1, 51642760),
+(67, 'vsv0p0', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Viola', 'Sullivan', 'viola.sullivan@mail.com', 'Arts', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 0, 1, 72861845),
+(68, 'wwcel0', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Walter', 'Wallace', 'walter.wallace@mail.com', 'Information Systems', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 51169244),
+(69, 'asv123', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ameet', 'Vishwakarma', 'ameet.vishwakarma@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 2, 1, 43526252),
+(70, 'yh1234', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Yang', 'Huang', 'yang.huang@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1, NULL),
+(71, 'yt1234', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Yuneus', 'Tanudyaya', 'yuneus.tanudyaya@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1, NULL),
+(72, 'fz1234', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Frank', 'Zhao', 'frank.zhao@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1, NULL);
 
 --
 -- Indexes for dumped tables
@@ -533,7 +537,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `course`
 --
 ALTER TABLE `course`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=31;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=33;
 --
 -- AUTO_INCREMENT for table `course_inst`
 --
@@ -583,7 +587,7 @@ ALTER TABLE `student_sgroup`
 -- AUTO_INCREMENT for table `topic`
 --
 ALTER TABLE `topic`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=99;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=100;
 --
 -- AUTO_INCREMENT for table `topic_inst`
 --
