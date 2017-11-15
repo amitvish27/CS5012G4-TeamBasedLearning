@@ -1,8 +1,13 @@
-$(document).ready(function(){
+$(document).ready(function() {
 	clearUserUpdateModal();
 	var errMsg = $("#errMsg").val();
-	if(errMsg!= undefined && errMsg!=''){
-		alert(errMsg);	
+	if (errMsg != undefined && errMsg != '') {
+		alert(errMsg);
+	} else {
+		var sortBy = document.getElementById("idSortBy").value
+		if (sortBy != undefined) {
+			changeSortIcon(sortBy);
+		}
 	}
 });
 
@@ -122,4 +127,46 @@ function isValidEmail() {
 		$("#updateUser").removeAttr('disabled');
 		$("#divValidateResult").html("");
 	}
+}
+
+function changeSortIcon(v) {
+	var sortDir = document.getElementById("idSortDir").value
+
+	if (sortDir === "" || sortDir == undefined) {
+		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort');
+
+		$("#" + v + "SortDir").val('ASC');
+	} else if (sortDir === "ASC") {
+		$("#" + v + "SortIcon").attr('class',
+				'glyphicon glyphicon-sort-by-attributes');
+
+		$("#" + v + "SortDir").val('DESC');
+	} else if (sortDir === "DESC") {
+		$("#" + v + "SortIcon").attr('class',
+				'glyphicon glyphicon-sort-by-attributes-alt');
+		$("#" + v + "SortDir").val('');
+	}
+
+	return true;
+}
+
+function sortColumn(v) {
+	if (!changeSortIcon(v)) {
+		return;
+	}
+	var d = $("#" + v + "SortDir").val();
+	var url = window.location.search;
+	var sortIndex = url.indexOf('sort=');
+	var dirIndex = url.indexOf('dir=');
+	if (sortIndex > -1) {
+		url = url.substr(0, sortIndex - 1);
+	}
+	if (url.indexOf('?') > -1) {
+		url += "&sort=" + v + "&dir=" + d; // if no sort already then add
+	} else {
+		url += "?sort=" + v + "&dir=" + d; // if no sort already then add
+	}
+
+	console.log("new url :" + url);
+	document.location.href = "ManageUser" + url;
 }

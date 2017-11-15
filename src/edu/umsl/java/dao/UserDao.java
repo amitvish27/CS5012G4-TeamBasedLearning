@@ -30,8 +30,7 @@ public class UserDao {
 	private PreparedStatement setActive;
 	private PreparedStatement getCount;
 	private PreparedStatement getRecords;
-	private PreparedStatement getRecords_lname;
-	private PreparedStatement getRecords_fname;
+	private PreparedStatement getRecords_sorted;
 	private PreparedStatement getUserRecords;
 	private PreparedStatement getRecords3;
 	private PreparedStatement deleteRecord;
@@ -67,12 +66,9 @@ public class UserDao {
 
 			getRecords = connection.prepareStatement(
 					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` WHERE `role`=? OR `role`=? ORDER BY `created` DESC  LIMIT ?, ?");
-
-			getRecords_lname = connection.prepareStatement(
-					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` WHERE `role`=? OR `role`=? ORDER BY `lname`,`fname` ASC  LIMIT ?, ?");
-
-			getRecords_fname = connection.prepareStatement(
-					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` WHERE AND `role`=? OR `role`=? ORDER BY `fname`,`lname` ASC  LIMIT ?, ?");
+			//TODO
+			getRecords_sorted = connection.prepareStatement(
+					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` ORDER BY ? ?  LIMIT ?, ?");
 
 			getUserRecords = connection.prepareStatement(
 					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active`, `role`, `email`, `dept` FROM `user` WHERE `id` = ?");
@@ -248,7 +244,8 @@ public class UserDao {
 		return pagebean;
 	}
 
-	public List<UserBean> getUserSearchList(String ssoid, String fname, String lname, String email, String dept) throws SQLException {
+	public List<UserBean> getUserSearchList(String ssoid, String fname, String lname, String email, String dept)
+			throws SQLException {
 		List<UserBean> userList = new ArrayList<UserBean>();
 		getRecords3.setString(1, ssoid);
 		getRecords3.setString(2, fname);
@@ -274,14 +271,15 @@ public class UserDao {
 
 	}
 
-	public UserBean getUserSearch(String ssoid, String fname, String lname, String email, String dept) throws SQLException {
+	public UserBean getUserSearch(String ssoid, String fname, String lname, String email, String dept)
+			throws SQLException {
 		UserBean user = new UserBean();
 		getRecords3.setString(1, ssoid);
 		getRecords3.setString(2, fname);
 		getRecords3.setString(3, lname);
 		getRecords3.setString(4, email);
 		getRecords3.setString(5, dept);
-		
+
 		ResultSet rs = getRecords3.executeQuery();
 		rs.next();
 		int row = rs.getRow();
@@ -326,7 +324,8 @@ public class UserDao {
 	}
 
 	public List<UserBean> getUserList(int role1, int role2, int start, int end) throws SQLException {
-		//"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active`
+		// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
+		// `active`
 		List<UserBean> userList = new ArrayList<UserBean>();
 		getRecords.setInt(1, role1);
 		getRecords.setInt(2, role2);
@@ -350,13 +349,24 @@ public class UserDao {
 		return userList;
 	}
 
-	public List<UserBean> getUserListLname(int role1, int role2, int start, int end) throws SQLException {
+	public List<UserBean> getUserListSorted(int start, int end, String col, String dir)
+			throws SQLException {
+		// SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
+		// `active` FROM `user` WHERE `role`=? OR `role`=? ORDER BY `?` ? LIMIT ?, ?"
+		// TODO
+		col = (col.equals(""))?"created":col;
+		dir = (dir.equals(""))?"ASC":dir;
+		
 		List<UserBean> userList = new ArrayList<UserBean>();
-		getRecords_lname.setInt(1, role1);
-		getRecords_lname.setInt(2, role2);
-		getRecords_lname.setInt(3, start);
-		getRecords_lname.setInt(4, end);
-		ResultSet results = getRecords_lname.executeQuery();
+		getRecords_sorted.setString(1, col);
+		getRecords_sorted.setString(2, dir);
+		getRecords_sorted.setInt(3, start);
+		getRecords_sorted.setInt(4, end);
+		
+		System.out.println(">>>>>sorting by " + col +" " + dir);
+		System.out.println(">>>>>paging by " + start +" " + end);
+				
+		ResultSet results = getRecords_sorted.executeQuery();
 
 		while (results.next()) {
 			UserBean user = new UserBean();
@@ -370,31 +380,7 @@ public class UserDao {
 			user.setDeleted(results.getInt(8));
 			user.setActive(results.getInt(9));
 			userList.add(user);
-		}
-		return userList;
-	}
-
-	public List<UserBean> getUserListFname(int role1, int role2, int start, int end) throws SQLException {
-		List<UserBean> userList = new ArrayList<UserBean>();
-		getRecords_fname.setInt(1, role1);
-		getRecords_fname.setInt(2, role2);
-		getRecords_fname.setInt(3, start);
-		getRecords_fname.setInt(4, end);
-
-		ResultSet results = getRecords_fname.executeQuery();
-
-		while (results.next()) {
-			UserBean user = new UserBean();
-			user.setId(results.getInt(1));
-			user.setSsoid(results.getString(2));
-			user.setFname(results.getString(3));
-			user.setLname(results.getString(4));
-			user.setEmail(results.getString(5));
-			user.setDept(results.getString(6));
-			user.setRole(results.getInt(7));
-			user.setDeleted(results.getInt(8));
-			user.setActive(results.getInt(9));
-			userList.add(user);
+			System.out.println(user.getSsoid() + " - " + user.getFname());
 		}
 		return userList;
 	}
@@ -412,7 +398,7 @@ public class UserDao {
 		addRecord.setInt(10, user.getActive());
 		addRecord.setInt(11, user.getDeleted());
 		addRecord.executeUpdate();
-		
+
 	}
 
 	protected void finalize() {
@@ -424,8 +410,6 @@ public class UserDao {
 			setActive.close();
 			getCount.close();
 			getRecords.close();
-			getRecords_lname.close();
-			getRecords_fname.close();
 			getUserRecords.close();
 			getRecords3.close();
 			deleteRecord.close();

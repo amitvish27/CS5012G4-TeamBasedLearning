@@ -55,8 +55,11 @@ public class ManageUserServlet extends HttpServlet {
 
 		try {
 			usrdao = new UserDao();
+			
 			PageBean pb = usrdao.getCount(user.getView1(), user.getView2());
-
+			
+			
+			// Entries per page
 			String recPerPgStr = (String) request.getParameter("ent");
 			if (recPerPgStr != null) {
 				recPerPage = Integer.parseInt(recPerPgStr);
@@ -64,8 +67,23 @@ public class ManageUserServlet extends HttpServlet {
 			} else {
 				pb.setRecordsPerPage(recPerPage);
 			}
-
-			pb.setSortBy("id");
+			
+			// Sorting page by
+			String sortBy= (String) request.getParameter("sort");
+			String sortDir= (String) request.getParameter("dir");
+			if(sortBy!=null) {
+				if(sortDir==null) {
+					sortDir="ASC";
+				}
+				pb.setSortBy(sortBy);
+			}
+			else{
+				sortBy="created"; //default
+				sortDir="ASC"; // default
+				pb.setSortBy("created"); // default
+			}
+			System.out.println("Sort in Manage " + sortBy + "_"+sortDir);
+			// Pagination
 			if (pageInteger <= 1) {
 				pb.setCurrentPage(0);
 				pb.setNextPage(recPerPage);
@@ -79,14 +97,17 @@ public class ManageUserServlet extends HttpServlet {
 				if (pb.getTotalRecords() > pb.getNextPage())
 					pb.setNextPage(pb.getCurrentPage());
 			}
-
-			List<UserBean> usrlist = usrdao.getUserList(user.getView1(), user.getView2(), pb.getCurrentPage(),
-					recPerPage);
+			
+			List<UserBean> usrlist = usrdao.getUserListSorted(pageInteger,
+					recPerPage,sortBy, sortDir);
+			
 			int totalpg = (int) Math.ceil((double)pb.getTotalRecords() / (double)pb.getRecordsPerPage());
 			request.setAttribute("maxpg", totalpg);
 			request.setAttribute("usrlist", usrlist);
 			request.setAttribute("pb", pb);
 			request.setAttribute("crtpg", pageInteger);
+			request.setAttribute("sortBy", sortBy);
+			request.setAttribute("sortDir", sortDir);
 			request.setAttribute("recPerPgStr", pb.getRecordsPerPage());
 		} catch (Exception e) {
 			e.printStackTrace();

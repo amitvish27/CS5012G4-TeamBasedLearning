@@ -27,155 +27,192 @@
 	<div id="wrapper">
 		<!-- Navbar -->
 		<%@include file="partials/navbarPartial.jsp"%>
-		
+
 		<!-- Content Body -->
 		<div class="container-fluid ">
-			<div class="container text-center">
-				<div class="panel panel-default top-buffer">
-					<div class="panel-body form-group">
-						<div class="row">
-							<div class="col-md-offset-2 col-md-8 h3 text-center">User
-								Management</div>
-						</div>
-					</div>
-				</div>
-			</div>
 			<div class="container">
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body ">
-						<table class="table table-hover">
-							<thead>
-								<tr>
-									<th style="padding-left: 5em" colspan=3>Users list</th>
-									<th>&nbsp;</th>
-									<th>&nbsp;</th>
-									<th>&nbsp;</th>
-									<th>&nbsp;</th>
-									<th>&nbsp;</th>
-									<th><button type="button" class="btn btn-link btn-sm"
-											onclick="onUserAdd()">
-											<span class="glyphicon glyphicon-plus"></span> Add new record
-										</button></th>
-								</tr>
-								<tr>
-									<th>&nbsp;</th>
-									<th>SSOID</th>
-									<th><a href="ListUserFname">Firstname</a></th>
-									<th><a href="ListUserLname">Lastname</a></th>
-									<th>Email</th>
-									<th>Department</th>
-									<th>Role</th>
-									<th>Active?</th>
-									<th>Deleted?</th>
-								</tr>
-							</thead>
-							<c:forEach var="user" items="${usrlist}">
-								<tbody>
+						<fieldset>
+							<legend style="text-align:center;"> User Management </legend>
+							<input type='hidden' id="idSortBy" value="${sortBy}" /> <input
+								type='hidden' id="idSortDir" value="${sortDir}" />
+							<table class="table table-hover">
+								<thead>
 									<tr>
-										<td><input type="radio" name="sel_user_id"
-											id="sel_user_id" value="${user.getId()}"></td>
-										<td><p id="sel_user_ssoid${user.getId()}">${user.getSsoid()}</p></td>
-										<td><p id="sel_user_fname${user.getId()}">${user.getFname()}</p></td>
-										<td><p id="sel_user_lname${user.getId()}">${user.getLname()}</p></td>
-										<td><p id="sel_user_email${user.getId()}">${user.getEmail()}
-											</p></td>
-										<td><p id="sel_user_dept${user.getId()}">${user.getDept()}</p></td>
-										<td><input id="sel_user_role${user.getId()}"
-											type="hidden" value="${user.getRole()}" /> <c:choose>
-												<c:when test="${user.getRole() eq 2}">
+										<th style="padding-left: 5em" colspan=3>Users list</th>
+										<th>&nbsp;</th>
+										<th>&nbsp;</th>
+										<th>&nbsp;</th>
+										<th>&nbsp;</th>
+										<th>&nbsp;</th>
+										<th><button type="button" class="btn btn-link btn-sm"
+												onclick="onUserAdd()">
+												<span class="glyphicon glyphicon-plus"></span> Add new
+												record
+											</button></th>
+									</tr>
+									<tr>
+										<th>&nbsp;</th>
+										<th>SSOID<input type="hidden" id="ssoidSortDir" value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('ssoid')">
+												<span id="ssoidSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button>
+										</th>
+										<th>Firstname <input type="hidden" id="fnameSortDir"
+											value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('fname')">
+												<span id="fnameSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button>
+										</th>
+										<th>Lastname<input type="hidden" id="lnameSortDir"
+											value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('lname')">
+												<span id="lnameSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+										<th>Email<input type="hidden" id="emailSortDir" value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('email')">
+												<span id="emailSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+										<th>Department<input type="hidden" id="deptSortDir"
+											value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('dept')">
+												<span id="deptSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+										<th>Role <input type="hidden" id="roleSortDir" value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('role')">
+												<span id="roleSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button>
+										</th>
+										<th>Active? <input type="hidden" id="activeSortDir"
+											value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('active')">
+												<span id="activeSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button>
+										</th>
+										<th>Deleted?<input type="hidden" id="deletedSortDir"
+											value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('deleted')">
+												<span id="deletedSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+									</tr>
+								</thead>
+								<c:forEach var="user" items="${usrlist}">
+									<tbody>
+										<tr>
+											<td><input type="radio" name="sel_user_id"
+												id="sel_user_id" value="${user.getId()}"></td>
+											<td><p id="sel_user_ssoid${user.getId()}">${user.getSsoid()}</p></td>
+											<td><p id="sel_user_fname${user.getId()}">${user.getFname()}</p></td>
+											<td><p id="sel_user_lname${user.getId()}">${user.getLname()}</p></td>
+											<td><p id="sel_user_email${user.getId()}">${user.getEmail()}
+												</p></td>
+											<td><p id="sel_user_dept${user.getId()}">${user.getDept()}</p></td>
+											<td><input id="sel_user_role${user.getId()}"
+												type="hidden" value="${user.getRole()}" /> <c:choose>
+													<c:when test="${user.getRole() eq 2}">
 															Admin
 														</c:when>
-												<c:when test="${user.getRole() eq 1}">
+													<c:when test="${user.getRole() eq 1}">
 															Instructor
 														</c:when>
-												<c:otherwise>
+													<c:otherwise>
 															Student
 														</c:otherwise>
-											</c:choose></td>
-										<td><input id="sel_user_active${user.getId()}"
-											type="hidden" value="${user.getActive()}" /> <c:choose>
-												<c:when test="${user.getActive() eq 1}">
+												</c:choose></td>
+											<td><input id="sel_user_active${user.getId()}"
+												type="hidden" value="${user.getActive()}" /> <c:choose>
+													<c:when test="${user.getActive() eq 1}">
 															Yes
 														</c:when>
-												<c:otherwise>
+													<c:otherwise>
 															No
 														</c:otherwise>
-											</c:choose></td>
-										<td><input id="sel_user_deleted${user.getId()}"
-											type="hidden" value="${user.getDeleted()}" /> <c:choose>
-												<c:when test="${user.getDeleted() eq 1}">
+												</c:choose></td>
+											<td><input id="sel_user_deleted${user.getId()}"
+												type="hidden" value="${user.getDeleted()}" /> <c:choose>
+													<c:when test="${user.getDeleted() eq 1}">
 															Yes
 														</c:when>
-												<c:otherwise>
+													<c:otherwise>
 															No
 														</c:otherwise>
-											</c:choose></td>
-									</tr>
-								</tbody>
-							</c:forEach>
+												</c:choose></td>
+										</tr>
+									</tbody>
+								</c:forEach>
 
-							<tfoot>
-								<tr>
-									<td colspan=2><button type="button" value="edit"
-											class="btn btn-default" onclick="onUserEdit()">Edit</button></td>
-									<td><button type="button" value="delete"
-											class="btn btn-default" onclick="onUserDelete()">Delete</button></td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td colspan=2>
-										<div class="form-inline">
-											<div class="form-group">
-												Show <select class="form-control" id="selShowEntries"
-													onchange="showEntries()">
-													<option value=10
-														<c:if test="${recPerPgStr eq 10}"> selected</c:if>>10</option>
-													<option value=25
-														<c:if test="${recPerPgStr eq 25}"> selected</c:if>>25</option>
-													<option value=50
-														<c:if test="${recPerPgStr eq 50}"> selected</c:if>>50</option>
-													<option value=100
-														<c:if test="${recPerPgStr eq 100}"> selected</c:if>>100</option>
-												</select> Entries
+								<tfoot>
+									<tr>
+										<td colspan=2><button type="button" value="edit"
+												class="btn btn-default" onclick="onUserEdit()">Edit</button></td>
+										<td><button type="button" value="delete"
+												class="btn btn-default" onclick="onUserDelete()">Delete</button></td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td colspan=2>
+											<div class="form-inline">
+												<div class="form-group">
+													Show <select class="form-control" id="selShowEntries"
+														onchange="showEntries()">
+														<option value=10
+															<c:if test="${recPerPgStr eq 10}"> selected</c:if>>10</option>
+														<option value=25
+															<c:if test="${recPerPgStr eq 25}"> selected</c:if>>25</option>
+														<option value=50
+															<c:if test="${recPerPgStr eq 50}"> selected</c:if>>50</option>
+														<option value=100
+															<c:if test="${recPerPgStr eq 100}"> selected</c:if>>100</option>
+													</select> Entries
+												</div>
 											</div>
-										</div>
-									</td>
-									<td colspan=2>
-										<table class="input-group">
-											<tr>
-												<td>
-													<button id="page_prevBtn" type="button"
-														onclick="loadUsersAtPage(0)" style="height: 2.4em"
-														class="btn btn-link"
-														<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
+										</td>
+										<td colspan=2>
+											<table class="input-group">
+												<tr>
+													<td>
+														<button id="page_prevBtn" type="button"
+															onclick="loadUsersAtPage(0)" style="height: 2.4em"
+															class="btn btn-link"
+															<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
 
-														<span class="glyphicon glyphicon-triangle-left"></span>
-													</button>
-												</td>
-												<td><input type="hidden" id="crtpg" value="${crtpg}" />
-													<input type="hidden" id="maxpg" value="${maxpg}" /> <input
-													id="userpage" name="userpage" type="text"
-													style="width: 4em; height: 2.4em" class="form-control "
-													placeholder="${crtpg}/${maxpg}"
-													onfocusout="goToUsersPage()" /></td>
-												<td>
-													<button id="page_nextBtn" type="button"
-														onclick="loadUsersAtPage(1)" style="height: 2.4em"
-														class="btn btn-link"
-														<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
-														<span class="glyphicon glyphicon-triangle-right"></span>
-													</button>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</tfoot>
-						</table>
+															<span class="glyphicon glyphicon-triangle-left"></span>
+														</button>
+													</td>
+													<td><input type="hidden" id="crtpg" value="${crtpg}" />
+														<input type="hidden" id="maxpg" value="${maxpg}" /> <input
+														id="userpage" name="userpage" type="text"
+														style="width: 4em; height: 2.4em" class="form-control "
+														placeholder="${crtpg}/${maxpg}"
+														onfocusout="goToUsersPage()" /></td>
+													<td>
+														<button id="page_nextBtn" type="button"
+															onclick="loadUsersAtPage(1)" style="height: 2.4em"
+															class="btn btn-link"
+															<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
+															<span class="glyphicon glyphicon-triangle-right"></span>
+														</button>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</tfoot>
+							</table>
+					</fieldset>
 					</div>
 				</div>
 			</div>
 			<div>
-				<input id="errMsg" type="hidden" value="${errMsg}"/>
+				<input id="errMsg" type="hidden" value="${errMsg}" />
 			</div>
 		</div>
 
@@ -185,7 +222,8 @@
 			<div class="modal-dialog">
 				<!-- Modal content-->
 				<div class="modal-content">
-					<form class="form-horizontal" id="addUpdateForm" action="UpdateUser" method="post">
+					<form class="form-horizontal" id="addUpdateForm"
+						action="UpdateUser" method="post">
 						<div class="modal-header">
 							<button type="button" class="close" data-dismiss="modal"
 								onclick="clearUserUpdateModal()">&times;</button>
@@ -198,16 +236,15 @@
 								</div>
 							</div>
 							<div class="form-group">
-									<div class="col-md-4 col-sm-4"></div>
-									<div class="col-md-4 col-sm-4 errorFont"
-										id="divValidateResult"></div>
-								</div>
+								<div class="col-md-4 col-sm-4"></div>
+								<div class="col-md-4 col-sm-4 errorFont" id="divValidateResult"></div>
+							</div>
 							<div class="form-group">
 								<label for="mod_user_ssoId"
 									class="control-label col-md-4 col-sm-4">SsoId</label>
 								<div class="col-md-4 col-sm-4">
 									<input id="mod_user_ssoId" type="text" name="mod_user_ssoId"
-										class="form-control" required/>
+										class="form-control" required />
 								</div>
 							</div>
 
@@ -216,7 +253,7 @@
 									class="control-label col-md-4 col-sm-4">First Name</label>
 								<div class="col-md-4 col-sm-4">
 									<input id="mod_user_fname" type="text" name="mod_user_fname"
-										class="form-control" required/>
+										class="form-control" required />
 								</div>
 							</div>
 
@@ -225,7 +262,7 @@
 									class="control-label col-md-4 col-sm-4">Last Name</label>
 								<div class="col-md-4 col-sm-4">
 									<input id="mod_user_lname" type="text" name="mod_user_lname"
-										class="form-control" required/>
+										class="form-control" required />
 								</div>
 							</div>
 
@@ -234,7 +271,7 @@
 									class="control-label col-md-4 col-sm-4">Email</label>
 								<div class="col-md-4 col-sm-4">
 									<input id="mod_user_email" type="email" name="mod_user_email"
-										class="form-control" onfocusout="isValidEmail()" required/>
+										class="form-control" onfocusout="isValidEmail()" required />
 								</div>
 							</div>
 
@@ -243,7 +280,7 @@
 									class="control-label col-md-4 col-sm-4">Department</label>
 								<div class="col-md-4 col-sm-4">
 									<input id="mod_user_dept" type="text" name="mod_user_dept"
-										class="form-control" required/>
+										class="form-control" required />
 								</div>
 							</div>
 
