@@ -34,15 +34,24 @@
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body ">
 						<fieldset>
-							<legend style="text-align:center;"> User Management </legend>
+							<legend style="text-align: center;"> User Management </legend>
 							<input type='hidden' id="idSortBy" value="${sortBy}" /> <input
 								type='hidden' id="idSortDir" value="${sortDir}" />
 							<table class="table table-hover">
 								<thead>
 									<tr>
 										<th style="padding-left: 5em" colspan=3>Users list</th>
-										<th>&nbsp;</th>
-										<th>&nbsp;</th>
+										<th colspan=2><div class="input-group">
+												<input id="idsearchtext" type="text" class="form-control input-sm"
+													placeholder="Search" /> <span class="input-group-btn">
+													<button class="btn btn-info btn-sm" type="button" onclick="onSearch()">
+														<i class="glyphicon glyphicon-search"></i>
+													</button>
+													<button class="btn btn-link btn-sm" type="button" onclick="onRefresh()">
+														<i class="glyphicon glyphicon-refresh"></i>
+													</button>
+												</span>
+											</div></th>
 										<th>&nbsp;</th>
 										<th>&nbsp;</th>
 										<th>&nbsp;</th>
@@ -207,7 +216,7 @@
 									</tr>
 								</tfoot>
 							</table>
-					</fieldset>
+						</fieldset>
 					</div>
 				</div>
 			</div>

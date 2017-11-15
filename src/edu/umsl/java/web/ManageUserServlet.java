@@ -37,6 +37,10 @@ public class ManageUserServlet extends HttpServlet {
 			request.setAttribute("errMsg", errMsg);
 			session.removeAttribute("message");
 		}
+		
+		String idsearchtext = request.getParameter("search");
+		idsearchtext = (idsearchtext==null)?"":idsearchtext ; 
+		
 		int role = (session.getAttribute("userRole") != null) ? (int) (session.getAttribute("userRole")) : 0;
 
 		UserBean user = new UserBean();
@@ -56,8 +60,7 @@ public class ManageUserServlet extends HttpServlet {
 		try {
 			usrdao = new UserDao();
 			
-			PageBean pb = usrdao.getCount(user.getView1(), user.getView2());
-			
+			PageBean pb = usrdao.getCount();
 			
 			// Entries per page
 			String recPerPgStr = (String) request.getParameter("ent");
@@ -99,7 +102,7 @@ public class ManageUserServlet extends HttpServlet {
 			}
 			
 			List<UserBean> usrlist = usrdao.getUserListSorted(pageInteger,
-					recPerPage,sortBy, sortDir);
+					recPerPage,sortBy, sortDir, idsearchtext);
 			
 			int totalpg = (int) Math.ceil((double)pb.getTotalRecords() / (double)pb.getRecordsPerPage());
 			request.setAttribute("maxpg", totalpg);

@@ -170,3 +170,13 @@ function sortColumn(v) {
 	console.log("new url :" + url);
 	document.location.href = "ManageUser" + url;
 }
+
+function onSearch() {
+	var searchText = $("#idsearchtext").val();
+	document.location.href = "ManageUser" + "?search="+searchText;
+}
+function onRefresh() {
+	$("#idsearchtext").val('');
+	document.location.href = "ManageUser";
+}
+
