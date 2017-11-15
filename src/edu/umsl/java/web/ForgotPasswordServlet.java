@@ -9,11 +9,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import edu.umsl.java.beans.Instructor;
-import edu.umsl.java.dao.InstructorDao;
-import edu.umsl.java.util.MailApi;
-import edu.umsl.java.util.RandomString;
-import edu.umsl.java.util.ReadProperties;
+import edu.umsl.java.beans.UserBean;
+import edu.umsl.java.dao.UserDao;
+import edu.umsl.java.util.GeneratePassword;
 
 /**
  * Servlet implementation class ForgotPasswordServlet
@@ -43,25 +41,12 @@ public class ForgotPasswordServlet extends HttpServlet {
 				divclass += "alert-danger";
 				msgText = "Fields cannot be blank or NULL.";
 			} else {
-				Instructor inst = new InstructorDao().getInstructorBySsoId(ssoid);
+				UserBean inst = new UserDao().getInstructorBySsoId(ssoid);
 
 				if (inst!=null && inst.getSsoid() != null && inst.getEmail().equals(email)) {
 					// Success, create a random password and set the db
 					if (inst.getActive() == 1) {
-						String randString = new RandomString(8).nextString();
-						InstructorDao instDao = new InstructorDao();
-						instDao.saveInstPswd(ssoid, randString, ssoid);
-
-						// email the password to the user's email given
-						String mailFrom = ReadProperties.getMailUser();
-						String mailPswd = ReadProperties.getMailPswd();
-						String mailSub = "UMSLTeamBasedLearning - Password Reset";
-						String mailMsg = "Hi " + inst.getFname() + "," + "\n\nYour temporary password is: " + randString
-								+ "\n\nWe advise you to change your password when you login."
-								+ "\n\nThis is an auto generated mail. Please do not reply directly to this mail."
-								+ "\n\nBest Regards,\nAdmin Team";
-						MailApi.send(mailFrom, mailPswd, email, mailSub, mailMsg);
-
+						GeneratePassword.generateTempPassword(ssoid, inst);
 						divclass += "alert-success";
 						msgText = "An Email has been sent out with a temporary password. Please check your email.";
 					} else if (inst.getActive() == 0) {

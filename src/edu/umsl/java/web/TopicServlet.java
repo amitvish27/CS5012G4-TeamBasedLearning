@@ -25,9 +25,6 @@ public class TopicServlet extends HttpServlet {
 			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
-		if (session.getAttribute("userFirstName") == null) {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-		}
 
 		try {
 			JsonObject jsonObject = getTopicJson(session, request);

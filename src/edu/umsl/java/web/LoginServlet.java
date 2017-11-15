@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.umsl.java.beans.Instructor;
-import edu.umsl.java.dao.InstructorDao;
+import edu.umsl.java.beans.UserBean;
+import edu.umsl.java.dao.UserDao;
 
 /**
  * Servlet implementation class LoginServlet
@@ -45,7 +45,7 @@ public class LoginServlet extends HttpServlet {
 			request.setAttribute("errorMessage",
 					"Login attempt maxed out." + " Please contact admin to activate your account.");
 			try {
-				new InstructorDao().setInstActive(sso_id, 0, sso_id);
+				new UserDao().setInstActive(sso_id, 0, sso_id);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -54,7 +54,7 @@ public class LoginServlet extends HttpServlet {
 		} else {
 
 			try {
-				Instructor inst = new InstructorDao().getInstructorBySsoId(sso_id);
+				UserBean inst = new UserDao().getInstructorBySsoId(sso_id);
 				//check if user account is active
 				if(inst==null || inst.getSsoid() == null) {
 					request.setAttribute("errorMessage", "Account does not exists. ");

@@ -12,7 +12,7 @@ import java.util.Set;
 
 import javax.servlet.UnavailableException;
 
-import edu.umsl.java.beans.Course;
+import edu.umsl.java.beans.CourseBean;
 import edu.umsl.java.util.ReadProperties;
 
 public class CourseDao {
@@ -25,7 +25,7 @@ public class CourseDao {
 	private PreparedStatement saveCourse;
 	private PreparedStatement countCourse;
 	private PreparedStatement setInstructor;
-	private List<Course> courseList;
+	private List<CourseBean> courseList;
 
 	public CourseDao() throws Exception {
 		try {
@@ -62,14 +62,14 @@ public class CourseDao {
 		}
 	}
 
-	public List<Course> getCourseList() {
-		List<Course> courseList = new ArrayList<Course>();
+	public List<CourseBean> getCourseList() {
+		List<CourseBean> courseList = new ArrayList<CourseBean>();
 
 		try {
 			ResultSet res = results.executeQuery();
 
 			while (res.next()) {
-				Course course = new Course();
+				CourseBean course = new CourseBean();
 				course.setId(res.getInt(1));
 				course.setCode(res.getString(2));
 				course.setTitle(res.getString(3));
@@ -85,15 +85,15 @@ public class CourseDao {
 		return courseList;
 	}
 
-	public Course getCourseById(int id) {
+	public CourseBean getCourseById(int id) {
 
-		Course course = null;
+		CourseBean course = null;
 		try {
 			courseById.setInt(0, id);
 			ResultSet res = courseById.executeQuery();
 			res.next();
 
-			course = new Course();
+			course = new CourseBean();
 			course.setId(res.getInt(1));
 			course.setCode(res.getString(2));
 			course.setTitle(res.getString(3));
@@ -107,15 +107,15 @@ public class CourseDao {
 		return course;
 	}
 
-	public List<Course> getCoursesListByPage(int pg) throws SQLException {
-		List<Course> courses_List = new ArrayList<Course>();
+	public List<CourseBean> getCoursesListByPage(int pg) throws SQLException {
+		List<CourseBean> courses_List = new ArrayList<CourseBean>();
 		int st = 10 * (pg - 1); // st->starting point ; pg -> page
 		try {
 			pageresults.setInt(1, st);
 			pageresults.setInt(2, 10);
 			ResultSet resultsRs = pageresults.executeQuery();
 			while (resultsRs.next()) {
-				Course course = new Course();
+				CourseBean course = new CourseBean();
 				// id, code, title, year, semester, instructor
 				course.setId(resultsRs.getInt(1));
 				course.setCode(resultsRs.getString(2));
@@ -198,14 +198,14 @@ public class CourseDao {
 		}
 	}
 
-	public List<Course> getCourseListByInstructor() {
-		courseList = new ArrayList<Course>();
+	public List<CourseBean> getCourseListByInstructor() {
+		courseList = new ArrayList<CourseBean>();
 
 		try {
 			ResultSet res = setInstructor.executeQuery();
 
 			while (res.next()) {
-				Course course = new Course();
+				CourseBean course = new CourseBean();
 				course.setId(res.getInt(1));
 				course.setCode(res.getString(2));
 				course.setTitle(res.getString(3));
@@ -232,9 +232,9 @@ public class CourseDao {
 
 	}
 
-	public List<Integer> getDistinctYear(List<Course> list) {
+	public List<Integer> getDistinctYear(List<CourseBean> list) {
 		List<Integer> tempList = new ArrayList<>();
-		for (Course c : list) {
+		for (CourseBean c : list) {
 			tempList.add(c.getYear());
 		}
 		Set<Integer> set = new HashSet<>();
@@ -244,9 +244,9 @@ public class CourseDao {
 		return tempList;
 	}
 
-	public List<String> getDistinctSemester(List<Course> list) {
+	public List<String> getDistinctSemester(List<CourseBean> list) {
 		List<String> tempList = new ArrayList<>();
-		for (Course c : list) {
+		for (CourseBean c : list) {
 			tempList.add(c.getSemester());
 		}
 		Set<String> set = new HashSet<>();
@@ -258,7 +258,7 @@ public class CourseDao {
 
 	public List<String> getSemesterByInstructor(int year) {
 		List<String> tempList = new ArrayList<>();
-		for (Course c : courseList) {
+		for (CourseBean c : courseList) {
 			if (c.getYear() == year) {
 				tempList.add(c.getSemester());
 			}
@@ -270,9 +270,9 @@ public class CourseDao {
 		return tempList;
 	}
 
-	public List<Course> getCourseByInstructor(int year, String semester) {
-		List<Course> tempList = new ArrayList<>();
-		for (Course c : courseList) {
+	public List<CourseBean> getCourseByInstructor(int year, String semester) {
+		List<CourseBean> tempList = new ArrayList<>();
+		for (CourseBean c : courseList) {
 			if (c.getYear() == year && c.getSemester() == semester) {
 				tempList.add(c);
 			}

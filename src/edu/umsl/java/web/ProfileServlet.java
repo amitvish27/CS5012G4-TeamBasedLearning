@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.umsl.java.beans.Instructor;
-import edu.umsl.java.dao.InstructorDao;
+import edu.umsl.java.beans.UserBean;
+import edu.umsl.java.dao.UserDao;
 
 /**
  * Servlet implementation class ProfileServlet
@@ -31,8 +31,8 @@ public class ProfileServlet extends HttpServlet {
 		
 		try {
 			String ssoid = (String) session.getAttribute("userId");
-			InstructorDao instDao = new InstructorDao();
-			Instructor inst = instDao.getInstructorBySsoId(ssoid);
+			UserDao instDao = new UserDao();
+			UserBean inst = instDao.getInstructorBySsoId(ssoid);
 			request.setAttribute("attrFname",inst.getFname());
 			request.setAttribute("attrLname",inst.getLname());
 			request.setAttribute("attrEmail",inst.getEmail());

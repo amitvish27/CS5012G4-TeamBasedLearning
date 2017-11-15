@@ -23,7 +23,7 @@ function goToTopicsAtPage() {
 }
 
 function delTopicByID(id) {
-	var ans = confirm("Are you sure you want to delete the selected item?");
+	var ans = confirm("Are you sure you want to delete the selected record?");
 	if(ans){
 		document.location.href = "DelTopic?id=" + id;
 	}

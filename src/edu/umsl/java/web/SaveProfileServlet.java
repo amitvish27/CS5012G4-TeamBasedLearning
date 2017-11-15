@@ -10,8 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import edu.umsl.java.beans.Instructor;
-import edu.umsl.java.dao.InstructorDao;
+import edu.umsl.java.beans.UserBean;
+import edu.umsl.java.dao.UserDao;
 
 /**
  * Servlet implementation class SaveProfileServlet
@@ -36,7 +36,7 @@ public class SaveProfileServlet extends HttpServlet {
 		response.setContentType("text/html");
 		PrintWriter out = response.getWriter();
 		
-		InstructorDao instDao = null;
+		UserDao instDao = null;
 		String divclass = "modal-dialog modal-sm alert ";
 		String msgText = "";
 
@@ -45,7 +45,7 @@ public class SaveProfileServlet extends HttpServlet {
 			// if type profile then do save Profile
 			if (type.equals("profileUpdate")) {
 				// get parameters needed to update the profile
-				instDao = new InstructorDao();
+				instDao = new UserDao();
 				String ssoid = request.getParameter("ssoid");
 				String fname = request.getParameter("fname");
 				String lname = request.getParameter("lname");
@@ -62,11 +62,11 @@ public class SaveProfileServlet extends HttpServlet {
 			// else if type password then dp save passwd
 			else if (type.equals("pswdUpdate")) {
 				// first check password
-				instDao = new InstructorDao();
+				instDao = new UserDao();
 				String ssoid = request.getParameter("ssoid");
 				String currpwd = request.getParameter("currpwd");
 				String newpwd = request.getParameter("newpwd");
-				Instructor inst = instDao.getInstructorBySsoId(ssoid);
+				UserBean inst = instDao.getInstructorBySsoId(ssoid);
 				if (inst.getPswd().equals(currpwd)) {
 					// update password
 					instDao.saveInstPswd(ssoid, newpwd, modifiedby);

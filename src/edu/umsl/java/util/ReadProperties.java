@@ -54,6 +54,16 @@ public class ReadProperties {
 		temp = prop.getProperty("mail.pswd");
 		return temp;
 	}
+
+	public static boolean getSendMail() {
+		String temp = null;
+		temp = prop.getProperty("sendmail");
+		if(temp!=null)
+		{
+			return Boolean.parseBoolean(temp);
+		}
+		return false;
+	}
 	
 }
 

@@ -9,9 +9,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import edu.umsl.java.beans.Course;
+import edu.umsl.java.beans.CourseBean;
 import edu.umsl.java.dao.CourseDao;
 
 /**
@@ -23,11 +22,6 @@ public class CourseServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		HttpSession session = request.getSession();
-		if(session.getAttribute("userFirstName")==null) {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-		}
 		
 		CourseDao courseDao = null;
 
@@ -52,7 +46,7 @@ public class CourseServlet extends HttpServlet {
 			int cnt = courseDao.getCoursesCount();
 			int totalpg = (int) Math.ceil(cnt / 10.0);
 
-			List<Course> courses_List = courseDao.getCoursesListByPage(pg);
+			List<CourseBean> courses_List = courseDao.getCoursesListByPage(pg);
 
 			if (pg < 1) {
 				pg = 1;

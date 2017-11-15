@@ -31,7 +31,7 @@
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body form-group">
 						<div class="row">
-							<div class="col-md-offset-2 col-md-8 h2 text-center">Course
+							<div class="col-md-offset-2 col-md-8 h3 text-center">Course
 								creation and management</div>
 						</div>
 						<div class="row top-buffer">
@@ -67,7 +67,7 @@
 								<th>&nbsp;</th>
 								<th>&nbsp;</th>
 								<th>&nbsp;</th>
-								<th><button type="button" class="btn btn-link" data-toggle="modal"
+								<th><button type="button" class="btn btn-link btn-sm" data-toggle="modal"
 									data-target="#createNewModal">
 									<span class="glyphicon glyphicon-plus"></span> Add new record
 								</button></th>
@@ -114,7 +114,7 @@
 										<table class="input-group">
 											<tr>
 												<td>
-													<button type="button" onclick="goToCoursesAtPage(0)"
+													<button type="button" onclick="loadCoursesAtPage(0)"
 														style="height: 2.4em" class="btn btn-link"
 														<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
 														<span class="glyphicon glyphicon-triangle-left"></span>
@@ -125,7 +125,7 @@
 													placeholder="${crtpg}/${maxpg}"
 													onfocusout="goToCoursesAtPage()" /></td>
 												<td>
-													<button type="button" onclick="goToCoursesAtPage(1)"
+													<button type="button" onclick="loadCoursesAtPage(1)"
 														style="height: 2.4em" class="btn btn-link"
 														<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
 														<span class="glyphicon glyphicon-triangle-right"></span>

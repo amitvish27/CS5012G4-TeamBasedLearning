@@ -35,7 +35,7 @@
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body form-group">
 						<div class="row">
-							<div class="col-md-offset-2 col-md-8 h2 text-center">Topic
+							<div class="col-md-offset-2 col-md-8 h3 text-center">Topic
 								Creation and Management</div>
 						</div>
 						<div class="form-inline top-buffer">
@@ -99,7 +99,7 @@
 								<tr>
 									<th width="70%" style="padding-left: 5em">Topics list</th>
 									<th width="30%" style="padding-left: 5em"><button
-											type="button" class="btn btn-link" data-toggle="modal"
+											type="button" class="btn btn-link btn-sm" data-toggle="modal"
 											data-target="#createNewModal">
 											<span class="glyphicon glyphicon-plus"></span> Add new record
 										</button></th>
