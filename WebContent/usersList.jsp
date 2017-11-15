@@ -19,7 +19,7 @@
 
 <link href="css/template.css" rel="stylesheet">
 
-<script src="js/manageUsersPage.js"></script>
+<script src="js/usersPage.js"></script>
 <script src="js/profilePage.js"></script>
 </head>
 
