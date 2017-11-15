@@ -27,116 +27,139 @@
 		<!-- Content Body -->
 		<div class="container-fluid">
 			<input id="crtpg" type="hidden" value="${crtpg}" />
+
 			<div class="container">
 				<div class="panel panel-default top-buffer">
-					<div class="panel-body form-group">
-						<div class="row">
-							<div class="col-md-offset-2 col-md-8 h3 text-center">Course
-								creation and management</div>
-						</div>
-						<div class="row top-buffer">
-							<div class="col-md-offset-1">
-								<h4 id="F-text">View By:&nbsp;</h4>
-								<select id="select_box">
-									<option value="all" selected>All</option>
-									<option value="year">Years</option>
-									<option value="semester">Semester</option>
-								</select>
-								<button>Show</button>
-							</div>
-						</div>
+					<div class="panel-body ">
 						<div class="row top-buffer">
 							<div class="col-md-offset-2 col-sm-4 col-md-6 text-center">
 								<span id="proberrmsg" class="errorFont"> <c:if
 										test="${param.err > 0}">Please select the required content of your course.</c:if>
 								</span>
 							</div>
-							
 						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="container">
-				<div class="panel panel-default top-buffer">
-					<div class="panel-body ">
-						<table class="table table-striped table-hover">
-							<thead>
-								<tr>
-								<th style="padding-left: 5em">Course list</th>
-								<th>&nbsp;</th>
-								<th>&nbsp;</th>
-								<th>&nbsp;</th>
-								<th><button type="button" class="btn btn-link btn-sm" data-toggle="modal"
-									data-target="#createNewModal">
-									<span class="glyphicon glyphicon-plus"></span> Add new record
-								</button></th>
-								</tr>
-								<tr>
-									<th>Code</th>
-									<th>Title</th>
-									<th>Year</th>
-									<th>Semester</th>
-									<th class="text-center">Action</th>
-								</tr>
-							</thead>
-							<tbody>
-								<c:forEach var="course" items="${courses_List}">
+						<fieldset>
+							<legend style="text-align: center;"> Course Management </legend>
+							
+							<input type='hidden' id="idSortBy" value="${sortBy}" /> <input
+								type='hidden' id="idSortDir" value="${sortDir}" />
+							
+							<table class="table table-striped table-hover table-condensed">
+								<thead>
 									<tr>
-										<td id="code${course.getId()}">${course.getCode()}</td>
-										<td id="title${course.getId()}">${course.getTitle()}</td>
-										<td id="year${course.getId()}">${course.getYear()}</td>
-										<td id="semester${course.getId()}">${course.getSemester()}</td>
-										<td class="text-center">
-											<div class="input-group-btn">
-												<button id="editbtn${course.getId()}" type="button"
-													onclick="editThisCourseAjax(${course.getId()})"
-													style="height: 2.4em" class="btn btn-link">
-													<span class="glyphicon glyphicon-edit editButtonIcon"></span>
-												</button>
-												<button type="button"
-													onclick="delThisCourse(${course.getId()}, ${crtpg})"
-													style="height: 2.4em" class="btn btn-link">
-													<span class="glyphicon glyphicon-trash trashButtonIcon"></span>
-												</button>
-											</div>
+										<th style="padding-left: 5em" colspan=2>Course list</th>
+										<th colspan=2><div class="input-group">
+												<input id="idsearchtext" type="text"
+													class="form-control input-sm" placeholder="Search" /> <span
+													class="input-group-btn">
+													<button class="btn btn-info btn-sm" type="button"
+														onclick="onSearch()">
+														<i class="glyphicon glyphicon-search"></i>
+													</button>
+													<button class="btn btn-link btn-sm" type="button"
+														onclick="onRefresh()">
+														<i class="glyphicon glyphicon-refresh"></i>
+													</button>
+												</span>
+											</div></th>
+										<th>&nbsp;</th>
+										<th><button type="button" class="btn btn-link btn-sm"
+												data-toggle="modal" data-target="#createNewModal">
+												<span class="glyphicon glyphicon-plus"></span> Add new
+												record
+											</button></th>
+									</tr>
+									<tr>
+										<th>&nbsp;</th>
+										<th>Code<input type="hidden" id="codeSortDir" value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('code')">
+												<span id="codeSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+										<th>Title<input type="hidden" id="titleSortDir" value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('title')">
+												<span id="titleSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+										<th>Year<input type="hidden" id="yearSortDir" value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('year')">
+												<span id="yearSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+										<th>Semester<input type="hidden" id="semesterSortDir"
+											value="" />
+											<button type="button" class="btn btn-link btn-sm"
+												onclick="sortColumn('semester')">
+												<span id="semesterSortIcon" class="glyphicon glyphicon-sort"></span>
+											</button></th>
+										<th class="text-center">Action
+											<button type="button" hidden="true"
+												class="btn btn-link btn-sm disabled " >
+												<span class="glyphicon"></span>
+											</button>
+										</th>
+									</tr>
+								</thead>
+								<tbody>
+									<c:forEach var="course" items="${courses_List}">
+										<tr>
+											<td>&nbsp;</td>
+											<td id="code${course.getId()}">${course.getCode()}</td>
+											<td id="title${course.getId()}">${course.getTitle()}</td>
+											<td id="year${course.getId()}">${course.getYear()}</td>
+											<td id="semester${course.getId()}">${course.getSemester()}</td>
+											<td class="text-center">
+												<div class="input-group-btn">
+													<button id="editbtn${course.getId()}" type="button"
+														onclick="editThisCourseAjax(${course.getId()})"
+														style="height: 2.4em" class="btn btn-link">
+														<span class="glyphicon glyphicon-edit editButtonIcon"></span>
+													</button>
+													<button type="button"
+														onclick="delThisCourse(${course.getId()}, ${crtpg})"
+														style="height: 2.4em" class="btn btn-link">
+														<span class="glyphicon glyphicon-trash trashButtonIcon"></span>
+													</button>
+												</div>
+											</td>
+										</tr>
+									</c:forEach>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>&nbsp;</td>
+										<td>
+											<table class="input-group">
+												<tr>
+													<td>
+														<button type="button" onclick="loadCoursesAtPage(0)"
+															style="height: 2.4em" class="btn btn-link"
+															<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
+															<span class="glyphicon glyphicon-triangle-left"></span>
+														</button>
+													</td>
+													<td><input id="courpage" name="courpage" type="text"
+														style="width: 4em; height: 2.4em" class="form-control "
+														placeholder="${crtpg}/${maxpg}"
+														onfocusout="goToCoursesAtPage()" /></td>
+													<td>
+														<button type="button" onclick="loadCoursesAtPage(1)"
+															style="height: 2.4em" class="btn btn-link"
+															<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
+															<span class="glyphicon glyphicon-triangle-right"></span>
+														</button>
+													</td>
+												</tr>
+											</table>
 										</td>
 									</tr>
-								</c:forEach>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>&nbsp;</td>
-									<td>
-										<table class="input-group">
-											<tr>
-												<td>
-													<button type="button" onclick="loadCoursesAtPage(0)"
-														style="height: 2.4em" class="btn btn-link"
-														<c:if test="${crtpg <= 1}">disabled="disabled"</c:if>>
-														<span class="glyphicon glyphicon-triangle-left"></span>
-													</button>
-												</td>
-												<td><input id="courpage" name="courpage" type="text"
-													style="width: 4em; height: 2.4em" class="form-control "
-													placeholder="${crtpg}/${maxpg}"
-													onfocusout="goToCoursesAtPage()" /></td>
-												<td>
-													<button type="button" onclick="loadCoursesAtPage(1)"
-														style="height: 2.4em" class="btn btn-link"
-														<c:if test="${crtpg >= maxpg}">disabled="disabled"</c:if>>
-														<span class="glyphicon glyphicon-triangle-right"></span>
-													</button>
-												</td>
-											</tr>
-										</table>
-									</td>
-								</tr>
-							</tfoot>
-						</table>
+								</tfoot>
+							</table>
+						</fieldset>
 					</div>
 				</div>
 			</div>

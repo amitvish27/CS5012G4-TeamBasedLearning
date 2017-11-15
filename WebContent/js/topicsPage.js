@@ -143,7 +143,9 @@ function getTableBody(list) {
 	var bodyHtml="";
 	$.each(list, function(index, value) {
 		bodyHtml+="<tr>" +
-					"<td id='title"+value.id+"' style='padding-left: 5em'>"+value.title+"</td>" +
+					"<td>&nbsp;</td>" + 
+					"<td id='title"+value.id+"'>"+value.title+"</td>" +
+					"<td>&nbsp;</td>" + 
 					"<td class='text-center'>" + 
 						"<div class='input-group-btn'>" + 
 							"<button id='editbtn"+value.id+"' type='button'" + 
@@ -169,4 +171,14 @@ function getCourseBody(list){
 	});
 	
 	return bodyHtml;
+}
+
+function onSearch() {
+	var searchText = $("#idsearchtext").val();
+	document.location.href = "Topic" + "?search="+searchText;
+}
+
+function onRefresh() {
+	$("#idsearchtext").val('');
+	document.location.href = "Topic";
 }

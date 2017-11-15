@@ -18,5 +18,6 @@
     <url-pattern>/ManageUser</url-pattern>
     <url-pattern>/Topic</url-pattern>
     <url-pattern>/Course</url-pattern>
+    <url-pattern>/Question</url-pattern>
   </filter-mapping>
 </web-app>

@@ -149,7 +149,7 @@ public class UserDao {
 				instructor.setId(res.getInt(1));
 				instructor.setSsoid(res.getString(2));
 
-				System.out.println("paswd : " + res.getString(3));
+//				System.out.println("paswd : " + res.getString(3));
 				String decryptedPswd = PasswordEncrypter.decrypt(res.getString(3), secretKey);
 				instructor.setPswd(decryptedPswd);
 
@@ -284,10 +284,16 @@ public class UserDao {
 		// + "WHERE `ssoid` LIKE ? OR `fname` LIKE ? OR `lname` LIKE ? OR `email` LIKE ?
 		// OR `dept` LIKE ?"
 		// + "ORDER BY ? ? LIMIT ?, ?"
-		searchText = "%" + searchText + "%";
+		searchText = "'%" + searchText + "%'";
 
 		List<UserBean> userList = new ArrayList<UserBean>();
-		getRecords_sorted.setString(1, searchText);
+		
+		String query = "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` "
+						+ "WHERE `ssoid` LIKE "+searchText+" OR `fname` LIKE "+searchText+" OR `lname` LIKE "+searchText+" "
+						+ "OR `email` LIKE "+searchText+" OR `dept` LIKE "+searchText+" "
+						+ "ORDER BY "+col+" "+dir+"  LIMIT "+start+", "+end;
+		
+		/*getRecords_sorted.setString(1, searchText);
 		getRecords_sorted.setString(2, searchText);
 		getRecords_sorted.setString(3, searchText);
 		getRecords_sorted.setString(4, searchText);
@@ -295,11 +301,12 @@ public class UserDao {
 		getRecords_sorted.setString(6, col);
 		getRecords_sorted.setString(7, dir);
 		getRecords_sorted.setInt(8, start);
-		getRecords_sorted.setInt(9, end);
+		getRecords_sorted.setInt(9, end);*/
 
-		System.out.println(">>>>>sorting by " + col + " " + dir);
-		System.out.println(">>>>>paging by " + start + " " + end);
-		System.out.println(">>>>>searchText by " + searchText);
+//		System.out.println(">>>>>sorting by " + col + " " + dir);
+//		System.out.println(">>>>>paging by " + start + " " + end);
+//		System.out.println(">>>>>searchText by " + searchText);
+		getRecords_sorted = connection.prepareStatement(query);
 		ResultSet results = getRecords_sorted.executeQuery();
 
 		while (results.next()) {
@@ -314,7 +321,7 @@ public class UserDao {
 			user.setDeleted(results.getInt(8));
 			user.setActive(results.getInt(9));
 			userList.add(user);
-			System.out.println(user.getSsoid() + " - " + user.getFname());
+//			System.out.println(user.getSsoid() + " - " + user.getFname());
 		}
 		return userList;
 	}

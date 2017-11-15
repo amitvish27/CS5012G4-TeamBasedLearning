@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 14, 2017 at 07:29 AM
+-- Generation Time: Nov 15, 2017 at 08:50 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -70,10 +70,10 @@ INSERT INTO `course` (`id`, `code`, `title`, `year`, `semester`, `created`, `ins
 (24, 'FI1938', 'Investment Management', 2017, 'Winter', '2017-11-04 22:38:24', 'fr5rae', 0),
 (25, 'CS2703', 'Data Programming', 2016, 'Summer', '2017-11-04 22:38:24', 'jh6q3t', 0),
 (26, 'FI3233', 'Financial Derivatives', 2016, 'Winter', '2017-11-04 22:38:25', 'jh6q3t', 0),
-(27, 'MA1682', 'Precalculus', 2015, 'Summer', '2017-11-04 22:38:25', 'jppdle', 0),
+(27, 'MA1682', 'Precalculus', 2015, 'Summer', '2017-11-04 22:38:25', 'asv123', 0),
 (28, 'IS3828', 'Electronic BusinessNew', 2015, 'Fall', '2017-11-04 22:38:25', 'instructor', 0),
 (29, 'IS2098', 'Information Systems Freshman W', 2016, 'Winter', '2017-11-04 22:38:25', 'instructor', 0),
-(30, 'FI2292', 'International Financial Market', 2015, 'Spring', '2017-11-04 22:38:25', 'instructor', 0),
+(30, 'FI2292', 'International Financial Market', 2015, 'Spring', '2017-11-04 22:38:25', 'asv123', 0),
 (31, 'CS5012', 'WebDevelopment', 2017, 'Fall', '2017-11-08 18:45:35', 'instructor', 1),
 (32, 'CS5023', 'WebDevelopment', 2017, 'Fall', '2017-11-13 17:17:37', 'instructor', 1);
 
@@ -99,15 +99,26 @@ CREATE TABLE `course_inst` (
 CREATE TABLE `question` (
   `id` int(6) NOT NULL COMMENT 'internal record id',
   `content` text NOT NULL COMMENT 'content of the question',
-  `opt_a` varchar(50) NOT NULL COMMENT 'option a',
-  `opt_b` varchar(50) NOT NULL COMMENT 'option b',
-  `opt_c` varchar(50) NOT NULL COMMENT 'option c',
-  `opt_d` varchar(50) NOT NULL COMMENT 'option d',
-  `answer` int(1) NOT NULL COMMENT '0-opt_a,1-opt_b,2-opt_c,3-opt_d',
+  `opt_a` text NOT NULL COMMENT 'option a',
+  `opt_b` text NOT NULL COMMENT 'option b',
+  `opt_c` text NOT NULL COMMENT 'option c',
+  `opt_d` text NOT NULL COMMENT 'option d',
+  `answer` int(1) NOT NULL COMMENT '1-opt_a,2-opt_b,3-opt_c,4-opt_d',
+  `kywd` text COMMENT 'Keywords for Question',
   `created` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'time when record created',
-  `instructorid` int(5) DEFAULT NULL COMMENT 'sso id instructor who created',
+  `instructorid` varchar(10) DEFAULT NULL COMMENT 'sso id instructor who created',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `question`
+--
+
+INSERT INTO `question` (`id`, `content`, `opt_a`, `opt_b`, `opt_c`, `opt_d`, `answer`, `kywd`, `created`, `instructorid`, `deleted`) VALUES
+(1, 'What is 2+2?', '5', '4', '2', '1', 2, 'math', '2017-11-15 12:25:24', 'instructor', 0),
+(2, 'What is 3*2?', '4', '5', '6', '7', 3, 'math', '2017-11-15 12:25:24', 'instructor', 0),
+(3, 'Grand Central Terminal, Park Avenue, New York is the world\'s', 'largest railway station', 'highest railway station', 'longest railway station', 'None of the above', 1, 'general', '2017-11-15 12:38:19', 'instructor', 0),
+(4, 'Entomology is the science that studies', 'Behavior of human beings', 'Insects', 'The origin and history of technical and scientific terms', 'The formation of rocks', 2, 'science', '2017-11-15 12:50:45', 'instructor', 1);
 
 -- --------------------------------------------------------
 
@@ -370,7 +381,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `created`, `createdby`, `modified`, `modifiedby`, `deleted`, `role`, `active`, `snumber`) VALUES
-(1, 'student', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ada', 'Hill', 'ada.hill@mail.com', 'Finance', '2017-11-04 21:24:58', 'asv123', '2017-11-04 21:24:58', 'asv123', 0, 0, 1, 15787575),
+(1, 'student', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ada', 'Hill', 'ada.hill@mail.com																																	', 'Finance', '2017-11-04 21:24:58', 'asv123', '2017-11-04 21:24:58', 'asv123', 0, 0, 1, 15787575),
 (4, 'ar2y89', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Addie', 'Reyes', 'addie.reyes@mail.com', 'Business', '2017-11-04 21:41:33', 'yh1234', '2017-11-04 21:41:33', 'yh1234', 0, 0, 1, 91893072),
 (5, 'arksk0', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Agnes', 'Rogers', 'agnes.rogers@mail.com', 'Arts', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 48840382),
 (6, 'cdgsyj', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Claude', 'Dixon', 'claude.dixon@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 20609289),
@@ -379,7 +390,7 @@ INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `c
 (9, 'dt4pyv', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Daisy', 'Turner', 'daisy.turner@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'yt1234', '2017-11-04 21:41:33', 'yt1234', 0, 0, 1, 80964404),
 (10, 'dcjlpi', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Dan', 'Cunningham', 'dan.cunningham@mail.com', 'Information Systems', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 91510632),
 (11, 'dmsb34', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Daniel', 'Marshall', 'daniel.marshall@mail.com', 'Finance', '2017-11-04 21:41:34', 'yh1234', '2017-11-04 21:41:34', 'yh1234', 0, 0, 1, 14587116),
-(12, 'dcxvbb', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'David', 'Chavez', 'david.chavez@mail.com', 'Mathematics', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 0, 1, 50327199),
+(12, 'dcxvbb', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'David', 'Chavez', 'david.chavez@mail.com												', 'Mathematics', '2017-11-04 21:41:34', 'asv123', '2017-11-04 21:41:34', 'asv123', 0, 0, 1, 50327199),
 (13, 'dcrs4p', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Della', 'Cook', 'della.cook@mail.com', 'Information Systems', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1, 98902944),
 (14, 'dcqqma', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Dora', 'Carter', 'dora.carter@mail.com', 'Finance', '2017-11-04 21:41:34', 'yt1234', '2017-11-04 21:41:34', 'yt1234', 0, 0, 1, 18019053),
 (15, 'ewxf91', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Earl', 'Wagner', 'earl.wagner@mail.com', 'Arts', '2017-11-04 21:41:34', 'fz1234', '2017-11-04 21:41:34', 'fz1234', 0, 0, 1, 61682089),
@@ -428,7 +439,7 @@ INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `c
 (59, 'offn92', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Olive', 'Fisher', 'olive.fisher@mail.com', 'Mathematics', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1, 79493783),
 (60, 'orsg1b', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Oliver', 'Rice', 'oliver.rice@mail.com', 'Information Systems', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 0, 1, 87337004),
 (61, 'or7hui', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Oscar', 'Ruiz', 'oscar.ruiz@mail.com', 'Nursing', '2017-11-04 21:46:36', 'yh1234', '2017-11-04 21:46:36', 'yh1234', 0, 1, 1, 10011160),
-(62, 'ome7r3', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Otto', 'Meyer', 'otto.meyer@mail.com', 'Finance', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'yt1234', 0, 0, 1, 68848417),
+(62, 'ome7r3', 'i/oz662we/EjaczkmP0fCA==:BjjC1j8awKykKo+awkXtOQ==', 'Otto', 'Meyer', 'otto.meyer@mail.com', 'Finance', '2017-11-04 21:46:36', 'yt1234', '2017-11-04 21:46:36', 'ome7r3', 0, 0, 1, 68848417),
 (63, 'rykv5t', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Rose', 'Young', 'rose.young@mail.com', 'Business', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 43411663),
 (64, 'rwrg4c', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Roy', 'Webb', 'roy.webb@mail.com', 'Arts', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 88450069),
 (65, 'tgc0oh', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Thomas', 'Graham', 'thomas.graham@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 0, 1, 32863142),
@@ -547,7 +558,7 @@ ALTER TABLE `course_inst`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=5;
 --
 -- AUTO_INCREMENT for table `question_course`
 --
@@ -597,7 +608,7 @@ ALTER TABLE `topic_inst`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'Internal table id, AutoIncrement', AUTO_INCREMENT=73;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'Internal table id, AutoIncrement', AUTO_INCREMENT=81;
 --
 -- Constraints for dumped tables
 --

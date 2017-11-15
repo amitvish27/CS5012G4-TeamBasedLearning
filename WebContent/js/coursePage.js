@@ -110,3 +110,73 @@ function clearCreateNewModal() {
 	$("#instructor_id").val('');
 	$("#createNewModal").modal('hide');
 }
+
+
+function changeSortIcon(v) {
+	var sortDir = document.getElementById("idSortDir").value
+	var iconClass = $("#" + v + "SortIcon").attr('class');
+	if( iconClass === "glyphicon glyphicon-sort")
+	{
+		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort-by-attributes');
+		$("#" + v + "SortDir").val('ASC');
+	} 
+	else if (iconClass === "glyphicon glyphicon-sort-by-attributes")
+	{
+		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort-by-attributes-alt');
+		$("#" + v + "SortDir").val('DESC');
+	}
+	else if(iconClass === "glyphicon glyphicon-sort-by-attributes-alt")
+	{	
+		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort');
+		$("#" + v + "SortDir").val('');
+	}
+	
+	/*enable when sorting fixed
+	 * if (sortDir === "" || sortDir == undefined) {
+		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort');
+
+		$("#" + v + "SortDir").val('ASC');
+	} else if (sortDir === "ASC") {
+		$("#" + v + "SortIcon").attr('class',
+				'glyphicon glyphicon-sort-by-attributes');
+
+		$("#" + v + "SortDir").val('DESC');
+	} else if (sortDir === "DESC") {
+		$("#" + v + "SortIcon").attr('class',
+				'glyphicon glyphicon-sort-by-attributes-alt');
+		$("#" + v + "SortDir").val('');
+	}*/
+
+	return true;
+}
+
+function sortColumn(v) {
+	if (!changeSortIcon(v)) {
+		return;
+	}
+/*	enable when sorting fixed
+ * var d = $("#" + v + "SortDir").val();
+	var url = window.location.search;
+	var sortIndex = url.indexOf('sort=');
+	var dirIndex = url.indexOf('dir=');
+	if (sortIndex > -1) {
+		url = url.substr(0, sortIndex - 1);
+	}
+	if (url.indexOf('?') > -1) {
+		url += "&sort=" + v + "&dir=" + d; // if no sort already then add
+	} else {
+		url += "?sort=" + v + "&dir=" + d; // if no sort already then add
+	}
+
+	//console.log("new url :" + url);
+	document.location.href = "Course" + url;*/
+}
+
+function onSearch() {
+	var searchText = $("#idsearchtext").val();
+	document.location.href = "Course" + "?search="+searchText;
+}
+function onRefresh() {
+	$("#idsearchtext").val('');
+	document.location.href = "Course";
+}

@@ -70,7 +70,7 @@ public class TopicServlet extends HttpServlet {
 		String sortColName = (request.getParameter("sortColName") != null) ? request.getParameter("sortColName")
 				: "created";
 		String sortDir = (request.getParameter("sortDir") != null) ? request.getParameter("sortDir") : "ASC";
-
+		sortDir = (sortColName.equals("created"))?"DESC":sortDir;
 		String s_course_year = (request.getParameter("s_course_year") != null) ? request.getParameter("s_course_year")
 				: "";
 		String s_course_semester = (request.getParameter("s_course_semester") != null)

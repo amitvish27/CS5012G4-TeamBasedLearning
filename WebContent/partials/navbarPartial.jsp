@@ -14,7 +14,7 @@
 				<c:if test="${userRole==1 or userRole==2}"> <!-- UserRole 0-Student, 1-Instructor, 2-admin -->
 					<li><a href="Course">Course</a></li>
 					<li><a href="Topic">Topic</a></li>
-					<li><a href="#">Question Bank</a></li>
+					<li><a href="Question">Question Bank</a></li>
 					<li><a href="#">Students</a></li>
 					<li><a href="#">Quiz</a></li>
 					<li><a href="#">Group</a></li>

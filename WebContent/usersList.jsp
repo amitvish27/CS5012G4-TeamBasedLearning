@@ -37,7 +37,7 @@
 							<legend style="text-align: center;"> User Management </legend>
 							<input type='hidden' id="idSortBy" value="${sortBy}" /> <input
 								type='hidden' id="idSortDir" value="${sortDir}" />
-							<table class="table table-hover">
+							<table class="table table-striped table-hover table-condensed">
 								<thead>
 									<tr>
 										<th style="padding-left: 5em" colspan=3>Users list</th>
@@ -161,13 +161,13 @@
 
 								<tfoot>
 									<tr>
-										<td colspan=2><button type="button" value="edit"
-												class="btn btn-default" onclick="onUserEdit()">Edit</button></td>
-										<td><button type="button" value="delete"
-												class="btn btn-default" onclick="onUserDelete()">Delete</button></td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td colspan=2>
+										<th colspan=2><button type="button" value="edit"
+												class="btn btn-default" onclick="onUserEdit()">Edit</button></th>
+										<th><button type="button" value="delete"
+												class="btn btn-default" onclick="onUserDelete()">Delete</button></th>
+										<th>&nbsp;</th>
+										<th>&nbsp;</th>
+										<th colspan=2>
 											<div class="form-inline">
 												<div class="form-group">
 													Show <select class="form-control" id="selShowEntries"
@@ -183,8 +183,8 @@
 													</select> Entries
 												</div>
 											</div>
-										</td>
-										<td colspan=2>
+										</th>
+										<th colspan=2>
 											<table class="input-group">
 												<tr>
 													<td>
@@ -212,7 +212,7 @@
 													</td>
 												</tr>
 											</table>
-										</td>
+										</th>
 									</tr>
 								</tfoot>
 							</table>

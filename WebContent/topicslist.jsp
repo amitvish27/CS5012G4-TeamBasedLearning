@@ -31,7 +31,6 @@
 			<input id="crtpg" type="hidden" value="${crtpg}" /> <input
 				id="maxpg" type="hidden" value="${maxpg}" />
 			<div class="container">
-
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body form-group">
 						<div class="row">
@@ -94,25 +93,45 @@
 			<div class="container">
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body ">
-						<table class="table table-striped table-hover">
+						<table class="table table-striped table-hover table-condensed">
 							<thead>
 								<tr>
-									<th width="70%" style="padding-left: 5em">Topics list</th>
-									<th width="30%" style="padding-left: 5em"><button
-											type="button" class="btn btn-link btn-sm" data-toggle="modal"
-											data-target="#createNewModal">
+									<th>&nbsp;</th>
+									<th>Topics list</th>
+									<th><div class="input-group">
+											<input id="idsearchtext" type="text"
+												class="form-control input-sm" placeholder="Search" /> <span
+												class="input-group-btn">
+												<button class="btn btn-info btn-sm" type="button"
+													onclick="onSearch()">
+													<i class="glyphicon glyphicon-search"></i>
+												</button>
+												<button class="btn btn-link btn-sm" type="button"
+													onclick="onRefresh()">
+													<i class="glyphicon glyphicon-refresh"></i>
+												</button>
+											</span>
+										</div></th>
+									<th><button type="button" class="btn btn-link btn-sm"
+											data-toggle="modal" data-target="#createNewModal">
 											<span class="glyphicon glyphicon-plus"></span> Add new record
 										</button></th>
 								</tr>
 								<tr>
-									<th width="70%" style="padding-left: 5em">Title <input
-										type="hidden" id="titleSortDir" value="" />
-										<button type="button" class="btn btn-link"
+									<th>&nbsp;</th>
+									<th>Title <input type="hidden" id="titleSortDir" value="" />
+										<button type="button" class="btn btn-link btn-sm"
 											onclick="sortTitle()">
 											<span id="titleSortIcon" class="glyphicon glyphicon-sort"></span>
 										</button>
 									</th>
-									<th width="30%" class="text-center">Action</th>
+									<th>&nbsp;</th>
+									<th class="text-center">Action
+										<button type="button" hidden="true"
+											class="btn btn-link btn-sm disabled ">
+											<span class="glyphicon"></span>
+										</button>
+									</th>
 								</tr>
 							</thead>
 							<tbody id="topic_table_body">
@@ -120,7 +139,8 @@
 							</tbody>
 							<tfoot>
 								<tr>
-									<td width="70%">
+									<th>&nbsp;</th>
+									<th>
 										<div class="form-inline">
 											<div class="form-group">
 												Show <select class="form-control" id="selShowEntries"
@@ -132,8 +152,9 @@
 												</select> Entries
 											</div>
 										</div>
-									</td>
-									<td width="30%">
+									</th>
+									<th></th>
+									<th>
 										<table class="input-group">
 											<tr>
 												<td>
@@ -156,7 +177,7 @@
 												</td>
 											</tr>
 										</table>
-									</td>
+									</th>
 								</tr>
 							</tfoot>
 						</table>

@@ -85,10 +85,10 @@ public class ManageUserServlet extends HttpServlet {
 				sortDir="ASC"; // default
 				pb.setSortBy("created"); // default
 			}
-			System.out.println("Sort in Manage " + sortBy + "_"+sortDir);
+			//System.out.println("Sort in Manage " + sortBy + "_"+sortDir);
 			// Pagination
 			if (pageInteger <= 1) {
-				pb.setCurrentPage(0);
+				pb.setCurrentPage(1);
 				pb.setNextPage(recPerPage);
 				pb.setPreviousPage(0);
 				pageInteger = 1;
@@ -101,7 +101,7 @@ public class ManageUserServlet extends HttpServlet {
 					pb.setNextPage(pb.getCurrentPage());
 			}
 			
-			List<UserBean> usrlist = usrdao.getUserListSorted(pageInteger,
+			List<UserBean> usrlist = usrdao.getUserListSorted(pb.getCurrentPage(),
 					recPerPage,sortBy, sortDir, idsearchtext);
 			
 			int totalpg = (int) Math.ceil((double)pb.getTotalRecords() / (double)pb.getRecordsPerPage());
