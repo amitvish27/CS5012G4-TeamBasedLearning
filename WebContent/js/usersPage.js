@@ -179,4 +179,16 @@ function onRefresh() {
 	$("#idsearchtext").val('');
 	document.location.href = "ManageUser";
 }
+function resetPassword(){
+	//ssoid
+	var ssoid = $("#mod_user_ssoId").val();
+	
+	console.log(">>>"+ssoid);
+	$.post("ResetPassword",{
+		ssoid:ssoid
+	}, function(data,status){
+		$("#editUserModal").modal('hide');
+	});
+	
+}
 

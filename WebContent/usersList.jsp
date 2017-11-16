@@ -340,6 +340,8 @@
 							</div>
 						</div>
 						<div class="modal-footer">
+						<button id="idResetPassword" type="button" class="btn btn-default"
+						onclick="resetPassword()">ResetPassword</button>
 							<button id="updateUser" type="submit" class="btn btn-default">Update</button>
 							<button type="button" class="btn btn-default"
 								data-dismiss="modal" onclick="clearUserUpdateModal()">Close</button>
