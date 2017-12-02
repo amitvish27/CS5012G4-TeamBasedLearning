@@ -1,8 +1,5 @@
 package edu.umsl.java.dao;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.GeneralSecurityException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -10,203 +7,63 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.servlet.UnavailableException;
 
-import edu.umsl.java.beans.PageBean;
 import edu.umsl.java.beans.UserBean;
-import edu.umsl.java.util.PasswordEncrypter;
-import edu.umsl.java.util.ReadProperties;
+import edu.umsl.java.beans.PageBean;
 
 public class UserDao {
 
-	private static final String secretKey = "UMSLTEAMBASED";
-
 	private Connection connection;
-	private PreparedStatement instListRS;
-	private PreparedStatement SsoIdInstRS;
-	private PreparedStatement saveInstRS;
-	private PreparedStatement saveInstPswdRS;
-	private PreparedStatement setActive;
-	private PreparedStatement getCount;
-	private PreparedStatement getRecords_sorted;
-	// private PreparedStatement getUserRecords;
-	// private PreparedStatement getRecords;
-	// private PreparedStatement getRecords3;
+
+	private PreparedStatement getRecords;
+	private PreparedStatement getUserRecords;
+	private PreparedStatement addRecord;
 	private PreparedStatement deleteRecord;
 	private PreparedStatement updateRecord;
-	private PreparedStatement addRecord;
+	private PreparedStatement getRecords3;
+	private PreparedStatement getRecords_lname;
+	private PreparedStatement getRecords_fname;
+	private PreparedStatement getCount;
 
 	public UserDao() throws Exception {
 		try {
-			ReadProperties.loadPropertiesFile();
-			Class.forName(ReadProperties.getDbDriver());
-			connection = DriverManager.getConnection(ReadProperties.getDbUrl(), ReadProperties.getDbUser(),
-					ReadProperties.getDbPswd());
+			Class.forName("com.mysql.jdbc.Driver");
+			connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/test", "root", "");
+			getCount = connection.prepareStatement("select count(*) from user where active =1 and role= ? or role= ?");
 
-			// for all individual users
-			instListRS = connection.prepareStatement(
-					"SELECT  `id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `createdby`, `modifiedby`, `role`, `active` "
-							+ "FROM user WHERE deleted=0 ORDER BY created DESC ");
+			// --------------
+			getRecords = connection.prepareStatement(
+					"Select id, ssoid, fname, lname, active from user where active = 1 and role = ? or role= ? order by id ASC  limit ?, ?");
+			getRecords_lname = connection.prepareStatement(
+					"Select id, ssoid, fname, lname, active from user where active = 1 and role = ? or role= ? order by lname, fname ASC limit ?, ?");
+			getRecords_fname = connection.prepareStatement(
+					"Select id, ssoid, fname, lname, active from user where active = 1 and role = ? or role= ? order by fname, lname ASC limit ? ,?");
 
-			SsoIdInstRS = connection.prepareStatement(
-					"SELECT  `id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `createdby`, `modifiedby`, `role`, `active` "
-							+ "FROM user WHERE ssoid=?");
+			// --------------
 
-			saveInstRS = connection.prepareStatement(
-					"UPDATE `user` SET `fname`=?,`lname`=?,`email`=?,`dept`=?,`modifiedby`=?" + "WHERE ssoid=?");
-
-			saveInstPswdRS = connection.prepareStatement("UPDATE `user` SET `pswd`=?,`modifiedby`=?" + "WHERE ssoid=?");
-
-			setActive = connection.prepareStatement("UPDATE `user` SET `active`=?,`modifiedby`=?" + "WHERE ssoid=?");
-
-			// for admin role - user management
-			getCount = connection.prepareStatement("SELECT COUNT(*) as count FROM `user`");
-
-			// TODO need to see why the sort is not working here
-			getRecords_sorted = connection.prepareStatement(
-					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` "
-							+ "WHERE `ssoid` LIKE ? OR `fname` LIKE ? OR `lname` LIKE ? OR `email` LIKE ? OR `dept` LIKE ?"
-							+ "ORDER BY ? ?  LIMIT ?, ?");
-
-			// getRecords = connection.prepareStatement(
-			// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-			// `active` FROM `user` WHERE `role`=? OR `role`=? ORDER BY `created` DESC LIMIT
-			// ?, ?");
-
-			// getUserRecords = connection.prepareStatement(
-			// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-			// `active`, `role`, `email`, `dept` FROM `user` WHERE `id` = ?");
-
-			// getRecords3 = connection.prepareStatement(
-			// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-			// `active`, `role`, `email`, `dept` FROM `user` WHERE `ssoid` LIKE ? OR `fname`
-			// LIKE ? OR `lname` LIKE ? OR `email` LIKE ? OR `dept` LIKE ?");
+			getUserRecords = connection.prepareStatement(
+					"Select id, ssoid, fname, lname, active, role, email, dept from user where id = ?");
+			getRecords3 = connection.prepareStatement(
+					"select id, ssoid, fname, lname, active, role, email, dept from user where (ssoid like ? or fname like ? or lname like ?) and (role =? or role=?)");
 
 			addRecord = connection.prepareStatement(
-					"INSERT INTO `user` (`ssoid`,`pswd`,`fname`,`lname`,`email`,`dept`,`createdby`,`modifiedby`,`role`,`active`, `deleted`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
+					"insert into user (" + "ssoid, fname, lname, email, role, dept)" + "values (?,?,?,?,?,?)");
 
-			deleteRecord = connection.prepareStatement("UPDATE `user` SET `deleted`=1 WHERE `id`=?");
-
+			deleteRecord = connection.prepareStatement("update user set active = 0 where id = ?");
 			updateRecord = connection.prepareStatement(
-					"UPDATE `user` SET `ssoid`=?, `fname`=?, `lname`=? , `role`=? , `email`=?, `dept`=? ,`deleted`=?, `active`=? WHERE `id`=?");
+					"update user	set ssoid= ?, fname=?, lname=? , role=? , email=?, dept=? , active=? where id = ?");
 
-		} catch (Exception ex) {
-			ex.printStackTrace();
-			throw new UnavailableException(ex.getMessage());
+		} catch (Exception exception) {
+			exception.printStackTrace();
+			throw new UnavailableException(exception.getMessage());
 		}
-	}
-
-	public void setInstActive(String ssoid, int active, String modifiedby) {
-		try {
-			setActive.setInt(1, active);
-			setActive.setString(2, modifiedby);
-			setActive.setString(3, ssoid);
-
-			setActive.executeUpdate();
-		} catch (SQLException sql_ex) {
-			sql_ex.printStackTrace();
-		}
-	}
-
-	public void saveInstPswd(String ssoid, String pswd, String modifiedby) {
-		try {
-			String encryptedPswd = PasswordEncrypter.encrypt(pswd, secretKey);
-
-			saveInstPswdRS.setString(1, encryptedPswd);
-			saveInstPswdRS.setString(2, modifiedby);
-			saveInstPswdRS.setString(3, ssoid);
-
-			saveInstPswdRS.executeUpdate();
-		} catch (UnsupportedEncodingException | GeneralSecurityException | SQLException ex) {
-			ex.printStackTrace();
-		}
-	}
-
-	public void saveInstProfile(String ssoid, String fname, String lname, String email, String dept,
-			String modifiedby) {
-		try {
-			saveInstRS.setString(1, fname);
-			saveInstRS.setString(2, lname);
-			saveInstRS.setString(3, email);
-			saveInstRS.setString(4, dept);
-			saveInstRS.setString(5, modifiedby);
-			saveInstRS.setString(6, ssoid);
-			saveInstRS.executeUpdate();
-		} catch (SQLException sql_ex) {
-			sql_ex.printStackTrace();
-		}
-	}
-
-	public List<UserBean> getInstructorList() {
-		List<UserBean> instructorList = new ArrayList<UserBean>();
-
-		try {
-			ResultSet res = instListRS.executeQuery();
-
-			while (res.next()) {
-				UserBean instructor = new UserBean();
-				instructor.setId(res.getInt(1));
-				instructor.setSsoid(res.getString(2));
-
-//				System.out.println("paswd : " + res.getString(3));
-				String decryptedPswd = PasswordEncrypter.decrypt(res.getString(3), secretKey);
-				instructor.setPswd(decryptedPswd);
-
-				instructor.setFname(res.getString(4));
-				instructor.setLname(res.getString(5));
-				instructor.setEmail(res.getString(6));
-				instructor.setDept(res.getString(7));
-				instructor.setCreatedby(res.getString(8));
-				instructor.setModifiedby(res.getString(9));
-				instructor.setRole(res.getInt(10));
-				instructor.setActive(res.getInt(11));
-
-				instructorList.add(instructor);
-			}
-
-		} catch (GeneralSecurityException | IOException | SQLException ex) {
-			ex.printStackTrace();
-		}
-
-		return instructorList;
 
 	}
 
-	public UserBean getInstructorBySsoId(String ssoid) throws SQLException {
-		UserBean instructor = null;
-		try {
-			SsoIdInstRS.setString(1, ssoid);
-
-			ResultSet res = SsoIdInstRS.executeQuery();
-			if (res.next()) {
-				instructor = new UserBean();
-				instructor.setId(res.getInt(1));
-				instructor.setSsoid(res.getString(2));
-
-				String decryptedPswd = PasswordEncrypter.decrypt(res.getString(3), secretKey);
-				instructor.setPswd(decryptedPswd);
-
-				instructor.setFname(res.getString(4));
-				instructor.setLname(res.getString(5));
-				instructor.setEmail(res.getString(6));
-				instructor.setDept(res.getString(7));
-				instructor.setCreatedby(res.getString(8));
-				instructor.setModifiedby(res.getString(9));
-				instructor.setRole(res.getInt(10));
-				instructor.setActive(res.getInt(11));
-			}
-
-		} catch (GeneralSecurityException | IOException | SQLException ex) {
-			ex.printStackTrace();
-		}
-
-		return instructor;
-	}
-
-	// for admin role - user management
 	public void updateUser(String ssoid, String fname, String lname, String id, String role, String email, String dept,
-			String deleted, String active) throws SQLException {
+			String active) throws SQLException {
+
 		try {
 			updateRecord.setString(1, ssoid);
 			updateRecord.setString(2, fname);
@@ -214,13 +71,14 @@ public class UserDao {
 			updateRecord.setInt(4, Integer.parseInt(role));
 			updateRecord.setString(5, email);
 			updateRecord.setString(6, dept);
-			updateRecord.setInt(7, Integer.parseInt(deleted));
-			updateRecord.setInt(8, Integer.parseInt(active));
-			updateRecord.setInt(9, Integer.parseInt(id));
+			updateRecord.setInt(7, Integer.parseInt(active));
+			updateRecord.setInt(8, Integer.parseInt(id));
+
 			updateRecord.executeUpdate();
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+
 	}
 
 	public void deleteUser(String id) throws SQLException {
@@ -233,9 +91,15 @@ public class UserDao {
 		}
 	}
 
-	public PageBean getCount() throws SQLException {
+	public PageBean getCount(int role1, int role2) throws SQLException {
+
 		PageBean pagebean = new PageBean();
+		if (role1 == role2)
+			role2 = 9;
+
 		try {
+			getCount.setInt(1, role1);
+			getCount.setInt(2, role2);
 			ResultSet rs = getCount.executeQuery();
 			rs.next();
 			pagebean.setTotalRecords(rs.getInt(1));
@@ -249,184 +113,199 @@ public class UserDao {
 		return pagebean;
 	}
 
-	public PageBean getSearchCount(int start, int end, String col, String dir, String searchText) throws SQLException {
-		PageBean pagebean = new PageBean();
-		try {
-			getCount.setString(1, searchText);
-			getCount.setString(2, searchText);
-			getCount.setString(3, searchText);
-			getCount.setString(4, searchText);
-			getCount.setString(5, searchText);
-			getCount.setString(6, col);
-			getCount.setString(7, dir);
-			getCount.setInt(8, start);
-			getCount.setInt(9, end);
-			ResultSet rs = getCount.executeQuery();
-			rs.next();
-			pagebean.setTotalRecords(rs.getInt(1));
+	public List<UserBean> getUserSearchList(String ssoid, String fname, String lname, int role) throws SQLException {
 
-			double temp = Math.ceil((double) pagebean.getTotalRecords() / pagebean.getRecordsPerPage());
-			pagebean.setTotalPages((int) temp);
+		int role_a = 0;
+		int role_b = 1;
 
-		} catch (SQLException e) {
-			e.printStackTrace();
+		if (role == 1) {
+			role_a = 2;
+			role_b = 9;
 		}
-		return pagebean;
-	}
-
-	public List<UserBean> getUserListSorted(int start, int end, String col, String dir, String searchText)
-			throws SQLException {
-		// TODO need to work for sorting and pagination on search
-		col = (col.equals("")) ? "created" : col;
-		dir = (dir.equals("")) ? "ASC" : dir;
-		// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-		// `active` FROM `user` "
-		// + "WHERE `ssoid` LIKE ? OR `fname` LIKE ? OR `lname` LIKE ? OR `email` LIKE ?
-		// OR `dept` LIKE ?"
-		// + "ORDER BY ? ? LIMIT ?, ?"
-		searchText = "'%" + searchText + "%'";
 
 		List<UserBean> userList = new ArrayList<UserBean>();
-		
-		String query = "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` "
-						+ "WHERE `ssoid` LIKE "+searchText+" OR `fname` LIKE "+searchText+" OR `lname` LIKE "+searchText+" "
-						+ "OR `email` LIKE "+searchText+" OR `dept` LIKE "+searchText+" "
-						+ "ORDER BY "+col+" "+dir+"  LIMIT "+start+", "+end;
-		
-		/*getRecords_sorted.setString(1, searchText);
-		getRecords_sorted.setString(2, searchText);
-		getRecords_sorted.setString(3, searchText);
-		getRecords_sorted.setString(4, searchText);
-		getRecords_sorted.setString(5, searchText);
-		getRecords_sorted.setString(6, col);
-		getRecords_sorted.setString(7, dir);
-		getRecords_sorted.setInt(8, start);
-		getRecords_sorted.setInt(9, end);*/
+		getRecords3.setString(1, ssoid);
+		getRecords3.setString(2, fname);
+		getRecords3.setString(3, lname);
+		getRecords3.setInt(4, role_a);
+		getRecords3.setInt(5, role_b);
 
-//		System.out.println(">>>>>sorting by " + col + " " + dir);
-//		System.out.println(">>>>>paging by " + start + " " + end);
-//		System.out.println(">>>>>searchText by " + searchText);
-		getRecords_sorted = connection.prepareStatement(query);
-		ResultSet results = getRecords_sorted.executeQuery();
+		ResultSet rs = getRecords3.executeQuery();
+		while (rs.next()) {
+			UserBean user = new UserBean();
+			user.setId(rs.getString(1));
+			user.setSsoid(rs.getString(2));
+			user.setFname(rs.getString(3));
+			user.setLname(rs.getString(4));
+			user.setActive(Integer.parseInt(rs.getString(5)));
+			user.setRole(Integer.parseInt(rs.getString(6)));
+			user.setEmail(rs.getString(7));
+			user.setDept(rs.getString(8));
+			userList.add(user);
+		}
+		return userList;
+
+	}
+
+	public UserBean getUserSearch(String ssoid, String fname, String lname) throws SQLException {
+
+		UserBean user = new UserBean();
+		getRecords3.setString(1, ssoid);
+		getRecords3.setString(2, fname);
+		getRecords3.setString(3, lname);
+		ResultSet rs = getRecords3.executeQuery();
+		rs.next();
+		int row = rs.getRow();
+
+		if (row > 0) {
+			user.setSsoid(rs.getString(2));
+			user.setFname(rs.getString(3));
+			user.setLname(rs.getString(4));
+		} else {
+			user.setSsoid("");
+			user.setFname("");
+			user.setLname("");
+		}
+
+		return user;
+	}
+
+	public UserBean getUser(String id) throws SQLException {
+
+		UserBean user = new UserBean();
+
+		getUserRecords.setInt(1, Integer.parseInt(id));
+		ResultSet rs = getUserRecords.executeQuery();
+		rs.next();
+		user.setSsoid(rs.getString(2));
+		user.setFname(rs.getString(3));
+		user.setLname(rs.getString(4));
+		user.setActive(Integer.parseInt(rs.getString(5)));
+		user.setRole(Integer.parseInt(rs.getString(6)));
+		user.setEmail(rs.getString(7));
+		user.setDept(rs.getString(8));
+
+		return user;
+	}
+
+	// --------------------------------------------------------
+	public List<UserBean> getUserList(int role1, int role2, int start, int end) throws SQLException {
+		List<UserBean> userList = new ArrayList<UserBean>();
+		if (role1 == role2)
+			role2 = 9;
+		getRecords.setInt(1, role1);
+		getRecords.setInt(2, role2);
+		getRecords.setInt(3, start);
+		getRecords.setInt(4, end);
+		ResultSet results = getRecords.executeQuery();
 
 		while (results.next()) {
 			UserBean user = new UserBean();
-			user.setId(results.getInt(1));
+			user.setId(results.getString(1));
 			user.setSsoid(results.getString(2));
 			user.setFname(results.getString(3));
 			user.setLname(results.getString(4));
-			user.setEmail(results.getString(5));
-			user.setDept(results.getString(6));
-			user.setRole(results.getInt(7));
-			user.setDeleted(results.getInt(8));
-			user.setActive(results.getInt(9));
+
 			userList.add(user);
-//			System.out.println(user.getSsoid() + " - " + user.getFname());
+
 		}
 		return userList;
 	}
 
-	public void addUser(UserBean user) throws SQLException {
-		addRecord.setString(1, user.getSsoid());
-		addRecord.setString(2, user.getPswd());
-		addRecord.setString(3, user.getFname());
-		addRecord.setString(4, user.getLname());
-		addRecord.setString(5, user.getEmail());
-		addRecord.setString(6, user.getDept());
-		addRecord.setString(7, user.getCreatedby());
-		addRecord.setString(8, user.getModifiedby());
-		addRecord.setInt(9, user.getRole());
-		addRecord.setInt(10, user.getActive());
-		addRecord.setInt(11, user.getDeleted());
-		addRecord.executeUpdate();
+	public List<UserBean> getUserListLname(int role1, int role2, int start, int end) throws SQLException {
+		List<UserBean> userList = new ArrayList<UserBean>();
+		getRecords_lname.setInt(1, role1);
+		getRecords_lname.setInt(2, role2);
+		getRecords_lname.setInt(3, start);
+		getRecords_lname.setInt(4, end);
+		ResultSet results = getRecords_lname.executeQuery();
 
+		while (results.next()) {
+			UserBean user = new UserBean();
+			user.setId(results.getString(1));
+			user.setSsoid(results.getString(2));
+			user.setFname(results.getString(3));
+			user.setLname(results.getString(4));
+
+			userList.add(user);
+
+		}
+		return userList;
 	}
-	/*
-	 * public List<UserBean> getUserSearchList(String ssoid, String fname, String
-	 * lname, String email, String dept) throws SQLException { List<UserBean>
-	 * userList = new ArrayList<UserBean>(); getRecords3.setString(1, ssoid);
-	 * getRecords3.setString(2, fname); getRecords3.setString(3, lname);
-	 * getRecords3.setString(4, email); getRecords3.setString(5, dept);
-	 * 
-	 * ResultSet rs = getRecords3.executeQuery(); while (rs.next()) { UserBean user
-	 * = new UserBean(); user.setId(rs.getInt(1)); user.setSsoid(rs.getString(2));
-	 * user.setFname(rs.getString(3)); user.setLname(rs.getString(4));
-	 * user.setDeleted(rs.getInt(5)); user.setActive(rs.getInt(6));
-	 * user.setRole(rs.getInt(7)); user.setEmail(rs.getString(8));
-	 * user.setDept(rs.getString(9)); userList.add(user); } return userList;
-	 * 
-	 * }
-	 */
 
-	/*
-	 * public UserBean getUserSearch(String ssoid, String fname, String lname,
-	 * String email, String dept) throws SQLException { UserBean user = new
-	 * UserBean(); getRecords3.setString(1, ssoid); getRecords3.setString(2, fname);
-	 * getRecords3.setString(3, lname); getRecords3.setString(4, email);
-	 * getRecords3.setString(5, dept);
-	 * 
-	 * ResultSet rs = getRecords3.executeQuery(); rs.next(); int row = rs.getRow();
-	 * 
-	 * if (row > 0) { user.setId(rs.getInt(1)); user.setSsoid(rs.getString(2));
-	 * user.setFname(rs.getString(3)); user.setLname(rs.getString(4));
-	 * user.setDeleted(rs.getInt(5)); user.setActive(rs.getInt(6));
-	 * user.setRole(rs.getInt(7)); user.setEmail(rs.getString(8));
-	 * user.setDept(rs.getString(9)); } else { user.setSsoid(""); user.setFname("");
-	 * user.setLname(""); }
-	 * 
-	 * return user; }
-	 */
+	public List<UserBean> getUserListFname(int role1, int role2, int start, int end) throws SQLException {
+		List<UserBean> userList = new ArrayList<UserBean>();
+		getRecords_fname.setInt(1, role1);
+		getRecords_fname.setInt(2, role2);
+		getRecords_fname.setInt(3, start);
+		getRecords_fname.setInt(4, end);
 
-	/*
-	 * public UserBean getUser(String id) throws SQLException {
-	 * 
-	 * UserBean user = new UserBean(); getUserRecords.setInt(1,
-	 * Integer.parseInt(id));
-	 * 
-	 * ResultSet rs = getUserRecords.executeQuery(); rs.next();
-	 * user.setId(rs.getInt(1)); user.setSsoid(rs.getString(2));
-	 * user.setFname(rs.getString(3)); user.setLname(rs.getString(4));
-	 * user.setDeleted(rs.getInt(5)); user.setActive(rs.getInt(6));
-	 * user.setRole(rs.getInt(7)); user.setEmail(rs.getString(8));
-	 * user.setDept(rs.getString(9));
-	 * 
-	 * return user; }
-	 */
+		ResultSet results = getRecords_fname.executeQuery();
 
-	/*
-	 * public List<UserBean> getUserList(int role1, int role2, int start, int end)
-	 * throws SQLException { // "SELECT `id`, `ssoid`, `fname`, `lname`,
-	 * `email`,`dept`, `role`, `deleted`, // `active` List<UserBean> userList = new
-	 * ArrayList<UserBean>(); getRecords.setInt(1, role1); getRecords.setInt(2,
-	 * role2); getRecords.setInt(3, start); getRecords.setInt(4, end); ResultSet
-	 * results = getRecords.executeQuery();
-	 * 
-	 * while (results.next()) { UserBean user = new UserBean();
-	 * user.setId(results.getInt(1)); user.setSsoid(results.getString(2));
-	 * user.setFname(results.getString(3)); user.setLname(results.getString(4));
-	 * user.setEmail(results.getString(5)); user.setDept(results.getString(6));
-	 * user.setRole(results.getInt(7)); user.setDeleted(results.getInt(8));
-	 * user.setActive(results.getInt(9)); userList.add(user); } return userList; }
-	 */
-	
-	protected void finalize() {
+		while (results.next()) {
+			UserBean user = new UserBean();
+			user.setId(results.getString(1));
+			user.setSsoid(results.getString(2));
+			user.setFname(results.getString(3));
+			user.setLname(results.getString(4));
+
+			userList.add(user);
+
+		}
+		return userList;
+	}
+	// ----------------------------------------
+
+	public int addUserBulk(UserBean user) throws SQLException {
+
+		int err = 0;
 		try {
-			instListRS.close();
-			SsoIdInstRS.close();
-			saveInstRS.close();
-			saveInstPswdRS.close();
-			setActive.close();
-			getCount.close();
-			// getRecords.close();
-			// getUserRecords.close();
-			// getRecords3.close();
-			deleteRecord.close();
-			updateRecord.close();
-			addRecord.close();
-			connection.close();
-		} catch (SQLException sql_ex) {
-			sql_ex.printStackTrace();
+			addRecord.setString(1, user.getSsoid());
+			addRecord.setString(2, user.getFname());
+			addRecord.setString(3, user.getLname());
+			addRecord.setString(4, user.getEmail());
+			addRecord.setInt(5, user.getRole());
+			addRecord.setString(6, user.getDept());
+			addRecord.executeUpdate();
+
+		} catch (SQLException sqlException) {
+			System.out.println("Error: Duplicate Entry");
+			err++;
 		}
 
+		return err;
+
 	}
+
+	public void addUser(UserBean user) throws SQLException {
+
+		
+			addRecord.setString(1, user.getSsoid());
+			addRecord.setString(2, user.getFname());
+			addRecord.setString(3, user.getLname());
+			addRecord.setString(4, user.getEmail());
+			addRecord.setInt(5, user.getRole());
+			addRecord.setString(6, user.getDept());
+			addRecord.executeUpdate();
+	}
+
+	protected void finalize() {
+		try {
+			getCount.close();
+			getRecords.close();
+			getRecords_lname.close();
+			getRecords_fname.close();
+			getUserRecords.close();
+			getRecords3.close();
+			addRecord.close();
+			deleteRecord.close();
+			updateRecord.close();
+			connection.close();
+		} catch (SQLException sqlException) {
+			System.out.println("Error: Duplicate Entry");
+			// sqlException.printStackTrace();
+
+		}
+	}
+
 }
