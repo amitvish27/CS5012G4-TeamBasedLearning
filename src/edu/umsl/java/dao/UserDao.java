@@ -279,11 +279,6 @@ public class UserDao {
 		// TODO need to work for sorting and pagination on search
 		col = (col.equals("")) ? "created" : col;
 		dir = (dir.equals("")) ? "ASC" : dir;
-		// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-		// `active` FROM `user` "
-		// + "WHERE `ssoid` LIKE ? OR `fname` LIKE ? OR `lname` LIKE ? OR `email` LIKE ?
-		// OR `dept` LIKE ?"
-		// + "ORDER BY ? ? LIMIT ?, ?"
 		searchText = "'%" + searchText + "%'";
 
 		List<UserBean> userList = new ArrayList<UserBean>();
@@ -293,19 +288,6 @@ public class UserDao {
 						+ "OR `email` LIKE "+searchText+" OR `dept` LIKE "+searchText+" "
 						+ "ORDER BY "+col+" "+dir+"  LIMIT "+start+", "+end;
 		
-		/*getRecords_sorted.setString(1, searchText);
-		getRecords_sorted.setString(2, searchText);
-		getRecords_sorted.setString(3, searchText);
-		getRecords_sorted.setString(4, searchText);
-		getRecords_sorted.setString(5, searchText);
-		getRecords_sorted.setString(6, col);
-		getRecords_sorted.setString(7, dir);
-		getRecords_sorted.setInt(8, start);
-		getRecords_sorted.setInt(9, end);*/
-
-//		System.out.println(">>>>>sorting by " + col + " " + dir);
-//		System.out.println(">>>>>paging by " + start + " " + end);
-//		System.out.println(">>>>>searchText by " + searchText);
 		getRecords_sorted = connection.prepareStatement(query);
 		ResultSet results = getRecords_sorted.executeQuery();
 

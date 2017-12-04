@@ -77,7 +77,8 @@ public class TopicServlet extends HttpServlet {
 				? request.getParameter("s_course_semester")
 				: "";
 		String s_course = (request.getParameter("s_course") != null) ? request.getParameter("s_course") : "";
-
+		String searchText = (request.getParameter("searchText") != null) ? request.getParameter("searchText") : "";
+		
 		if (initpg != null) {
 			try {
 				pg = Integer.parseInt(initpg);
@@ -92,8 +93,8 @@ public class TopicServlet extends HttpServlet {
 		try {
 			TopicDao topicDao = new TopicDao();
 			userId = String.valueOf(session.getAttribute("userId"));
-			String[] searchColumn = {"instructorid","courseid"};
-			String[] searchValue = {"", ""};
+			String[] searchColumn = {""};
+			String[] searchValue = {""};
 			
 			boolean checkcreatedbyme = Boolean.parseBoolean(request.getParameter("s_createdbyme"));
 			if ((checkcreatedbyme)) {
@@ -101,9 +102,13 @@ public class TopicServlet extends HttpServlet {
 				searchValue[0] = userId;
 			}
 			if(!s_course.equals("")) {
-				searchColumn[1] = "courseid";
-				searchValue[1] = s_course;
+				searchColumn[0] = "courseid";
+				searchValue[0] = s_course;
 			} 
+			if(!searchText.isEmpty()) {
+				searchColumn[0] = "title";
+				searchValue[0] = searchText;
+			}
 			
 			jsonObject = topicDao.getTopicJson(sortColName, sortDir, pg, pgSize, searchColumn, searchValue, s_course_year, s_course_semester);
 		} catch (Exception e) {

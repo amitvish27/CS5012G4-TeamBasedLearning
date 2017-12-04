@@ -208,7 +208,7 @@ public class TopicDao {
 
 		}
 		boolean flagCourseChanged = false;
-		if (!searchValue[1].equals("")) {
+		if (searchColumn.length>0 && searchColumn[0].equals("courseid")) {
 			flagCourseChanged = true;
 		}
 

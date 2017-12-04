@@ -128,7 +128,23 @@
 								<tfoot>
 									<tr>
 										<td>&nbsp;</td>
-										<td>&nbsp;</td>
+										<td>
+											<div class="form-inline">
+												<div class="form-group">
+													Show <select class="form-control" id="selShowEntries"
+														onchange="showEntries()">
+														<option value=10
+															<c:if test="${recPerPgStr eq 10}"> selected</c:if>>10</option>
+														<option value=25
+															<c:if test="${recPerPgStr eq 25}"> selected</c:if>>25</option>
+														<option value=50
+															<c:if test="${recPerPgStr eq 50}"> selected</c:if>>50</option>
+														<option value=100
+															<c:if test="${recPerPgStr eq 100}"> selected</c:if>>100</option>
+													</select> Entries
+												</div>
+											</div>
+										</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>
 										<td>&nbsp;</td>

@@ -279,4 +279,37 @@ public class CourseDao {
 		}
 		return tempList;
 	}
+
+	//TODO: wip
+	public List<CourseBean> getCourseList(String col, String dir, String searchText, int start, int end) {
+		List<CourseBean> courseList = new ArrayList<CourseBean>();
+		col = (col.equals("")) ? "created" : col;
+		dir = (dir.equals("")) ? "ASC" : dir;
+		searchText = "'%" + searchText + "%'";
+		//"SELECT id, code, title, year, semester, instructor "
+		//+ "FROM course WHERE deleted=0 " + "ORDER BY created DESC LIMIT ?, ?"
+		String query = "SELECT id, code, title, year, semester, instructor FROM course "
+						+ "WHERE deleted=0 AND (id LIKE "+searchText+" OR code LIKE "+searchText+" OR title LIKE "+searchText+" "
+						+ "OR year LIKE "+searchText+" OR semester LIKE "+searchText+" OR instructor LIKE "+searchText+") "
+						+ "ORDER BY "+col+" "+dir+"  LIMIT "+start+", "+end;
+		
+		try {
+			PreparedStatement getRecords_sorted = connection.prepareStatement(query);
+			ResultSet results = getRecords_sorted.executeQuery();
+			while (results.next()) {
+				CourseBean course = new CourseBean();
+				course.setId(results.getInt(1));
+				course.setCode(results.getString(2));
+				course.setTitle(results.getString(3));
+				course.setYear(results.getInt(4));
+				course.setSemester(results.getString(5));
+				course.setInstructor(results.getString(6));
+				courseList.add(course);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return courseList;
+	}
+
 }
