@@ -181,8 +181,6 @@ $(document).on("click", ".saveGroupName", function() {
 			courseid:courseid,
 			groupNumber:groupNumber,
 			groupId:groupId,
-		},
-		success: function(data) {
 		}
 	});
 });
@@ -202,16 +200,14 @@ $(document).on("click", ".removeGroupFromCourse", function() {
 			data: {
 				task:"delGroupsInCourse",
 				groupId:groupId,
-			},
-			success: function(data) {
 			}
 		});
 	}	
 });
 
-//TODO student modals 
+//student modals 
 $(document).on("click", ".clear-StudentsModal", function () { 
-	//clear and close student modal	
+	$("#addStudentModalbody").html('');
 	$("#addStudentModal").modal('hide');
 });
 
@@ -297,7 +293,7 @@ function getStudentListBody(list){
 	return bodyHtml;
 }
 
-//show students in selected group working
+//DONE: show students in selected group working
 $(document).on("click", ".show-StudentsInGroup", function () {
 	var courseId = $("#selectedCourse").val();
 	if ( courseId === undefined || courseId ==="") 
@@ -328,6 +324,7 @@ $(document).on("click", ".show-StudentsInGroup", function () {
 	});
 });
 
+//DONE: removing students from group
 $(document).on("click", ".removeStudentFromGroup", function() {
 	var ans = confirm("Are you sure you want to delete the selected record?");
 	if(ans){
@@ -340,8 +337,6 @@ $(document).on("click", ".removeStudentFromGroup", function() {
 			data: {
 				task:"delStudentsInGroup",
 				s_relnid:s_relnid
-			},
-			success: function(data) {
 			}
 		});
 		
