@@ -54,7 +54,9 @@
 											</div></th>
 										<th>&nbsp;</th>
 										<th>&nbsp;</th>
-										<th>&nbsp;</th>
+										<th>
+											<a href="uploadUsers.jsp">Bulk Upload</a>
+										 </th>
 										<th><button type="button" class="btn btn-link btn-sm"
 												onclick="onUserAdd()">
 												<span class="glyphicon glyphicon-plus"></span> Add new

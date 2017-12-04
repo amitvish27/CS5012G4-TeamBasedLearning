@@ -1,3 +1,4 @@
+
 function load(){
 	$.ajax({
 		url: "Group",
@@ -58,7 +59,7 @@ function getGroupListBody(list) {
 	$.each(list, function(index, value) {
 		bodyHtml += "<div class='row' id='grp"+value.groupid+"'>" +
 		"	<div class='col-xs-8'><button type='button' " +
-		"		class='button-no-style btn btn-default btn-block show-StudentsInGroup' " +
+		"		class='btn btn-link btn-primary-outline show-StudentsInGroup' " +
 		"		>"+value.groupnumber+"</button></div>"+
 		" 	<div class='col-xs-4'> " +
 		"		<div class='input-group-btn'>" + 
@@ -128,7 +129,7 @@ $(document).on("click", ".addNewGroupName", function() {
 		success: function(data) {
 			var htmlData = "<div class='row' id='grp"+data.groupId+"'>" +
 			"	<div class='col-xs-8' ><button type='button' " +
-			"		class='button-no-style btn btn-default btn-block show-StudentsInGroup'>" +
+			"		class='btn btn-link btn-primary-outline show-StudentsInGroup'>" +
 			"		"+data.groupNumber+"</button>" +
 			"	</div>"+
 			" 	<div class='col-xs-4'> " +
@@ -165,7 +166,7 @@ $(document).on("click", ".saveGroupName", function() {
 	var courseid = $("#selectedCourse").val(); 
 	var groupNumber = $(this).parents()[2].children[0].children[0].value;
 	var htmlData = "<button type='button' " +
-				"		class='button-no-style btn btn-default btn-block show-StudentsInGroup'>" +
+				"		class='btn btn-link btn-primary-outline show-StudentsInGroup'>" +
 				groupNumber+"</button>";
 	
 	$(this).attr('class','btn btn-link editGroupName');
@@ -181,8 +182,6 @@ $(document).on("click", ".saveGroupName", function() {
 			courseid:courseid,
 			groupNumber:groupNumber,
 			groupId:groupId,
-		},
-		success: function(data) {
 		}
 	});
 });
@@ -202,16 +201,14 @@ $(document).on("click", ".removeGroupFromCourse", function() {
 			data: {
 				task:"delGroupsInCourse",
 				groupId:groupId,
-			},
-			success: function(data) {
 			}
 		});
 	}	
 });
 
-//TODO student modals 
+//student modals 
 $(document).on("click", ".clear-StudentsModal", function () { 
-	//clear and close student modal	
+	$("#addStudentModalbody").html('');
 	$("#addStudentModal").modal('hide');
 });
 
@@ -297,7 +294,7 @@ function getStudentListBody(list){
 	return bodyHtml;
 }
 
-//show students in selected group working
+//DONE: show students in selected group working
 $(document).on("click", ".show-StudentsInGroup", function () {
 	var courseId = $("#selectedCourse").val();
 	if ( courseId === undefined || courseId ==="") 
@@ -328,6 +325,7 @@ $(document).on("click", ".show-StudentsInGroup", function () {
 	});
 });
 
+//DONE: removing students from group
 $(document).on("click", ".removeStudentFromGroup", function() {
 	var ans = confirm("Are you sure you want to delete the selected record?");
 	if(ans){
@@ -340,8 +338,6 @@ $(document).on("click", ".removeStudentFromGroup", function() {
 			data: {
 				task:"delStudentsInGroup",
 				s_relnid:s_relnid
-			},
-			success: function(data) {
 			}
 		});
 		

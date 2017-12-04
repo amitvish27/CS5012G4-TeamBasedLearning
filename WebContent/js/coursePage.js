@@ -1,6 +1,25 @@
+$(document).ready(function() {
+	clearCreateNewModal();
+	var errMsg = $("#errMsg").val();
+	if (errMsg != undefined && errMsg != '') {
+		alert(errMsg);
+	} else {
+		var sortBy = document.getElementById("idSortBy").value
+		if (sortBy != undefined) {
+			changeSortIcon(sortBy);
+		}
+	}
+});
+
 function moveCourOrder(u,v) 
 {
     document.location.href = "switchorder?dir=" +u + "&pid=" + v;
+}
+
+function showEntries() {
+	var entries = $("#selShowEntries").val();
+	var crtpg = parseInt(document.getElementById("crtpg").value);
+	document.location.href = "Course?pg=" + crtpg + "&ent=" + entries;
 }
 
 function loadCoursesAtPage(u)
@@ -113,7 +132,7 @@ function clearCreateNewModal() {
 
 
 function changeSortIcon(v) {
-	var sortDir = document.getElementById("idSortDir").value
+	/*var sortDir = document.getElementById("idSortDir").value
 	var iconClass = $("#" + v + "SortIcon").attr('class');
 	if( iconClass === "glyphicon glyphicon-sort")
 	{
@@ -129,10 +148,10 @@ function changeSortIcon(v) {
 	{	
 		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort');
 		$("#" + v + "SortDir").val('');
-	}
-	
-	/*enable when sorting fixed
-	 * if (sortDir === "" || sortDir == undefined) {
+	}*/
+	var sortDir = document.getElementById("idSortDir").value
+
+	if (sortDir === "" || sortDir == undefined) {
 		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort');
 
 		$("#" + v + "SortDir").val('ASC');
@@ -145,7 +164,7 @@ function changeSortIcon(v) {
 		$("#" + v + "SortIcon").attr('class',
 				'glyphicon glyphicon-sort-by-attributes-alt');
 		$("#" + v + "SortDir").val('');
-	}*/
+	}
 
 	return true;
 }
@@ -154,8 +173,7 @@ function sortColumn(v) {
 	if (!changeSortIcon(v)) {
 		return;
 	}
-/*	enable when sorting fixed
- * var d = $("#" + v + "SortDir").val();
+	var d = $("#" + v + "SortDir").val();
 	var url = window.location.search;
 	var sortIndex = url.indexOf('sort=');
 	var dirIndex = url.indexOf('dir=');
@@ -168,8 +186,22 @@ function sortColumn(v) {
 		url += "?sort=" + v + "&dir=" + d; // if no sort already then add
 	}
 
+/*/	enable when sorting fixed
+ 	var d = $("#" + v + "SortDir").val();
+	var url = window.location.search;
+	var sortIndex = url.indexOf('sort=');
+	var dirIndex = url.indexOf('dir=');
+	if (sortIndex > -1) {
+		url = url.substr(0, sortIndex - 1);
+	}
+	if (url.indexOf('?') > -1) {
+		url += "&sort=" + v + "&dir=" + d; // if no sort already then add
+	} else {
+		url += "?sort=" + v + "&dir=" + d; // if no sort already then add
+	}*/
+
 	//console.log("new url :" + url);
-	document.location.href = "Course" + url;*/
+	document.location.href = "Course" + url;
 }
 
 function onSearch() {

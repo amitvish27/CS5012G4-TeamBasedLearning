@@ -20,12 +20,19 @@
 </script>
 <link href="css/template.css" rel="stylesheet">
 <style type="text/css">
+	.btn-primary-outline {
+		width:100%;
+	}
 	.left-border {
 		border-left:1px solid rgba(0,0,0,.25);
 	}
-	.button-no-style {
-		border:none; 
+	.striped .row:nth-of-type(odd) div {
+		background-color:#ffffff;
 	}
+	.striped .row:nth-of-type(even) div {
+		background: #f9f9f9;
+	}
+			
 </style>
 
 </head>
@@ -87,10 +94,10 @@
 							</div>
 						</div><!-- End head row -->
 						<div class="row">
-							<div class="col-sm-6" id="grouplist">
+							<div class="col-sm-6 striped " id="grouplist">
 								
 							</div> <!-- End col-group -->
-							<div class="col-sm-6 left-border" id="studentlist">
+							<div class="col-sm-6 striped left-border" id="studentlist">
 								
 							</div> <!-- End col-student -->
 						</div><!-- End content row -->

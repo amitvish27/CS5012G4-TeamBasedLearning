@@ -72,7 +72,7 @@ function searchTopics()
 	var sortColName = "title";
 	var sortDir = $("#titleSortDir").val();
 	var pgSize = $("#selShowEntries").val();
-	console.log("<<<>>>" + pgSize);
+	var searchText = $("#idsearchtext").val(); 
 	$.ajax({
 		type: "POST",
 		url: "Topic",
@@ -85,7 +85,8 @@ function searchTopics()
 			s_course_semester: sem,
 			s_course: course,
 			sortColName: sortColName,
-			sortDir: sortDir
+			sortDir: sortDir,
+			searchText:searchText
 		},
 		success: function(data) {
 			var topicBody = getTableBody(data.topics);
@@ -174,8 +175,7 @@ function getCourseBody(list){
 }
 
 function onSearch() {
-	var searchText = $("#idsearchtext").val();
-	document.location.href = "Topic" + "?search="+searchText;
+	searchTopics();
 }
 
 function onRefresh() {

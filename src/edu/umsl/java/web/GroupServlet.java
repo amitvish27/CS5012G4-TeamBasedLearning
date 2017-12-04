@@ -24,21 +24,13 @@ public class GroupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession();
-		if (session.getAttribute("userFirstName") == null) {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-		}
-		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("group.jsp");
 		dispatcher.forward(request, response);
 	}
 	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		HttpSession session = request.getSession();
-		if (session.getAttribute("userFirstName") == null) {
-			request.getRequestDispatcher("login.jsp").forward(request, response);
-		}
-		System.out.println("task > " + (String) request.getParameter("task"));
+		
 		String task = ((String) request.getParameter("task")!=null) ? (String) request.getParameter("task"): "getCourse";
 		String instssoid = (String) session.getAttribute("userId");
 		int courseId, groupId, groupNumber;
