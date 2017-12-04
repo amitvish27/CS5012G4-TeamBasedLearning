@@ -1,3 +1,4 @@
+
 function load(){
 	$.ajax({
 		url: "Group",
@@ -58,7 +59,7 @@ function getGroupListBody(list) {
 	$.each(list, function(index, value) {
 		bodyHtml += "<div class='row' id='grp"+value.groupid+"'>" +
 		"	<div class='col-xs-8'><button type='button' " +
-		"		class='button-no-style btn btn-default btn-block show-StudentsInGroup' " +
+		"		class='btn btn-link btn-primary-outline show-StudentsInGroup' " +
 		"		>"+value.groupnumber+"</button></div>"+
 		" 	<div class='col-xs-4'> " +
 		"		<div class='input-group-btn'>" + 
@@ -128,7 +129,7 @@ $(document).on("click", ".addNewGroupName", function() {
 		success: function(data) {
 			var htmlData = "<div class='row' id='grp"+data.groupId+"'>" +
 			"	<div class='col-xs-8' ><button type='button' " +
-			"		class='button-no-style btn btn-default btn-block show-StudentsInGroup'>" +
+			"		class='btn btn-link btn-primary-outline show-StudentsInGroup'>" +
 			"		"+data.groupNumber+"</button>" +
 			"	</div>"+
 			" 	<div class='col-xs-4'> " +
@@ -165,7 +166,7 @@ $(document).on("click", ".saveGroupName", function() {
 	var courseid = $("#selectedCourse").val(); 
 	var groupNumber = $(this).parents()[2].children[0].children[0].value;
 	var htmlData = "<button type='button' " +
-				"		class='button-no-style btn btn-default btn-block show-StudentsInGroup'>" +
+				"		class='btn btn-link btn-primary-outline show-StudentsInGroup'>" +
 				groupNumber+"</button>";
 	
 	$(this).attr('class','btn btn-link editGroupName');
