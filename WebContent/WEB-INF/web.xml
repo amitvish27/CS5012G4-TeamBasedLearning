@@ -19,5 +19,6 @@
     <url-pattern>/Topic</url-pattern>
     <url-pattern>/Course</url-pattern>
     <url-pattern>/Question</url-pattern>
+    <url-pattern>/Group</url-pattern>
   </filter-mapping>
 </web-app>

@@ -16,7 +16,6 @@ import edu.umsl.java.util.ReadProperties;
 
 public class QuestionDao {
 	private Connection connection;
-	private PreparedStatement results;
 	private PreparedStatement setInstructor;
 	private PreparedStatement questioncnt;
 	private PreparedStatement questionpg;
