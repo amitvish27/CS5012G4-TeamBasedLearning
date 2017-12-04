@@ -30,9 +30,6 @@ public class UserDao {
 	private PreparedStatement setActive;
 	private PreparedStatement getCount;
 	private PreparedStatement getRecords_sorted;
-	// private PreparedStatement getUserRecords;
-	// private PreparedStatement getRecords;
-	// private PreparedStatement getRecords3;
 	private PreparedStatement deleteRecord;
 	private PreparedStatement updateRecord;
 	private PreparedStatement addRecord;
@@ -68,20 +65,6 @@ public class UserDao {
 					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` "
 							+ "WHERE `ssoid` LIKE ? OR `fname` LIKE ? OR `lname` LIKE ? OR `email` LIKE ? OR `dept` LIKE ?"
 							+ "ORDER BY ? ?  LIMIT ?, ?");
-
-			// getRecords = connection.prepareStatement(
-			// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-			// `active` FROM `user` WHERE `role`=? OR `role`=? ORDER BY `created` DESC LIMIT
-			// ?, ?");
-
-			// getUserRecords = connection.prepareStatement(
-			// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-			// `active`, `role`, `email`, `dept` FROM `user` WHERE `id` = ?");
-
-			// getRecords3 = connection.prepareStatement(
-			// "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`,
-			// `active`, `role`, `email`, `dept` FROM `user` WHERE `ssoid` LIKE ? OR `fname`
-			// LIKE ? OR `lname` LIKE ? OR `email` LIKE ? OR `dept` LIKE ?");
 
 			addRecord = connection.prepareStatement(
 					"INSERT INTO `user` (`ssoid`,`pswd`,`fname`,`lname`,`email`,`dept`,`createdby`,`modifiedby`,`role`,`active`, `deleted`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
@@ -149,7 +132,7 @@ public class UserDao {
 				instructor.setId(res.getInt(1));
 				instructor.setSsoid(res.getString(2));
 
-//				System.out.println("paswd : " + res.getString(3));
+				// System.out.println("paswd : " + res.getString(3));
 				String decryptedPswd = PasswordEncrypter.decrypt(res.getString(3), secretKey);
 				instructor.setPswd(decryptedPswd);
 
@@ -282,12 +265,12 @@ public class UserDao {
 		searchText = "'%" + searchText + "%'";
 
 		List<UserBean> userList = new ArrayList<UserBean>();
-		
+
 		String query = "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` "
-						+ "WHERE `ssoid` LIKE "+searchText+" OR `fname` LIKE "+searchText+" OR `lname` LIKE "+searchText+" "
-						+ "OR `email` LIKE "+searchText+" OR `dept` LIKE "+searchText+" "
-						+ "ORDER BY "+col+" "+dir+"  LIMIT "+start+", "+end;
-		
+				+ "WHERE `ssoid` LIKE " + searchText + " OR `fname` LIKE " + searchText + " OR `lname` LIKE "
+				+ searchText + " " + "OR `email` LIKE " + searchText + " OR `dept` LIKE " + searchText + " "
+				+ "ORDER BY " + col + " " + dir + "  LIMIT " + start + ", " + end;
+
 		getRecords_sorted = connection.prepareStatement(query);
 		ResultSet results = getRecords_sorted.executeQuery();
 
@@ -303,11 +286,12 @@ public class UserDao {
 			user.setDeleted(results.getInt(8));
 			user.setActive(results.getInt(9));
 			userList.add(user);
-//			System.out.println(user.getSsoid() + " - " + user.getFname());
+			// System.out.println(user.getSsoid() + " - " + user.getFname());
 		}
 		return userList;
 	}
 
+	//TODO wip
 	public void addUser(UserBean user) throws SQLException {
 		addRecord.setString(1, user.getSsoid());
 		addRecord.setString(2, user.getPswd());
@@ -323,74 +307,26 @@ public class UserDao {
 		addRecord.executeUpdate();
 
 	}
-	/*
-	 * public List<UserBean> getUserSearchList(String ssoid, String fname, String
-	 * lname, String email, String dept) throws SQLException { List<UserBean>
-	 * userList = new ArrayList<UserBean>(); getRecords3.setString(1, ssoid);
-	 * getRecords3.setString(2, fname); getRecords3.setString(3, lname);
-	 * getRecords3.setString(4, email); getRecords3.setString(5, dept);
-	 * 
-	 * ResultSet rs = getRecords3.executeQuery(); while (rs.next()) { UserBean user
-	 * = new UserBean(); user.setId(rs.getInt(1)); user.setSsoid(rs.getString(2));
-	 * user.setFname(rs.getString(3)); user.setLname(rs.getString(4));
-	 * user.setDeleted(rs.getInt(5)); user.setActive(rs.getInt(6));
-	 * user.setRole(rs.getInt(7)); user.setEmail(rs.getString(8));
-	 * user.setDept(rs.getString(9)); userList.add(user); } return userList;
-	 * 
-	 * }
-	 */
 
-	/*
-	 * public UserBean getUserSearch(String ssoid, String fname, String lname,
-	 * String email, String dept) throws SQLException { UserBean user = new
-	 * UserBean(); getRecords3.setString(1, ssoid); getRecords3.setString(2, fname);
-	 * getRecords3.setString(3, lname); getRecords3.setString(4, email);
-	 * getRecords3.setString(5, dept);
-	 * 
-	 * ResultSet rs = getRecords3.executeQuery(); rs.next(); int row = rs.getRow();
-	 * 
-	 * if (row > 0) { user.setId(rs.getInt(1)); user.setSsoid(rs.getString(2));
-	 * user.setFname(rs.getString(3)); user.setLname(rs.getString(4));
-	 * user.setDeleted(rs.getInt(5)); user.setActive(rs.getInt(6));
-	 * user.setRole(rs.getInt(7)); user.setEmail(rs.getString(8));
-	 * user.setDept(rs.getString(9)); } else { user.setSsoid(""); user.setFname("");
-	 * user.setLname(""); }
-	 * 
-	 * return user; }
-	 */
+	public int addUserBulk(UserBean user) throws SQLException {
 
-	/*
-	 * public UserBean getUser(String id) throws SQLException {
-	 * 
-	 * UserBean user = new UserBean(); getUserRecords.setInt(1,
-	 * Integer.parseInt(id));
-	 * 
-	 * ResultSet rs = getUserRecords.executeQuery(); rs.next();
-	 * user.setId(rs.getInt(1)); user.setSsoid(rs.getString(2));
-	 * user.setFname(rs.getString(3)); user.setLname(rs.getString(4));
-	 * user.setDeleted(rs.getInt(5)); user.setActive(rs.getInt(6));
-	 * user.setRole(rs.getInt(7)); user.setEmail(rs.getString(8));
-	 * user.setDept(rs.getString(9));
-	 * 
-	 * return user; }
-	 */
+		int err = 0;
+		try {
+			addRecord.setString(1, user.getSsoid());
+			addRecord.setString(2, user.getFname());
+			addRecord.setString(3, user.getLname());
+			addRecord.setString(4, user.getEmail());
+			addRecord.setInt(5, user.getRole());
+			addRecord.setString(6, user.getDept());
+			addRecord.executeUpdate();
 
-	/*
-	 * public List<UserBean> getUserList(int role1, int role2, int start, int end)
-	 * throws SQLException { // "SELECT `id`, `ssoid`, `fname`, `lname`,
-	 * `email`,`dept`, `role`, `deleted`, // `active` List<UserBean> userList = new
-	 * ArrayList<UserBean>(); getRecords.setInt(1, role1); getRecords.setInt(2,
-	 * role2); getRecords.setInt(3, start); getRecords.setInt(4, end); ResultSet
-	 * results = getRecords.executeQuery();
-	 * 
-	 * while (results.next()) { UserBean user = new UserBean();
-	 * user.setId(results.getInt(1)); user.setSsoid(results.getString(2));
-	 * user.setFname(results.getString(3)); user.setLname(results.getString(4));
-	 * user.setEmail(results.getString(5)); user.setDept(results.getString(6));
-	 * user.setRole(results.getInt(7)); user.setDeleted(results.getInt(8));
-	 * user.setActive(results.getInt(9)); userList.add(user); } return userList; }
-	 */
-	
+		} catch (SQLException sqlException) {
+			System.out.println("Error: Duplicate Entry");
+			err++;
+		}
+		return err;
+	}
+
 	protected void finalize() {
 		try {
 			instListRS.close();
@@ -399,9 +335,6 @@ public class UserDao {
 			saveInstPswdRS.close();
 			setActive.close();
 			getCount.close();
-			// getRecords.close();
-			// getUserRecords.close();
-			// getRecords3.close();
 			deleteRecord.close();
 			updateRecord.close();
 			addRecord.close();
