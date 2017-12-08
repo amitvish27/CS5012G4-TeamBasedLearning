@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 15, 2017 at 08:50 PM
+-- Generation Time: Dec 05, 2017 at 12:51 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -172,12 +172,27 @@ CREATE TABLE `quiz` (
 --
 
 CREATE TABLE `sgroup` (
-  `relnid` int(6) NOT NULL COMMENT 'internal record id',
+  `groupid` int(6) NOT NULL COMMENT 'internal record id',
   `courseid` int(6) NOT NULL COMMENT 'fk to course',
   `groupnumber` int(6) NOT NULL COMMENT 'group number',
-  `instructorid` int(5) NOT NULL COMMENT 'instructor who created',
+  `instructorid` varchar(10) NOT NULL COMMENT 'instructor who created',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sgroup`
+--
+
+INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `deleted`) VALUES
+(1, 30, 1, 'instructor', 0),
+(2, 30, 2, 'instructor', 0),
+(3, 30, 3, 'instructor', 0),
+(4, 30, 4, 'instructor', 0),
+(5, 30, 5, 'instructor', 0),
+(6, 30, 6, 'instructor', 0),
+(7, 29, 1, 'instructor', 0),
+(8, 29, 2, 'instructor', 0),
+(9, 30, 7, 'instructor', 0);
 
 -- --------------------------------------------------------
 
@@ -214,10 +229,23 @@ CREATE TABLE `student_course` (
 
 CREATE TABLE `student_sgroup` (
   `relnid` int(6) NOT NULL COMMENT 'internal record id',
-  `studentid` int(6) NOT NULL COMMENT 'fk to student in user table',
+  `studentid` varchar(10) NOT NULL COMMENT 'fk to student in user table',
   `groupid` int(6) NOT NULL COMMENT 'fk to group id',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted?0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_sgroup`
+--
+
+INSERT INTO `student_sgroup` (`relnid`, `studentid`, `groupid`, `deleted`) VALUES
+(1, 'student', 1, 0),
+(2, 'ar2y89', 9, 0),
+(3, 'arksk0', 9, 0),
+(4, 'eawdq0', 9, 0),
+(5, 'ewxf91', 9, 0),
+(6, 'grxy71', 9, 0),
+(7, 'jmgyjb', 9, 0);
 
 -- --------------------------------------------------------
 
@@ -498,7 +526,7 @@ ALTER TABLE `quiz`
 -- Indexes for table `sgroup`
 --
 ALTER TABLE `sgroup`
-  ADD PRIMARY KEY (`relnid`);
+  ADD PRIMARY KEY (`groupid`);
 
 --
 -- Indexes for table `sgroup_quiz`
@@ -578,7 +606,7 @@ ALTER TABLE `quiz`
 -- AUTO_INCREMENT for table `sgroup`
 --
 ALTER TABLE `sgroup`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `groupid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=10;
 --
 -- AUTO_INCREMENT for table `sgroup_quiz`
 --
@@ -593,7 +621,7 @@ ALTER TABLE `student_course`
 -- AUTO_INCREMENT for table `student_sgroup`
 --
 ALTER TABLE `student_sgroup`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `topic`
 --
@@ -608,7 +636,7 @@ ALTER TABLE `topic_inst`
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'Internal table id, AutoIncrement', AUTO_INCREMENT=81;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'Internal table id, AutoIncrement', AUTO_INCREMENT=73;
 --
 -- Constraints for dumped tables
 --

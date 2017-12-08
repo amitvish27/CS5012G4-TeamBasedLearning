@@ -266,11 +266,11 @@ public class UserDao {
 
 		List<UserBean> userList = new ArrayList<UserBean>();
 
-		String query = "SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` "
-				+ "WHERE `ssoid` LIKE " + searchText + " OR `fname` LIKE " + searchText + " OR `lname` LIKE "
-				+ searchText + " " + "OR `email` LIKE " + searchText + " OR `dept` LIKE " + searchText + " "
-				+ "ORDER BY " + col + " " + dir + "  LIMIT " + start + ", " + end;
-
+		String query = "SELECT id, ssoid, fname, lname, email,dept, role, deleted, active FROM user "
+				+ "WHERE ssoid LIKE " + searchText + " OR fname LIKE " + searchText + " OR lname LIKE "
+				+ searchText + " " + "OR email LIKE " + searchText + " OR dept LIKE " + searchText + " "
+				+ "ORDER BY " + col + " " + dir + "  LIMIT " + (start-1) + ", " + end;
+		//System.out.println("query : " + query);
 		getRecords_sorted = connection.prepareStatement(query);
 		ResultSet results = getRecords_sorted.executeQuery();
 
