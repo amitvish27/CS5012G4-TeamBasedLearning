@@ -13,6 +13,10 @@
     <filter-name>AdminFilter</filter-name>
     <filter-class>edu.umsl.java.filters.UserAdminFilter</filter-class>
   </filter>
+  <filter>
+    <filter-name>UserStudentFilter</filter-name>
+    <filter-class>edu.umsl.java.filters.UserStudentFilter</filter-class>
+  </filter>
   <filter-mapping>
     <filter-name>AdminFilter</filter-name>
     <url-pattern>/ManageUser</url-pattern>
@@ -20,5 +24,9 @@
     <url-pattern>/Course</url-pattern>
     <url-pattern>/Question</url-pattern>
     <url-pattern>/Group</url-pattern>
+  </filter-mapping>
+  <filter-mapping>
+    <filter-name>UserStudentFilter</filter-name>
+    <url-pattern>/TakeQuiz</url-pattern>
   </filter-mapping>
 </web-app>

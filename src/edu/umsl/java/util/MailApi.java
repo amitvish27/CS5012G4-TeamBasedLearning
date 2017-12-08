@@ -6,7 +6,7 @@ import javax.mail.*;
 import javax.mail.internet.*;
 
 public class MailApi {
-	public static boolean send(String from, String password, String to, String sub, String msg) {
+	public static boolean send(final String from, final String password, String to, String sub, String msg) {
 		// Get properties object
 		boolean flag=false;
 		ReadProperties.loadPropertiesFile();
