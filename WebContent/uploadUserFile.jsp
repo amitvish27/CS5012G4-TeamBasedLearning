@@ -79,10 +79,10 @@ div.relative {
 
 					try {
 						// Parse the request to get file items.
-						List fileItems = upload.parseRequest(request);
+						List<FileItem> fileItems = upload.parseRequest(request);
 
 						// Process the uploaded file items
-						Iterator i = fileItems.iterator();
+						Iterator<FileItem> i = fileItems.iterator();
 
 						out.println("<html>");
 						out.println("<head>");

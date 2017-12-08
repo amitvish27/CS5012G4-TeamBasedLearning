@@ -120,6 +120,11 @@
 														style="height: 2.4em" class="btn btn-link">
 														<span class="glyphicon glyphicon-trash trashButtonIcon"></span>
 													</button>
+													<button type="button"
+														onclick="importThisCourse(${course.getId()}, ${crtpg})"
+														style="height: 2.4em" class="btn btn-link">
+														<span class="glyphicon glyphicon-import otherButtonIcon"></span>
+													</button>
 												</div>
 											</td>
 										</tr>
