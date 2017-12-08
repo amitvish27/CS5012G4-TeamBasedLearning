@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 05, 2017 at 12:51 AM
+-- Generation Time: Dec 08, 2017 at 07:20 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -52,7 +52,7 @@ INSERT INTO `course` (`id`, `code`, `title`, `year`, `semester`, `created`, `ins
 (6, 'BS1337', 'Financial Reporting And Contro', 2016, 'Spring', '2017-11-04 22:38:23', 'jppdle', 0),
 (7, 'AR1638', 'Introduction To Visual Thinkin', 2016, 'Winter', '2017-11-04 22:38:23', 'jh6q3t', 0),
 (8, 'CS1759', 'Computer Programming I', 2015, 'Summer', '2017-11-04 22:38:23', 'fr5rae', 0),
-(9, 'AR1359', 'The Language Of Drawing', 2015, 'Fall', '2017-11-04 22:38:23', 'jppdle', 0),
+(9, 'AR1359', 'The Language Of Drawing', 2015, 'Fall', '2017-11-04 22:38:23', 'yt1234', 0),
 (10, 'MA2448', 'Probability', 2017, 'Winter', '2017-11-04 22:38:23', 'fr5rae', 0),
 (11, 'IS2108', 'Technology Consulting In The G', 2016, 'Fall', '2017-11-04 22:38:23', 'jh6q3t', 0),
 (12, 'MA1923', 'Intermediate Analysis', 2016, 'Fall', '2017-11-04 22:38:23', 'jppdle', 0),
@@ -86,7 +86,7 @@ INSERT INTO `course` (`id`, `code`, `title`, `year`, `semester`, `created`, `ins
 CREATE TABLE `course_inst` (
   `relnid` int(5) NOT NULL COMMENT 'internal record id',
   `courseid` int(5) NOT NULL COMMENT 'fk to course internal id',
-  `instid` int(5) NOT NULL COMMENT 'fk to user internal id',
+  `instid` varchar(10) NOT NULL COMMENT 'fk to user internal id',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -192,7 +192,10 @@ INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `del
 (6, 30, 6, 'instructor', 0),
 (7, 29, 1, 'instructor', 0),
 (8, 29, 2, 'instructor', 0),
-(9, 30, 7, 'instructor', 0);
+(9, 30, 7, 'instructor', 0),
+(10, 30, 8, 'instructor', 0),
+(11, 30, 9, 'instructor', 1),
+(12, 30, 9, 'instructor', 0);
 
 -- --------------------------------------------------------
 
@@ -216,10 +219,24 @@ CREATE TABLE `sgroup_quiz` (
 
 CREATE TABLE `student_course` (
   `relnid` int(6) NOT NULL COMMENT 'internal record id',
-  `studentid` int(5) NOT NULL COMMENT 'fk to student in user table',
+  `studentid` varchar(10) NOT NULL COMMENT 'fk to student in user table',
   `courseid` int(5) NOT NULL COMMENT 'fk to course id',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `student_course`
+--
+
+INSERT INTO `student_course` (`relnid`, `studentid`, `courseid`, `deleted`) VALUES
+(1, 'student', 30, 0),
+(2, 'ar2y89', 30, 0),
+(3, 'arksk0', 30, 0),
+(4, 'ar2y89', 29, 0),
+(5, 'cjqxc2', 29, 0),
+(6, 'dcjlpi', 29, 0),
+(7, 'dcrs4p', 29, 1),
+(8, 'dt4pyv', 29, 1);
 
 -- --------------------------------------------------------
 
@@ -245,7 +262,10 @@ INSERT INTO `student_sgroup` (`relnid`, `studentid`, `groupid`, `deleted`) VALUE
 (4, 'eawdq0', 9, 0),
 (5, 'ewxf91', 9, 0),
 (6, 'grxy71', 9, 0),
-(7, 'jmgyjb', 9, 0);
+(7, 'jmgyjb', 9, 0),
+(8, 'dcjlpi', 1, 0),
+(9, 'dt4pyv', 1, 0),
+(10, 'eajdgi', 1, 0);
 
 -- --------------------------------------------------------
 
@@ -365,7 +385,8 @@ INSERT INTO `topic` (`id`, `title`, `courseid`, `created`, `instructorid`, `dele
 (96, 'Activity-Exercise', 5, '2017-11-05 01:11:52', 'instructor', 0),
 (97, 'Nutritional-Metabolic Pattern', 1, '2017-11-05 01:11:52', 'nt669p', 0),
 (98, 'Activity-Exercise Pattern&Oxygenation', 13, '2017-11-05 01:11:52', 'instructor', 0),
-(99, 'Ajax&Jquery', 31, '2017-11-10 01:04:14', 'instructor', 0);
+(99, 'Ajax&Jquery', 31, '2017-11-10 01:04:14', 'instructor', 0),
+(100, 'ABC', 30, '2017-12-04 18:32:51', 'yt1234', 0);
 
 -- --------------------------------------------------------
 
@@ -376,7 +397,7 @@ INSERT INTO `topic` (`id`, `title`, `courseid`, `created`, `instructorid`, `dele
 CREATE TABLE `topic_inst` (
   `relnid` int(5) NOT NULL COMMENT 'internal record id',
   `topicid` int(5) NOT NULL COMMENT 'fk to topic',
-  `instructorid` int(5) NOT NULL COMMENT 'fk to instructor',
+  `instructorid` varchar(10) NOT NULL COMMENT 'fk to instructor',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -409,7 +430,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `created`, `createdby`, `modified`, `modifiedby`, `deleted`, `role`, `active`, `snumber`) VALUES
-(1, 'student', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ada', 'Hill', 'ada.hill@mail.com																																	', 'Finance', '2017-11-04 21:24:58', 'asv123', '2017-11-04 21:24:58', 'asv123', 0, 0, 1, 15787575),
+(1, 'student', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ada', 'Hill', 'ada.hill@mail.com', 'Finance', '2017-11-04 21:24:58', 'asv123', '2017-11-04 21:24:58', 'asv123', 0, 0, 1, 15787575),
 (4, 'ar2y89', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Addie', 'Reyes', 'addie.reyes@mail.com', 'Business', '2017-11-04 21:41:33', 'yh1234', '2017-11-04 21:41:33', 'yh1234', 0, 0, 1, 91893072),
 (5, 'arksk0', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Agnes', 'Rogers', 'agnes.rogers@mail.com', 'Arts', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 48840382),
 (6, 'cdgsyj', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Claude', 'Dixon', 'claude.dixon@mail.com', 'Mathematics', '2017-11-04 21:41:33', 'asv123', '2017-11-04 21:41:33', 'asv123', 0, 0, 1, 20609289),
@@ -496,7 +517,7 @@ ALTER TABLE `course`
 ALTER TABLE `course_inst`
   ADD PRIMARY KEY (`relnid`),
   ADD KEY `fk_course` (`courseid`),
-  ADD KEY `fk_instructor` (`instid`);
+  ADD KEY `fk_course_inst_instid` (`instid`);
 
 --
 -- Indexes for table `question`
@@ -558,8 +579,8 @@ ALTER TABLE `topic`
 --
 ALTER TABLE `topic_inst`
   ADD PRIMARY KEY (`relnid`),
-  ADD KEY `fk_topic_inst_instid` (`instructorid`),
-  ADD KEY `fk_topic_inst_topicid` (`topicid`);
+  ADD KEY `fk_topic_inst_topicid` (`topicid`),
+  ADD KEY `fk_topic_inst_instid` (`instructorid`);
 
 --
 -- Indexes for table `user`
@@ -606,7 +627,7 @@ ALTER TABLE `quiz`
 -- AUTO_INCREMENT for table `sgroup`
 --
 ALTER TABLE `sgroup`
-  MODIFY `groupid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=10;
+  MODIFY `groupid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=13;
 --
 -- AUTO_INCREMENT for table `sgroup_quiz`
 --
@@ -616,17 +637,17 @@ ALTER TABLE `sgroup_quiz`
 -- AUTO_INCREMENT for table `student_course`
 --
 ALTER TABLE `student_course`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `student_sgroup`
 --
 ALTER TABLE `student_sgroup`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=8;
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=11;
 --
 -- AUTO_INCREMENT for table `topic`
 --
 ALTER TABLE `topic`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=100;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `topic_inst`
 --
@@ -646,7 +667,7 @@ ALTER TABLE `user`
 --
 ALTER TABLE `course_inst`
   ADD CONSTRAINT `fk_course` FOREIGN KEY (`courseid`) REFERENCES `course` (`id`),
-  ADD CONSTRAINT `fk_instructor` FOREIGN KEY (`instid`) REFERENCES `user` (`id`);
+  ADD CONSTRAINT `fk_course_inst_instid` FOREIGN KEY (`instid`) REFERENCES `user` (`ssoid`);
 
 --
 -- Constraints for table `topic`
@@ -658,7 +679,7 @@ ALTER TABLE `topic`
 -- Constraints for table `topic_inst`
 --
 ALTER TABLE `topic_inst`
-  ADD CONSTRAINT `fk_topic_inst_instid` FOREIGN KEY (`instructorid`) REFERENCES `user` (`id`),
+  ADD CONSTRAINT `fk_topic_inst_instid` FOREIGN KEY (`instructorid`) REFERENCES `user` (`ssoid`),
   ADD CONSTRAINT `fk_topic_inst_topicid` FOREIGN KEY (`topicid`) REFERENCES `topic` (`id`);
 COMMIT;
 
