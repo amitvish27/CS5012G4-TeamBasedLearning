@@ -64,6 +64,10 @@ body {
 .trashButtonIcon{
 	color: #DE0A0C;
 }
+.otherButtonIcon{
+	color: #46B8DA;
+}
+
 .tooltip-inner {
     white-space:pre-wrap;
     max-width:none;

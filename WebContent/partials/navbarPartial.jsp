@@ -15,8 +15,8 @@
 					<li><a href="Course">Course</a></li>
 					<li><a href="Topic">Topic</a></li>
 					<li><a href="Question">Question Bank</a></li>
-					<li><a href="#">Students</a></li>
-					<li><a href="#">Quiz</a></li>
+					<li><a href="StudentCourse">Students</a></li>
+					<li><a href="Quiz">Quiz</a></li>
 					<li><a href="Group">Group</a></li>
 				</c:if>
 				<c:if test="${userRole==2}">
