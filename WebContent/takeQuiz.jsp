@@ -32,13 +32,8 @@
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body form-group">
 						<div class='timerCountdown h4 float-right'>Time Left: <span class='countdown'></span></div>
-						<div class="quizDetails">
-							
-						</div>
 						<div class="quizBody">
 							
-						</div>
-						<div class="quizResultBody">
 						</div>
 					</div>
 					<!-- End panel-body -->

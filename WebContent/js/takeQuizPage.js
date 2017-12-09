@@ -1,18 +1,20 @@
 $(document).ready(function() {
+	var dt = new Date($.now());
+	var timestamp = dt.getFullYear()+"-"+(dt.getMonth()+1)+"-"+ dt.getDate() +" " 
+					+ dt.getHours()+":"+dt.getMinutes()+":"+dt.getSeconds();
 	$.ajax({
 		url : "TakeQuiz",
 		type : "POST",
 		dataType : "json",
 		data : {
-			task : "getActiveQuiz"
+			action : "getActiveQuizList",
+			timestamp:timestamp
 		},
 		success : function(data) {
-			console.log("out ready");
-			var htmlData = getActiveQuizBody(data);
+			var htmlData = getActiveQuizBody(data.activeQuizList);
 			$('.quizBody').html("");
-			$('.quizResultBody').html("");
 			$('.timerCountdown').hide();
-			$('.quizDetails').html(htmlData);
+			$('.quizBody').html(htmlData);
 		}
 	});
 });
@@ -21,11 +23,9 @@ $(document).ready(function() {
 function getActiveQuizBody(data) {
 	var htmlData = "";
 	htmlData += "<h4>Available Quizes: </h4>";
-	//for each data.quiz
-	var list = [1,2,3]; 
-	$.each(list, function(index, value) {
-		htmlData += "<div id='Quiz."+value+"' class='top-buffer form-horizontal'><div class='form-group'>" 
-				+"		<label class='col-sm-2' >Quiz"+value+"</label>" 
+	$.each(data, function(index, value) {
+		htmlData += "<div id='Quiz."+value.quizid+"' class='top-buffer form-horizontal'><div class='form-group'>" 
+				+"		<label class='col-sm-2' >Quiz - "+value.quiznumber+"</label>" 
 				+		"<div class='col-sm-2'>" 
 				+		"<input type='text' class='form-control' placeholder='Enter Token'></div>" 
 				+		"<div class='col-sm-2'>" 
@@ -39,16 +39,40 @@ function getActiveQuizBody(data) {
 
 
 $(document).on("click",".startQuiz",  function(){
-	console.log ('startQuiz');
-	countdown("1:00");
-	$('.timerCountdown').show();
-	$('.quizDetails').html("");
-	var options = [1,2,3,4];
-	var quest = "What is 2+2?";
-	var currQuest=1;
-	var totalQuest=10;
-	var htmlData = getQuestionBody(quest, options, currQuest, totalQuest);	
-	$('.quizBody').html(htmlData);
+	
+	//$(this).parent().
+	var quizid="";
+	var token="";
+	$.ajax({
+		url : "TakeQuiz",
+		type : "POST",
+		dataType : "json",
+		data : {
+			action : "getQuizDetails",
+			quizid:quizid,
+			token:token
+		},
+		success : function(data) {
+			console.log(data);
+			if(data.error){
+				alert(data.error);
+				location.reload();
+			}
+			else {
+				alert("time limit " + data.quiz.time_limit);
+			}
+				
+		}
+	});
+	
+	//$('.timerCountdown').show();
+	//$('.quizDetails').html("");
+	//var options = [1,2,3,4];
+	//var quest = "What is 2+2?";
+	//var currQuest=1;
+	//var totalQuest=10;
+	//var htmlData = getQuestionBody(quest, options, currQuest, totalQuest);	
+	//$('.quizBody').html(htmlData);
 	
 });
 
@@ -117,7 +141,7 @@ $(document).on("click",".finishQuiz",  function(){
 function finishClicked(){
 	$('.quizBody').html("");
 	var htmlData = "";
-	$('.quizResultBody').html("quiz completed. results");
+	$('.quizBody').html("quiz completed. results");
 	$('.timerCountdown').hide();
 	$('.countdown').html('');
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.json.Json;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,6 +12,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import edu.umsl.java.dao.TakeQuizDao;
 
 /**
  * Servlet implementation class TakeQuizServlet
@@ -39,8 +42,40 @@ public class TakeQuizServlet extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		JsonObject jsonObject = null;
-		jsonObject = Json.createObjectBuilder().add("some", "some").build();
-		//System.out.println("in ready");
+		
+		String action = ((String) request.getParameter("action")!=null) ? (String) request.getParameter("action"): "getActiveQuizList";
+		
+		//getActiveQuizList
+		//getQuizWithId -authenticate with token - details total questions, total time
+		//nextQuestion and previousQuestion with answer for previous if answered -- getQuestion() 
+		//finish quiz -- 
+		TakeQuizDao takeQuizDao = new TakeQuizDao();
+		
+		switch (action) {
+		case "getActiveQuizList":
+			String timestamp=(String) request.getParameter("timestamp")!=null?(String) request.getParameter("timestamp"):"";
+			JsonArrayBuilder jsonArry = takeQuizDao.getActiveQuizList(timestamp);
+			jsonObject = Json.createObjectBuilder().add("activeQuizList", jsonArry).build();
+			break;
+		case "getQuizDetails":
+			String idstring = (String)request.getParameter("quizid");
+			int quizId = Integer.parseInt(!(idstring==null || idstring.equals(""))?idstring:"-1");
+			String token = (String) (request.getParameter("token"));
+			
+			if(!takeQuizDao.checkTokenValidation(quizId, token))
+			{
+				jsonObject = Json.createObjectBuilder()
+						.add("error", "Token Validation Failed").build();
+			}
+			else {
+				jsonObject = Json.createObjectBuilder().add("quiz", 
+						takeQuizDao.getQuizWithId(quizId)).build();
+			}
+			
+		default:
+			break;
+		}
+		
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
 		out.print(jsonObject);

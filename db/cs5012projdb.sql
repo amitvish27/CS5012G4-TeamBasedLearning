@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2017 at 08:06 PM
+-- Generation Time: Dec 09, 2017 at 08:58 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -211,6 +211,58 @@ CREATE TABLE `question_course` (
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `question_course`
+--
+
+INSERT INTO `question_course` (`relnid`, `questionid`, `courseid`, `deleted`) VALUES
+(1, 7, 31, 0),
+(2, 14, 31, 0),
+(3, 15, 31, 0),
+(4, 17, 31, 0),
+(5, 5, 22, 0),
+(6, 6, 22, 0),
+(7, 8, 22, 0),
+(8, 11, 22, 0),
+(9, 16, 22, 0),
+(10, 18, 22, 0),
+(11, 19, 21, 0),
+(12, 20, 21, 0),
+(13, 21, 21, 0),
+(14, 22, 21, 0),
+(15, 23, 21, 0),
+(16, 24, 21, 0),
+(17, 25, 24, 0),
+(18, 26, 24, 0),
+(19, 27, 24, 0),
+(20, 28, 24, 0),
+(21, 29, 24, 0),
+(22, 30, 24, 0),
+(23, 31, 25, 0),
+(24, 32, 25, 0),
+(25, 32, 25, 0),
+(26, 33, 25, 0),
+(27, 34, 25, 0),
+(28, 35, 25, 0),
+(29, 36, 10, 0),
+(30, 37, 10, 0),
+(31, 38, 10, 0),
+(32, 39, 10, 0),
+(33, 40, 10, 0),
+(34, 41, 10, 0),
+(35, 42, 30, 0),
+(36, 43, 30, 0),
+(37, 44, 30, 0),
+(38, 45, 30, 0),
+(39, 45, 30, 0),
+(40, 46, 30, 0),
+(41, 47, 30, 0),
+(42, 48, 30, 0),
+(43, 49, 30, 0),
+(44, 50, 30, 0),
+(45, 51, 30, 0),
+(46, 52, 30, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -224,6 +276,58 @@ CREATE TABLE `quest_quiz` (
   `questnumber` int(6) NOT NULL COMMENT 'fk to question number',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `quest_quiz`
+--
+
+INSERT INTO `quest_quiz` (`relnid`, `questid`, `quizid`, `questnumber`, `deleted`) VALUES
+(1, 7, 1, 4, 0),
+(2, 14, 1, 4, 0),
+(3, 15, 1, 4, 0),
+(4, 17, 1, 4, 0),
+(8, 19, 3, 6, 0),
+(9, 20, 3, 6, 0),
+(10, 21, 3, 6, 0),
+(11, 22, 3, 6, 0),
+(12, 23, 3, 6, 0),
+(13, 24, 3, 6, 0),
+(15, 5, 2, 6, 0),
+(16, 6, 2, 6, 0),
+(17, 8, 2, 6, 0),
+(18, 11, 2, 6, 0),
+(19, 16, 2, 6, 0),
+(20, 18, 2, 6, 0),
+(22, 25, 4, 6, 0),
+(23, 26, 4, 6, 0),
+(24, 27, 4, 6, 0),
+(25, 28, 4, 6, 0),
+(26, 29, 4, 6, 0),
+(27, 30, 4, 6, 0),
+(29, 31, 5, 6, 0),
+(30, 32, 5, 6, 0),
+(31, 32, 5, 6, 0),
+(32, 33, 5, 6, 0),
+(33, 34, 5, 6, 0),
+(34, 35, 5, 6, 0),
+(36, 36, 6, 6, 0),
+(37, 37, 6, 6, 0),
+(38, 38, 6, 6, 0),
+(39, 39, 6, 6, 0),
+(40, 40, 6, 6, 0),
+(41, 41, 6, 6, 0),
+(43, 42, 7, 12, 0),
+(44, 43, 7, 12, 0),
+(45, 44, 7, 12, 0),
+(46, 45, 7, 12, 0),
+(47, 45, 7, 12, 0),
+(48, 46, 7, 12, 0),
+(49, 47, 7, 12, 0),
+(50, 48, 7, 12, 0),
+(51, 49, 7, 12, 0),
+(52, 50, 7, 12, 0),
+(53, 51, 7, 12, 0),
+(54, 52, 7, 12, 0);
 
 -- --------------------------------------------------------
 
@@ -242,6 +346,19 @@ CREATE TABLE `quiz` (
   `instructorid` varchar(10) NOT NULL COMMENT 'sso id of instructor who created',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted?0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `quiz`
+--
+
+INSERT INTO `quiz` (`id`, `courseid`, `number`, `time_limit`, `start_time`, `end_time`, `created`, `instructorid`, `deleted`) VALUES
+(1, 31, 4, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', 2017, '7', 0),
+(2, 22, 6, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', 2017, '7', 0),
+(3, 21, 6, 30, '2018-03-08 20:00:00', '2018-03-08 20:30:00', 2017, '7', 0),
+(4, 24, 6, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', 2017, '7', 0),
+(5, 25, 6, 40, '2018-03-08 19:00:00', '2018-03-08 19:40:00', 2017, '7', 0),
+(6, 10, 6, 40, '2018-03-08 17:00:00', '2018-03-08 17:40:00', 2017, '7', 0),
+(7, 30, 12, 60, '2018-03-08 17:00:00', '2018-03-08 18:00:00', 2017, '7', 0);
 
 -- --------------------------------------------------------
 
@@ -272,7 +389,6 @@ INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `del
 (8, 29, 2, 'instructor', 0),
 (9, 30, 7, 'instructor', 0),
 (10, 30, 8, 'instructor', 0),
-(11, 30, 9, 'instructor', 1),
 (12, 30, 9, 'instructor', 0);
 
 -- --------------------------------------------------------
@@ -288,6 +404,23 @@ CREATE TABLE `sgroup_quiz` (
   `token` varchar(6) NOT NULL COMMENT 'unique token alphanumeric random generated',
   `deleted` int(1) NOT NULL COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sgroup_quiz`
+--
+
+INSERT INTO `sgroup_quiz` (`relnid`, `groupid`, `quizid`, `token`, `deleted`) VALUES
+(1, 1, 7, '45rdf7', 0),
+(2, 1, 7, 'isdjf8', 0),
+(3, 2, 7, '938jdj', 0),
+(4, 3, 7, '*7udjf', 0),
+(5, 4, 7, '3jLJFD', 0),
+(6, 5, 7, 'asdfn4', 0),
+(7, 6, 7, 'sdf212', 0),
+(8, 9, 7, 'vcxmnn', 0),
+(9, 10, 7, 'dsfdsf', 0),
+(10, 11, 7, 'sfnxkw', 0),
+(11, 12, 7, '122wkJ', 0);
 
 -- --------------------------------------------------------
 
@@ -690,17 +823,17 @@ ALTER TABLE `question`
 -- AUTO_INCREMENT for table `question_course`
 --
 ALTER TABLE `question_course`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT for table `quest_quiz`
 --
 ALTER TABLE `quest_quiz`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `quiz`
 --
 ALTER TABLE `quiz`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `sgroup`
 --
@@ -710,7 +843,7 @@ ALTER TABLE `sgroup`
 -- AUTO_INCREMENT for table `sgroup_quiz`
 --
 ALTER TABLE `sgroup_quiz`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `student_course`
 --
