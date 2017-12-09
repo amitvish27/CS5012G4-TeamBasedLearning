@@ -28,10 +28,11 @@ public class UserAdminFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 
 		HttpSession session = req.getSession(true);
-
+		String user = (String) (session.getAttribute("userId"));
+		
 		int role_i = (session.getAttribute("userRole") != null) ? (int) (session.getAttribute("userRole")) : 0;
 
-		if (role_i == 2 || role_i == 1) {
+		if (user!=null && (role_i == 2 || role_i == 1)) {
 			// System.out.println("inside doFilter -> role: " + role_i);
 			chain.doFilter(request, response);
 		} else {

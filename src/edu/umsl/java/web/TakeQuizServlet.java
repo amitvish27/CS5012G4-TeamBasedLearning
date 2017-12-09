@@ -1,7 +1,10 @@
 package edu.umsl.java.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -35,7 +38,14 @@ public class TakeQuizServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		JsonObject jsonObject = null;
+		jsonObject = Json.createObjectBuilder().add("some", "some").build();
+		//System.out.println("in ready");
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.print(jsonObject);
+		out.flush();
+		out.close();
 	}
 
 }

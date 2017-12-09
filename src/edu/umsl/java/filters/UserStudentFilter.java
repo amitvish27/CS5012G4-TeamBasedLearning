@@ -46,7 +46,7 @@ public class UserStudentFilter implements Filter {
 		int role_i = (session.getAttribute("userRole") != null) ? (int) (session.getAttribute("userRole")) : 0;
 		String user = (String) (session.getAttribute("userId"));
 		if ( user!=null && role_i == 0) {
-			System.out.println("inside doFilter -> role: " + role_i);
+			//System.out.println("inside doFilter -> role: " + role_i);
 			chain.doFilter(request, response);
 		} else {
 			// System.out.println("inside doFilter -> role: " + role_i + "-- not

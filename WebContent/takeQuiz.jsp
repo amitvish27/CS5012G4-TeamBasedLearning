@@ -31,23 +31,15 @@
 			<div class="container">
 				<div class="panel panel-default top-buffer">
 					<div class="panel-body form-group">
-					Take Quiz page
-					student username : student
-					student password: passwd
-					you there?
-					yes
-					Dekh ye basic setup hai 
-					GroupServlet will be the best place to take reference from .. 
-					mera ab tak ka best hai work hai on Ajax
-					related files groupDao,.java
-					teko ye wale takeQuiz.jsp and TAkeQuiz servlet me focuse karna hai 
-					okand also .. apne ko javascript lagea isme 
-					wo me karta simultaneously
-					oyka
-					yaha se start kar sakta hai ?>?
-					mujhe ek baar call kr sakta hai
-					yes
-					 
+						<div class='timerCountdown h4 float-right'>Time Left: <span class='countdown'></span></div>
+						<div class="quizDetails">
+							
+						</div>
+						<div class="quizBody">
+							
+						</div>
+						<div class="quizResultBody">
+						</div>
 					</div>
 					<!-- End panel-body -->
 				</div>
