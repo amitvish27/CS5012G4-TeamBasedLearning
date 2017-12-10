@@ -5,12 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
 import javax.json.JsonObjectBuilder;
-
+import edu.umsl.java.beans.QuizBean;
 import edu.umsl.java.util.ReadProperties;
 
 public class TakeQuizDao {
@@ -54,19 +52,56 @@ private Connection connection;
 		}
 		return jsonArry;
 	}
-	
-	public JsonObjectBuilder getQuizWithId(int id) {
+	/**/
+	public JsonObjectBuilder getQuizWithId(int id, int questionNumber) {
 		JsonObjectBuilder jsonObject = Json.createObjectBuilder();
-		String query = "SELECT id, courseid, number, time_limit "
-				+ "FROM quiz "
-				+ "WHERE deleted=0 AND id='"+id+"'";
-
+		QuizBean quiz = new QuizBean();
+				
 		try {
-			PreparedStatement stmt = connection.prepareStatement(query);
-			ResultSet res = stmt.executeQuery();
+			String query = "SELECT id, courseid, number, time_limit "
+					+ "FROM quiz "
+					+ "WHERE deleted=0 AND id='"+id+"'";
+			
+			ResultSet res = connection.prepareStatement(query).executeQuery();
 			res.next();
-			jsonObject.add("quizid", res.getInt("id"))
-				.add("time_limit", res.getInt("time_limit"));
+			
+			quiz.setQuizid(res.getInt("id"));
+			quiz.setQuiznumber(res.getInt("number"));
+			quiz.setTime_limit(res.getInt("time_limit"));
+			quiz.setCurrQuest(questionNumber);
+			
+			query = "SELECT COUNT(*) totalCount FROM quest_quiz WHERE quizid="+id+";";
+			res = connection.prepareStatement(query).executeQuery();
+			res.next();
+			quiz.setTotalQuest(res.getInt("totalCount"));
+			
+			query = "SELECT * FROM ( " + 
+					"SELECT @row_number:=@row_number+1 AS row_number, id, content, opt_a, opt_b, opt_c, opt_d, answer FROM question, " + 
+					"(SELECT @row_number:=0) AS t WHERE id in (SELECT relnid FROM quest_quiz qq WHERE quizid="+id+" AND deleted=0) " + 
+					"ORDER BY id ) r WHERE r.row_number="+questionNumber+";";
+			res = connection.prepareStatement(query).executeQuery();
+			res.next();
+			quiz.setQuestionid(res.getInt("id"));
+			quiz.setQuestion(res.getString("content"));
+			quiz.setAnswer(res.getInt("answer"));
+			
+			JsonArrayBuilder j_opts = Json.createArrayBuilder()
+					.add(res.getString("opt_a"))
+					.add(res.getString("opt_b"))
+					.add(res.getString("opt_c"))
+					.add(res.getString("opt_d"));
+			
+			jsonObject.add("quizid", quiz.getQuizid())
+				.add("quiznumber", quiz.getQuiznumber())
+				.add("time_limit", quiz.getTime_limit())
+				.add("currQuest", quiz.getCurrQuest())
+				.add("totalQuest", quiz.getTotalQuest())
+				.add("questid", quiz.getQuestionid())				
+				.add("quest", quiz.getQuestion())
+				.add("answer", quiz.getAnswer())
+				.add("options", j_opts);
+			
+			
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}

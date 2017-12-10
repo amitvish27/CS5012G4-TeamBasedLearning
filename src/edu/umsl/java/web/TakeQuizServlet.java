@@ -50,6 +50,9 @@ public class TakeQuizServlet extends HttpServlet {
 		//nextQuestion and previousQuestion with answer for previous if answered -- getQuestion() 
 		//finish quiz -- 
 		TakeQuizDao takeQuizDao = new TakeQuizDao();
+		int quizId, questionNumber;
+		String idstring = (String)request.getParameter("quizid");
+		String questionNumString = (String)request.getParameter("quizQuestNumber");
 		
 		switch (action) {
 		case "getActiveQuizList":
@@ -58,8 +61,7 @@ public class TakeQuizServlet extends HttpServlet {
 			jsonObject = Json.createObjectBuilder().add("activeQuizList", jsonArry).build();
 			break;
 		case "getQuizDetails":
-			String idstring = (String)request.getParameter("quizid");
-			int quizId = Integer.parseInt(!(idstring==null || idstring.equals(""))?idstring:"-1");
+			quizId = Integer.parseInt(!(idstring==null || idstring.equals(""))?idstring:"-1");
 			String token = (String) (request.getParameter("token"));
 			
 			if(!takeQuizDao.checkTokenValidation(quizId, token))
@@ -69,9 +71,15 @@ public class TakeQuizServlet extends HttpServlet {
 			}
 			else {
 				jsonObject = Json.createObjectBuilder().add("quiz", 
-						takeQuizDao.getQuizWithId(quizId)).build();
+						takeQuizDao.getQuizWithId(quizId, 1)).build();
 			}
-			
+			break;
+		case "getQuestion":
+			quizId = Integer.parseInt(!(idstring==null || idstring.equals(""))?idstring:"-1");
+			questionNumber = Integer.parseInt(!(questionNumString==null || questionNumString.equals(""))?questionNumString:"-1");
+			jsonObject = Json.createObjectBuilder().add("quiz", 
+					takeQuizDao.getQuizWithId(quizId, questionNumber)).build();
+			break;
 		default:
 			break;
 		}
