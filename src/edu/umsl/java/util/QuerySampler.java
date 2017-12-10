@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.UUID;
 
 public class QuerySampler {
 
@@ -70,9 +71,12 @@ public class QuerySampler {
     	return list;
     }
 	public static void main(String[] args) {
-		for(String temp : readListFile("listcsv")) {
+		/*for(String temp : readListFile("listcsv")) {
 			System.out.println(temp);
-		}
+		}*/
+		UUID uuid = UUID.randomUUID();
+		
+		System.out.println(uuid.toString());
 	}
 
 }
