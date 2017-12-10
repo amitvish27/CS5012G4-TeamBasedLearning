@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2017 at 03:00 AM
+-- Generation Time: Dec 10, 2017 at 11:09 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -21,6 +21,20 @@ SET time_zone = "+00:00";
 --
 -- Database: `cs5012projdb`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `answer_quiz`
+--
+
+CREATE TABLE `answer_quiz` (
+  `id` int(11) NOT NULL COMMENT 'internal id',
+  `sgroup_quiz_id` int(11) NOT NULL COMMENT 'fk to sgroup_quiz',
+  `questid` int(11) NOT NULL COMMENT 'fk to question id',
+  `answer` int(11) NOT NULL COMMENT 'option selected',
+  `score` int(11) NOT NULL COMMENT 'score earned'
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
@@ -351,13 +365,13 @@ CREATE TABLE `quiz` (
 --
 
 INSERT INTO `quiz` (`id`, `courseid`, `number`, `time_limit`, `start_time`, `end_time`, `created`, `instructorid`, `deleted`) VALUES
-(1, 31, 4, 30, '2017-12-08 17:00:00', '2017-12-10 17:30:00', '0000-00-00 00:00:00', '7', 0),
+(1, 31, 4, 30, '2017-12-08 17:00:00', '2017-12-11 17:30:00', '0000-00-00 00:00:00', '7', 0),
 (2, 22, 6, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
 (3, 21, 7, 30, '2018-03-08 20:00:00', '2018-03-08 20:30:00', '0000-00-00 00:00:00', '7', 0),
 (4, 24, 8, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
 (5, 25, 9, 40, '2018-03-08 19:00:00', '2018-03-08 19:40:00', '0000-00-00 00:00:00', '7', 0),
 (6, 10, 10, 40, '2018-03-08 17:00:00', '2018-03-08 17:40:00', '0000-00-00 00:00:00', '7', 0),
-(7, 30, 12, 60, '2017-12-09 00:00:00', '2017-12-10 02:00:00', '0000-00-00 00:00:00', '7', 0);
+(7, 30, 12, 60, '2017-12-09 00:00:00', '2017-12-11 02:00:00', '0000-00-00 00:00:00', '7', 0);
 
 -- --------------------------------------------------------
 
@@ -370,25 +384,26 @@ CREATE TABLE `sgroup` (
   `courseid` int(6) NOT NULL COMMENT 'fk to course',
   `groupnumber` int(6) NOT NULL COMMENT 'group number',
   `instructorid` varchar(10) NOT NULL COMMENT 'instructor who created',
-  `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
+  `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes',
+  `groupleader` varchar(10) NOT NULL COMMENT 'GroupLeaderStudentSsoid'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `sgroup`
 --
 
-INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `deleted`) VALUES
-(1, 30, 1, 'instructor', 0),
-(2, 30, 2, 'instructor', 0),
-(3, 30, 3, 'instructor', 0),
-(4, 30, 4, 'instructor', 0),
-(5, 30, 5, 'instructor', 0),
-(6, 30, 6, 'instructor', 0),
-(7, 29, 1, 'instructor', 0),
-(8, 29, 2, 'instructor', 0),
-(9, 30, 7, 'instructor', 0),
-(10, 30, 8, 'instructor', 0),
-(12, 30, 9, 'instructor', 0);
+INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `deleted`, `groupleader`) VALUES
+(1, 30, 1, 'instructor', 0, 'student'),
+(2, 30, 2, 'instructor', 0, 'student'),
+(3, 30, 3, 'instructor', 0, 'student'),
+(4, 30, 4, 'instructor', 0, 'student'),
+(5, 30, 5, 'instructor', 0, 'student'),
+(6, 30, 6, 'instructor', 0, 'student'),
+(7, 29, 1, 'instructor', 0, 'student'),
+(8, 29, 2, 'instructor', 0, 'student'),
+(9, 30, 7, 'instructor', 0, 'student'),
+(10, 30, 8, 'instructor', 0, 'student'),
+(12, 30, 9, 'instructor', 0, 'student');
 
 -- --------------------------------------------------------
 
@@ -398,9 +413,11 @@ INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `del
 
 CREATE TABLE `sgroup_quiz` (
   `relnid` int(6) NOT NULL COMMENT 'internal record id',
+  `studentid` varchar(10) NOT NULL COMMENT 'student ssoid',
   `groupid` int(6) NOT NULL COMMENT 'fk to group id',
   `quizid` int(6) NOT NULL COMMENT 'fk to quiz id',
   `token` varchar(6) NOT NULL COMMENT 'unique token alphanumeric random generated',
+  `isgroupquiz` int(1) NOT NULL DEFAULT '0' COMMENT 'is a group quiz',
   `deleted` int(1) NOT NULL COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
@@ -408,18 +425,18 @@ CREATE TABLE `sgroup_quiz` (
 -- Dumping data for table `sgroup_quiz`
 --
 
-INSERT INTO `sgroup_quiz` (`relnid`, `groupid`, `quizid`, `token`, `deleted`) VALUES
-(1, 1, 7, '45rdf7', 0),
-(2, 1, 7, 'isdjf8', 0),
-(3, 2, 7, '938jdj', 0),
-(4, 3, 7, '*7udjf', 0),
-(5, 4, 7, '3jLJFD', 0),
-(6, 5, 7, 'asdfn4', 0),
-(7, 6, 7, 'sdf212', 0),
-(8, 9, 7, 'vcxmnn', 0),
-(9, 10, 7, 'dsfdsf', 0),
-(10, 11, 7, 'sfnxkw', 0),
-(11, 12, 7, '122wkJ', 0);
+INSERT INTO `sgroup_quiz` (`relnid`, `studentid`, `groupid`, `quizid`, `token`, `isgroupquiz`, `deleted`) VALUES
+(1, 'student', 1, 7, '3sdf3s', 0, 0),
+(2, 'student', 2, 1, 'CMPLTD', 0, 0),
+(3, 'cdgsyj', 2, 7, '938jdj', 0, 0),
+(4, 'cdgsyj', 3, 7, '*7udjf', 0, 0),
+(5, 'cjqxc2', 4, 7, '3jLJFD', 0, 0),
+(6, 'dt4pyv', 5, 7, 'asdfn4', 0, 0),
+(7, 'dcjlpi', 6, 7, 'sdf212', 0, 0),
+(8, 'dmsb34', 9, 7, 'vcxmnn', 0, 0),
+(9, 'dcxvbb', 10, 7, 'dsfdsf', 0, 0),
+(10, 'dcrs4p', 11, 7, 'sfnxkw', 0, 0),
+(11, 'ewxf91', 12, 7, '122wkJ', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -715,6 +732,14 @@ INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `c
 --
 
 --
+-- Indexes for table `answer_quiz`
+--
+ALTER TABLE `answer_quiz`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `sgroup_quiz_id` (`sgroup_quiz_id`,`questid`),
+  ADD KEY `fk_quizquestion_answer` (`questid`);
+
+--
 -- Indexes for table `course`
 --
 ALTER TABLE `course`
@@ -763,7 +788,8 @@ ALTER TABLE `sgroup`
 -- Indexes for table `sgroup_quiz`
 --
 ALTER TABLE `sgroup_quiz`
-  ADD PRIMARY KEY (`relnid`);
+  ADD PRIMARY KEY (`relnid`),
+  ADD UNIQUE KEY `studentid` (`studentid`,`groupid`,`quizid`);
 
 --
 -- Indexes for table `student_course`
@@ -803,6 +829,11 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for dumped tables
 --
 
+--
+-- AUTO_INCREMENT for table `answer_quiz`
+--
+ALTER TABLE `answer_quiz`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'internal id', AUTO_INCREMENT=19;
 --
 -- AUTO_INCREMENT for table `course`
 --
@@ -871,6 +902,13 @@ ALTER TABLE `user`
 --
 -- Constraints for dumped tables
 --
+
+--
+-- Constraints for table `answer_quiz`
+--
+ALTER TABLE `answer_quiz`
+  ADD CONSTRAINT `fk_groupquiz_answer` FOREIGN KEY (`sgroup_quiz_id`) REFERENCES `sgroup_quiz` (`relnid`),
+  ADD CONSTRAINT `fk_quizquestion_answer` FOREIGN KEY (`questid`) REFERENCES `question` (`id`);
 
 --
 -- Constraints for table `course_inst`
