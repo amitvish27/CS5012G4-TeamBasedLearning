@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2017 at 07:20 PM
+-- Generation Time: Dec 09, 2017 at 08:58 AM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -118,7 +118,85 @@ INSERT INTO `question` (`id`, `content`, `opt_a`, `opt_b`, `opt_c`, `opt_d`, `an
 (1, 'What is 2+2?', '5', '4', '2', '1', 2, 'math', '2017-11-15 12:25:24', 'instructor', 0),
 (2, 'What is 3*2?', '4', '5', '6', '7', 3, 'math', '2017-11-15 12:25:24', 'instructor', 0),
 (3, 'Grand Central Terminal, Park Avenue, New York is the world\'s', 'largest railway station', 'highest railway station', 'longest railway station', 'None of the above', 1, 'general', '2017-11-15 12:38:19', 'instructor', 0),
-(4, 'Entomology is the science that studies', 'Behavior of human beings', 'Insects', 'The origin and history of technical and scientific terms', 'The formation of rocks', 2, 'science', '2017-11-15 12:50:45', 'instructor', 1);
+(4, 'Entomology is the science that studies', 'Behavior of human beings', 'Insects', 'The origin and history of technical and scientific terms', 'The formation of rocks', 2, 'science', '2017-11-15 12:50:45', 'instructor', 1),
+(5, 'What is the capital of USA', 'Washington D.C', 'Seattle', 'St. louis', 'New york city', 1, 'Geo', '2017-12-08 12:44:13', 'instructor', 0),
+(6, 'What is the capital of Canada', 'Toronto', 'Ottawa', 'St. louis', 'Montreal', 2, 'Geo', '2017-12-08 12:44:13', 'instructor', 0),
+(7, 'Which of the following CANNOT be used to build a Java Project', 'Maven', 'Ant', 'Make', 'Gradle', 3, 'Java', '2017-12-08 12:44:13', 'instructor', 0),
+(8, 'In a JS, a bean means a JavaBean object that follows the JavaBean specification', 'true', 'false', '', '', 2, 'geo', '2017-12-08 12:44:13', 'instructor', 0),
+(9, 'Which is the nearest star to planet earth', 'Andromeda', 'Moon', 'Mercury', 'Sun', 4, 'Star    ', '2017-12-08 12:44:13', 'instructor', 0),
+(10, 'What differentiates a male lion from a female lion', 'Mane', 'Paws', 'Tail', 'Teeth', 1, 'Animal', '2017-12-08 12:44:13', 'instructor', 0),
+(11, 'Which is the longest river on the earth', 'Niagara', 'Nile', 'Amazon', 'Missouri', 2, 'geo', '2017-12-08 12:44:13', 'instructor', 0),
+(12, 'Which is the animal referred as the ship of the desert', 'Sheep', 'Goat', 'Camel', 'Donkey', 3, 'Animal', '2017-12-08 12:44:13', 'instructor', 0),
+(13, 'From sheep we get ...', 'Wool', 'Eggs', 'Wood', 'Plastic', 1, 'Animal', '2017-12-08 12:44:13', 'instructor', 0),
+(14, 'Choose the appropriate data type for this field: isStudent', 'String', 'Boolean', 'Static', 'Char', 3, 'Java', '2017-12-08 12:44:13', 'instructor', 0),
+(15, 'What is the default value of int variable', '0', '0.0', 'null', 'undefined', 1, 'Java', '2017-12-08 12:44:13', 'instructor', 0),
+(16, 'Method Overriding is an example of', 'Static binding', 'Dynamic binding', 'Both', 'Neither', 2, 'geo', '2017-12-08 12:44:13', 'instructor', 0),
+(17, 'What is the size of boolean variable', '8 bit', '16 bit', '32 bit', 'varies', 2, 'Java', '2017-12-08 12:44:13', 'instructor', 0),
+(18, 'Which state borders Canada', 'Washington D.C', 'Seattle', 'St. louis', 'Oregon', 2, 'Geo', '2017-12-08 12:44:14', 'instructor', 0),
+(19, 'Question001', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(20, 'Question002', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(21, 'Question003', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(22, 'Question004', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(23, 'Question005', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(24, 'Question006', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(25, 'Question007', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(26, 'Question008', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(27, 'Question009', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(28, 'Question010', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(29, 'Question011', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(30, 'Question012', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(31, 'Question013', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(32, 'Question014', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(33, 'Question015', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(34, 'Question016', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:14', 'instructor', 0),
+(35, 'Question017', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(36, 'Question018', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(37, 'Question019', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(38, 'Question020', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(39, 'Question021', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(40, 'Question022', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(41, 'Question023', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(42, 'Question024', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(43, 'Question025', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(44, 'Question026', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(45, 'Question027', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(46, 'Question028', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(47, 'Question029', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(48, 'Question030', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(49, 'Question031', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(50, 'Question032', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(51, 'Question033', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(52, 'Question034', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(53, 'Question035', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(54, 'Question036', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(55, 'Question037', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(56, 'Question038', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(57, 'Question039', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:15', 'instructor', 0),
+(58, 'Question040', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(59, 'Question041', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(60, 'Question042', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(61, 'Question043', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(62, 'Question044', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(63, 'Question045', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(64, 'Question046', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(65, 'Question047', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(66, 'Question048', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(67, 'Question049', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(68, 'Question050', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(69, 'Question060', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(70, 'Question061', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(71, 'Question062', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(72, 'Question063', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(73, 'Question064', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(74, 'Question065', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(75, 'Question066', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(76, 'Question067', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 2, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(77, 'Question068', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(78, 'Question069', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:16', 'instructor', 0),
+(79, 'Question070', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:17', 'instructor', 0),
+(80, 'Question071', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 1, 'Generic', '2017-12-08 12:44:17', 'instructor', 0),
+(81, 'Question072', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 3, 'Generic', '2017-12-08 12:44:17', 'instructor', 0),
+(82, 'Question073', 'My answer is A', 'My Answer is B', 'My answer is C', 'My answer is D', 4, 'Generic', '2017-12-08 12:44:17', 'instructor', 0);
 
 -- --------------------------------------------------------
 
@@ -132,6 +210,58 @@ CREATE TABLE `question_course` (
   `courseid` int(5) NOT NULL COMMENT 'fk to course id',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `question_course`
+--
+
+INSERT INTO `question_course` (`relnid`, `questionid`, `courseid`, `deleted`) VALUES
+(1, 7, 31, 0),
+(2, 14, 31, 0),
+(3, 15, 31, 0),
+(4, 17, 31, 0),
+(5, 5, 22, 0),
+(6, 6, 22, 0),
+(7, 8, 22, 0),
+(8, 11, 22, 0),
+(9, 16, 22, 0),
+(10, 18, 22, 0),
+(11, 19, 21, 0),
+(12, 20, 21, 0),
+(13, 21, 21, 0),
+(14, 22, 21, 0),
+(15, 23, 21, 0),
+(16, 24, 21, 0),
+(17, 25, 24, 0),
+(18, 26, 24, 0),
+(19, 27, 24, 0),
+(20, 28, 24, 0),
+(21, 29, 24, 0),
+(22, 30, 24, 0),
+(23, 31, 25, 0),
+(24, 32, 25, 0),
+(25, 32, 25, 0),
+(26, 33, 25, 0),
+(27, 34, 25, 0),
+(28, 35, 25, 0),
+(29, 36, 10, 0),
+(30, 37, 10, 0),
+(31, 38, 10, 0),
+(32, 39, 10, 0),
+(33, 40, 10, 0),
+(34, 41, 10, 0),
+(35, 42, 30, 0),
+(36, 43, 30, 0),
+(37, 44, 30, 0),
+(38, 45, 30, 0),
+(39, 45, 30, 0),
+(40, 46, 30, 0),
+(41, 47, 30, 0),
+(42, 48, 30, 0),
+(43, 49, 30, 0),
+(44, 50, 30, 0),
+(45, 51, 30, 0),
+(46, 52, 30, 0);
 
 -- --------------------------------------------------------
 
@@ -147,6 +277,58 @@ CREATE TABLE `quest_quiz` (
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `quest_quiz`
+--
+
+INSERT INTO `quest_quiz` (`relnid`, `questid`, `quizid`, `questnumber`, `deleted`) VALUES
+(1, 7, 1, 4, 0),
+(2, 14, 1, 4, 0),
+(3, 15, 1, 4, 0),
+(4, 17, 1, 4, 0),
+(8, 19, 3, 6, 0),
+(9, 20, 3, 6, 0),
+(10, 21, 3, 6, 0),
+(11, 22, 3, 6, 0),
+(12, 23, 3, 6, 0),
+(13, 24, 3, 6, 0),
+(15, 5, 2, 6, 0),
+(16, 6, 2, 6, 0),
+(17, 8, 2, 6, 0),
+(18, 11, 2, 6, 0),
+(19, 16, 2, 6, 0),
+(20, 18, 2, 6, 0),
+(22, 25, 4, 6, 0),
+(23, 26, 4, 6, 0),
+(24, 27, 4, 6, 0),
+(25, 28, 4, 6, 0),
+(26, 29, 4, 6, 0),
+(27, 30, 4, 6, 0),
+(29, 31, 5, 6, 0),
+(30, 32, 5, 6, 0),
+(31, 32, 5, 6, 0),
+(32, 33, 5, 6, 0),
+(33, 34, 5, 6, 0),
+(34, 35, 5, 6, 0),
+(36, 36, 6, 6, 0),
+(37, 37, 6, 6, 0),
+(38, 38, 6, 6, 0),
+(39, 39, 6, 6, 0),
+(40, 40, 6, 6, 0),
+(41, 41, 6, 6, 0),
+(43, 42, 7, 12, 0),
+(44, 43, 7, 12, 0),
+(45, 44, 7, 12, 0),
+(46, 45, 7, 12, 0),
+(47, 45, 7, 12, 0),
+(48, 46, 7, 12, 0),
+(49, 47, 7, 12, 0),
+(50, 48, 7, 12, 0),
+(51, 49, 7, 12, 0),
+(52, 50, 7, 12, 0),
+(53, 51, 7, 12, 0),
+(54, 52, 7, 12, 0);
+
 -- --------------------------------------------------------
 
 --
@@ -161,9 +343,22 @@ CREATE TABLE `quiz` (
   `start_time` datetime NOT NULL COMMENT 'start time when quiz started',
   `end_time` datetime NOT NULL COMMENT 'time when quiz ends',
   `created` int(11) NOT NULL COMMENT 'created timestamp',
-  `instructorid` int(5) NOT NULL COMMENT 'sso id of instructor who created',
+  `instructorid` varchar(10) NOT NULL COMMENT 'sso id of instructor who created',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted?0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `quiz`
+--
+
+INSERT INTO `quiz` (`id`, `courseid`, `number`, `time_limit`, `start_time`, `end_time`, `created`, `instructorid`, `deleted`) VALUES
+(1, 31, 4, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', 2017, '7', 0),
+(2, 22, 6, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', 2017, '7', 0),
+(3, 21, 6, 30, '2018-03-08 20:00:00', '2018-03-08 20:30:00', 2017, '7', 0),
+(4, 24, 6, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', 2017, '7', 0),
+(5, 25, 6, 40, '2018-03-08 19:00:00', '2018-03-08 19:40:00', 2017, '7', 0),
+(6, 10, 6, 40, '2018-03-08 17:00:00', '2018-03-08 17:40:00', 2017, '7', 0),
+(7, 30, 12, 60, '2018-03-08 17:00:00', '2018-03-08 18:00:00', 2017, '7', 0);
 
 -- --------------------------------------------------------
 
@@ -194,7 +389,6 @@ INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `del
 (8, 29, 2, 'instructor', 0),
 (9, 30, 7, 'instructor', 0),
 (10, 30, 8, 'instructor', 0),
-(11, 30, 9, 'instructor', 1),
 (12, 30, 9, 'instructor', 0);
 
 -- --------------------------------------------------------
@@ -210,6 +404,23 @@ CREATE TABLE `sgroup_quiz` (
   `token` varchar(6) NOT NULL COMMENT 'unique token alphanumeric random generated',
   `deleted` int(1) NOT NULL COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `sgroup_quiz`
+--
+
+INSERT INTO `sgroup_quiz` (`relnid`, `groupid`, `quizid`, `token`, `deleted`) VALUES
+(1, 1, 7, '45rdf7', 0),
+(2, 1, 7, 'isdjf8', 0),
+(3, 2, 7, '938jdj', 0),
+(4, 3, 7, '*7udjf', 0),
+(5, 4, 7, '3jLJFD', 0),
+(6, 5, 7, 'asdfn4', 0),
+(7, 6, 7, 'sdf212', 0),
+(8, 9, 7, 'vcxmnn', 0),
+(9, 10, 7, 'dsfdsf', 0),
+(10, 11, 7, 'sfnxkw', 0),
+(11, 12, 7, '122wkJ', 0);
 
 -- --------------------------------------------------------
 
@@ -607,22 +818,22 @@ ALTER TABLE `course_inst`
 -- AUTO_INCREMENT for table `question`
 --
 ALTER TABLE `question`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=5;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=83;
 --
 -- AUTO_INCREMENT for table `question_course`
 --
 ALTER TABLE `question_course`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=47;
 --
 -- AUTO_INCREMENT for table `quest_quiz`
 --
 ALTER TABLE `quest_quiz`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=55;
 --
 -- AUTO_INCREMENT for table `quiz`
 --
 ALTER TABLE `quiz`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=8;
 --
 -- AUTO_INCREMENT for table `sgroup`
 --
@@ -632,7 +843,7 @@ ALTER TABLE `sgroup`
 -- AUTO_INCREMENT for table `sgroup_quiz`
 --
 ALTER TABLE `sgroup_quiz`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=12;
 --
 -- AUTO_INCREMENT for table `student_course`
 --

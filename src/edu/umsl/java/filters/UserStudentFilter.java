@@ -13,10 +13,24 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 /**
- * Servlet Filter implementation class UserAdminFilter
+ * Servlet Filter implementation class UserStudentFilter
  */
-@WebFilter("/UserAdminFilter")
-public class UserAdminFilter implements Filter {
+@WebFilter("/UserStudentFilter")
+public class UserStudentFilter implements Filter {
+
+	/**
+	 * Default constructor.
+	 */
+	public UserStudentFilter() {
+		// TODO Auto-generated constructor stub
+	}
+
+	/**
+	 * @see Filter#destroy()
+	 */
+	public void destroy() {
+		// TODO Auto-generated method stub
+	}
 
 	/**
 	 * @see Filter#doFilter(ServletRequest, ServletResponse, FilterChain)
@@ -28,12 +42,11 @@ public class UserAdminFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 
 		HttpSession session = req.getSession(true);
-		String user = (String) (session.getAttribute("userId"));
-		
-		int role_i = (session.getAttribute("userRole") != null) ? (int) (session.getAttribute("userRole")) : 0;
 
-		if (user!=null && (role_i == 2 || role_i == 1)) {
-			// System.out.println("inside doFilter -> role: " + role_i);
+		int role_i = (session.getAttribute("userRole") != null) ? (int) (session.getAttribute("userRole")) : 0;
+		String user = (String) (session.getAttribute("userId"));
+		if ( user!=null && role_i == 0) {
+			//System.out.println("inside doFilter -> role: " + role_i);
 			chain.doFilter(request, response);
 		} else {
 			// System.out.println("inside doFilter -> role: " + role_i + "-- not
@@ -42,15 +55,11 @@ public class UserAdminFilter implements Filter {
 		}
 	}
 
-	@Override
-	public void destroy() {
-		// System.out.println("Destroy method is called in " +
-		// this.getClass().getName());
+	/**
+	 * @see Filter#init(FilterConfig)
+	 */
+	public void init(FilterConfig fConfig) throws ServletException {
+		// TODO Auto-generated method stub
 	}
 
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-		// System.out.println("Destroy method is called in " +
-		// this.getClass().getName());
-	}
 }

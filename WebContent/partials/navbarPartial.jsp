@@ -22,6 +22,9 @@
 				<c:if test="${userRole==2}">
 					<li><a href="ManageUser">Manage Users</a></li>
 				</c:if>
+				<c:if test="${userRole==0}">
+					<li><a href="TakeQuiz">TakeQuiz</a></li>
+				</c:if>
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<%@include file="loginButtonPartial.jsp"%>
