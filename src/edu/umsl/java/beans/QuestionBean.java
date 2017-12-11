@@ -9,7 +9,7 @@ public class QuestionBean {
 	private String optD;
 	private String answer;
 	private String kywd;
-	private int insID; // instructor's ID
+	private String insID; // instructor's ID
 	
 	public String getKywd() {
 		return kywd;
@@ -59,10 +59,10 @@ public class QuestionBean {
 	public void setAnswer(String answer) {
 		this.answer = answer;
 	}
-	public int getInsID() {
+	public String getInsID() {
 		return insID;
 	}
-	public void setInsID(int insID) {
+	public void setInsID(String insID) {
 		this.insID = insID;
 	}
 	
