@@ -285,11 +285,16 @@ public class CourseDao {
 		col = (col.equals("")) ? "created" : col;
 		dir = (dir.equals("")) ? "ASC" : dir;
 		searchText = "'%" + searchText + "%'";
-		String query = "SELECT id, code, title, year, semester, instructor FROM course "
+		/*String query = "SELECT id, code, title, year, semester, instructor FROM course "
 						+ "WHERE deleted=0 AND (id LIKE "+searchText+" OR code LIKE "+searchText+" OR title LIKE "+searchText+" "
 						+ "OR year LIKE "+searchText+" OR semester LIKE "+searchText+" OR instructor LIKE "+searchText+") "
-						+ "ORDER BY "+col+" "+dir+"  LIMIT "+(start-1)+", "+end;
-		
+						+ "ORDER BY "+col+" "+dir+"  LIMIT "+(start-1)+", "+end;*/
+		String query = "SELECT c.id, c.code, c.title, c.year, c.semester, c.instructor,ci.relnid " + 
+				"FROM course c LEFT JOIN course_inst ci " + 
+				"ON c.id=ci.courseid AND ci.instid='instructor' AND c.deleted=0 " + 
+				"AND (id LIKE "+searchText+" OR code LIKE "+searchText+" OR title LIKE "+searchText+" " + 
+				" OR year LIKE "+searchText+" OR semester LIKE "+searchText+" OR instructor LIKE "+searchText+") " + 
+				" ORDER BY "+col+" "+dir+"  LIMIT "+(start-1)+", "+end+";";
 		try {
 			PreparedStatement getRecords_sorted = connection.prepareStatement(query);
 			ResultSet results = getRecords_sorted.executeQuery();
@@ -301,12 +306,31 @@ public class CourseDao {
 				course.setYear(results.getInt(4));
 				course.setSemester(results.getString(5));
 				course.setInstructor(results.getString(6));
+				int owner = results.getInt(7);
+				if(owner>0) {
+					course.setOwner(false);
+				} else {
+					course.setOwner(true);
+				}
+				
 				courseList.add(course);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return courseList;
+	}
+
+	public void importCourse(int courseId, String instssoid) {
+		try {
+			String query = "INSERT INTO course_inst(courseid, instid) "
+					+ "VALUES ("+courseId+", '"+instssoid+"')" ;
+			connection.prepareStatement(query).executeUpdate();
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

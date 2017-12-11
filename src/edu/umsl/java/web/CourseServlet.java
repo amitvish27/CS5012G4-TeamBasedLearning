@@ -1,14 +1,18 @@
 package edu.umsl.java.web;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 
+import javax.json.Json;
+import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import edu.umsl.java.beans.CourseBean;
 import edu.umsl.java.dao.CourseDao;
@@ -89,6 +93,40 @@ public class CourseServlet extends HttpServlet {
 		RequestDispatcher dispatcher = request.getRequestDispatcher("courselist.jsp");
 		dispatcher.forward(request, response);
 
+	}
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		JsonObject jsonObject = null;
+		HttpSession session = request.getSession();
+		
+		String task = ((String) request.getParameter("task")!=null) ? (String) request.getParameter("task"): "importCourse";
+		String instssoid = (String) session.getAttribute("userId");
+		
+		switch(task) {
+		case "importCourse":
+			int courseId = Integer.parseInt(request.getParameter("courseid"));
+			if(courseId>0) {
+				CourseDao cdao;
+				try {
+					cdao = new CourseDao();
+					cdao.importCourse(courseId, instssoid);
+					jsonObject = Json.createObjectBuilder()
+							.add("success","success")
+							.build();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			break;
+		default:
+			break;
+		}
+		
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.print(jsonObject);
+		out.flush();
+		out.close();
 	}
 
 }

@@ -145,13 +145,16 @@ public class TopicDao {
 		}
 	}
 
-	public JsonObject getTopicJson(String sortColName, String sortDir, int initpg, int pgSize, String[] searchColumn,
+	public JsonObject getTopicJson(String instructorid, String sortColName, String sortDir, int initpg, int pgSize, String[] searchColumn,
 			String[] searchValue, String s_course_year, String s_course_semester) throws Exception {
 		JsonObject result = null;
 		String searchSQL = "";
 		int st = 10 * (initpg - 1);
 
-		searchSQL = "SELECT id, title, courseid, instructorid " + "FROM topic WHERE deleted=0 ";
+		//searchSQL = "SELECT id, title, courseid, instructorid " + "FROM topic WHERE deleted=0 ";
+		searchSQL = "SELECT t.id, t.title, t.courseid, t.instructorid, ti.relnid FROM topic t "
+				+ "LEFT JOIN topic_inst ti "
+				+ "ON t.id=ti.relnid AND ti.instructorid='"+instructorid+"' AND t.deleted=0 " ;
 		String searchBy = "";
 
 		String orderBy = " ORDER BY " + sortColName + " " + sortDir;
@@ -172,8 +175,11 @@ public class TopicDao {
 		rs = searchStmt.executeQuery();
 		int countRecord = 0;// count total records with the result without the limit
 		while (rs.next()) {
+			int ownerint = rs.getInt("relnid");
+			boolean owner = (ownerint>0)?false:true;
 			jsonTopicAry.add(Json.createObjectBuilder().add("id", rs.getInt("id")).add("title", rs.getString("title"))
-					.add("courseid", rs.getInt("courseid")).add("instructorid", rs.getString("instructorid")));
+					.add("courseid", rs.getInt("courseid")).add("instructorid", rs.getString("instructorid"))
+					.add("isOwner", owner));
 		}
 		// count total number of record for pagination;
 		searchSQL = "SELECT COUNT(*) as count " + "FROM topic WHERE deleted=0 ";
@@ -217,6 +223,16 @@ public class TopicDao {
 				.build();
 
 		return result;
+	}
+
+	public void importTopic(int topicid, String instssoid) {
+		try {
+			String query = "INSERT INTO topic_inst(topicid, instructorid) "
+					+ "VALUES ("+topicid+", '"+instssoid+"')" ;
+			connection.prepareStatement(query).executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

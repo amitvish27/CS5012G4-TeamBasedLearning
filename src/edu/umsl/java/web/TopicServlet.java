@@ -3,6 +3,7 @@ package edu.umsl.java.web;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.json.Json;
 import javax.json.JsonObject;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -54,16 +55,39 @@ public class TopicServlet extends HttpServlet {
 			request.getRequestDispatcher("login.jsp").forward(request, response);
 		}
 
+		String task = ((String) request.getParameter("task")!=null) ? (String) request.getParameter("task"): "importCourse";
+		String instssoid = (String) session.getAttribute("userId");
+		JsonObject jsonObject = null;
+		switch(task) {
+		case "importTopic":
+			try {
+				int topicid = Integer.parseInt(request.getParameter("topicid"));
+				if(topicid>0) {
+					new TopicDao().importTopic(topicid, instssoid);
+					jsonObject = Json.createObjectBuilder()
+							.add("success","success")
+							.build();
+				}
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+			
+			break;
+		default:
+			jsonObject = getTopicJson(session, request);
+			break;
+		}
 		response.setContentType("application/json");
 		PrintWriter out = response.getWriter();
-		JsonObject jsonObject = getTopicJson(session, request);
 		out.print(jsonObject);
 		out.flush();
 		out.close();
 	}
 
 	protected JsonObject getTopicJson(HttpSession session, HttpServletRequest request) {
-
+		String instssoid = (String) session.getAttribute("userId");
+		
 		int pg = 0, pgSize = 10;
 		String initpg = (request.getParameter("pg") != null) ? request.getParameter("pg") : "1";
 		String userId;
@@ -110,7 +134,7 @@ public class TopicServlet extends HttpServlet {
 				searchValue[0] = searchText;
 			}
 			
-			jsonObject = topicDao.getTopicJson(sortColName, sortDir, pg, pgSize, searchColumn, searchValue, s_course_year, s_course_semester);
+			jsonObject = topicDao.getTopicJson(instssoid, sortColName, sortDir, pg, pgSize, searchColumn, searchValue, s_course_year, s_course_semester);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

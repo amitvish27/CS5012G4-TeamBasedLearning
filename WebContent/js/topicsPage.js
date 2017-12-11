@@ -158,8 +158,17 @@ function getTableBody(list) {
 								"onclick='delTopicByID("+value.id+")'" + 
 								"style='height: 2.4em' class='btn btn-link'>" + 
 								"<span class='glyphicon glyphicon-trash trashButtonIcon'></span>" + 
-							"</button>" + 
-						"</div>" + 
+							"</button>";
+		if(value.isOwner){
+			//import button
+			console.log(value.isOwner + " --- " + value.id);
+			bodyHtml +="<button type='button' id='imprtbtn"+value.id+"' " +
+						"onclick='importThisTopic("+value.id+")'" + 
+						"style='height: 2.4em' class='btn btn-link'>" + 
+						"<span class='glyphicon glyphicon-import otherButtonIcon'></span>" + 
+					"</button>";
+		}
+		bodyHtml+= "</div>" + 
 					"</td>" +
 				"</tr>";
 	});
@@ -181,4 +190,22 @@ function onSearch() {
 function onRefresh() {
 	$("#idsearchtext").val('');
 	document.location.href = "Topic";
+}
+
+function importThisTopic(v){
+	$.ajax({
+		url: "Topic",
+		type: "POST",
+		dataType: "json",
+		data: {
+			task:"importTopic",
+			topicid:v
+		},
+		success: function(data) {
+			if(data.success)
+			{
+				$("#imprtbtn" + v).remove();
+			}
+		}
+	});
 }

@@ -120,11 +120,13 @@
 														style="height: 2.4em" class="btn btn-link">
 														<span class="glyphicon glyphicon-trash trashButtonIcon"></span>
 													</button>
-													<button type="button"
-														onclick="importThisCourse(${course.getId()}, ${crtpg})"
+													<c:if test="${course.isOwner()}">
+													<button type="button" id="imprtbtn${course.getId()}"
+														onclick="importThisCourse(${course.getId()})"
 														style="height: 2.4em" class="btn btn-link">
 														<span class="glyphicon glyphicon-import otherButtonIcon"></span>
-													</button>
+													</button></c:if>
+													
 												</div>
 											</td>
 										</tr>

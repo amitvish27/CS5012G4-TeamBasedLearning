@@ -53,8 +53,26 @@ function delThisCourse(u, v)
 	}
 }
 
+function importThisCourse(v){
+	$.ajax({
+		url: "Course",
+		type: "POST",
+		dataType: "json",
+		data: {
+			task:"importCourse",
+			courseid:v
+		},
+		success: function(data) {
+			if(data.success)
+			{
+				$("#imprtbtn" + v).remove();
+			}
+		}
+	});
+}
+
 function editThisCourseAjax(v) {
-	$("#editbtn" + v).html("<span class=\"glyphicon glyphicon-save editButtonIcon\"></span>");
+	$("#editbtn" + v).html("<span class='glyphicon glyphicon-save editButtonIcon'></span>");
 	$("#editbtn" + v).attr("class", "btn btn-link");
 	$("#editbtn" + v).attr("onclick", "updateThisCourseAjax(" + v + ")");
 	var codeVal = $("#code" + v).text();

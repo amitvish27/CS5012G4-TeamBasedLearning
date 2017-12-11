@@ -7,7 +7,7 @@ public class CourseBean {
 	private String instructor;
 	private int year;
 	private String semester;
-
+	private boolean owner;
 	public int getId() {
 		return id;
 	}
@@ -54,6 +54,14 @@ public class CourseBean {
 
 	public void setTitle(String title) {
 		this.title = title;
+	}
+
+	public boolean isOwner() {
+		return owner;
+	}
+
+	public void setOwner(boolean owner) {
+		this.owner = owner;
 	}
 
 }
