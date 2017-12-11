@@ -35,6 +35,9 @@
 						<div class="quizBody">
 							
 						</div>
+						<div class="groupQuizBody">
+							
+						</div>
 					</div>
 					<!-- End panel-body -->
 				</div>

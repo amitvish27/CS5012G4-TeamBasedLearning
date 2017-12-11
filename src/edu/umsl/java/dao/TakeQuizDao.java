@@ -31,7 +31,7 @@ private Connection connection;
 		JsonArrayBuilder jsonArry = Json.createArrayBuilder();
 		String query = 	"SELECT q.id, q.courseid, q.number, q.time_limit, s.token, s.groupid, s.relnid"
 		+ " FROM quiz q INNER JOIN sgroup_quiz s" 
-		+ " ON q.id=s.quizid AND q.deleted=0 AND (s.studentid='"+studentid+"'" 
+		+ " ON q.id=s.quizid AND s.isgroupquiz=0 AND q.deleted=0 AND (s.studentid='"+studentid+"'" 
 		+ " AND q.start_time<='"+timestamp+"' AND q.end_time>='"+timestamp+"');"; 
 		try {
 			PreparedStatement stmt = connection.prepareStatement(query);
@@ -53,7 +53,77 @@ private Connection connection;
 		}
 		return jsonArry;
 	}
-	/**/
+	
+	public String getGroupNumber(int groupid) {
+		String groupNumber="";
+		String query = "SELECT groupnumber FROM sgroup WHERE groupid="+groupid+";";
+		try {
+			ResultSet res = connection.prepareStatement(query).executeQuery();
+			if(res.next()) {
+				groupNumber = res.getString("groupnumber");
+			}	
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return groupNumber;
+	}
+	
+	public JsonArrayBuilder getActiveGroupQuizList(String studentid, String timestamp) {
+		JsonArrayBuilder jsonArry = Json.createArrayBuilder();
+		try {
+			String query = 	"SELECT q.id, q.courseid, q.number, q.time_limit, s.token, s.groupid, s.relnid"
+					+ " FROM quiz q INNER JOIN sgroup_quiz s" 
+					+ " ON q.id=s.quizid AND s.isgroupquiz=1 AND q.deleted=0 AND (s.studentid='"+studentid+"'" 
+					+ " AND q.start_time<='"+timestamp+"' AND q.end_time>='"+timestamp+"');"; 
+						
+			String token = "UNAVBL";
+			PreparedStatement stmt = connection.prepareStatement(query);
+			ResultSet res = stmt.executeQuery();
+			while(res.next()) {
+				String groupnumber = getGroupNumber(res.getInt("groupid"));
+				
+				String stdNotCmpltdIds = getStudentsNotCompletedQuizInGroup (res.getInt("groupid"), res.getInt("id"));
+				if(stdNotCmpltdIds.length()>1) {
+					token = "UNAVBL";
+				}
+				else {
+					token =  res.getString("token");
+				}
+				jsonArry.add(Json.createObjectBuilder()
+						.add("quizid", res.getInt("id"))
+						.add("courseid", res.getInt("courseid"))
+						.add("quiznumber", res.getInt("number"))
+						.add("time_limit", res.getInt("time_limit"))
+						.add("groupid", res.getInt("groupid"))
+						.add("relnid", res.getInt("relnid"))
+						.add("token", token)
+						.add("stdNotCmpltdIds", stdNotCmpltdIds)
+						.add("groupnumber", groupnumber)
+						);
+			}
+			res.close();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return jsonArry;
+	}
+	
+	public String getStudentsNotCompletedQuizInGroup (int groupid, int quizid) {
+		String result = "";
+		String query = "SELECT studentid FROM sgroup_quiz WHERE groupid="+groupid+" AND quizid="+quizid+" AND NOT(token='CMPLTD')";
+		try {
+			ResultSet res = connection.prepareStatement(query).executeQuery();
+			while(res.next()) {
+				result += res.getString("studentid") +",";
+			}	
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		if (result.length()>1) {
+			result = result.substring(0, result.lastIndexOf(","));
+		}
+		return result;
+	}
 	public JsonObjectBuilder getQuizWithId(int id, int questionNumber, int relnid) {
 		JsonObjectBuilder jsonObject = Json.createObjectBuilder();
 		QuizBean quiz = new QuizBean();
@@ -177,7 +247,19 @@ private Connection connection;
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
-		
+	}
+
+	public boolean isGroupLeader(String studentid) {
+		String query = "SELECT * FROM sgroup WHERE groupleader='"+studentid+"'";
+		try {
+			ResultSet rs = connection.prepareStatement(query).executeQuery();
+			if(rs.next()) {
+				return true;
+			}
+		} catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
 }

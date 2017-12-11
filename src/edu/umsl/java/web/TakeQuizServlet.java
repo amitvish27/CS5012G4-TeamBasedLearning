@@ -69,12 +69,24 @@ public class TakeQuizServlet extends HttpServlet {
 		String groupidStr=(String) request.getParameter("groupid");
 		int groupid = Integer.parseInt(!(groupidStr==null || groupidStr.equals(""))?groupidStr:"-1");
 		
+		String isgroupquizStr=(String) request.getParameter("isgroupquiz");
+		int isgroupquiz = Integer.parseInt(!(isgroupquizStr==null || isgroupquizStr.equals(""))?isgroupquizStr:"-1");
+		
 		
 		switch (action) {
 		case "getActiveQuizList":
 			String timestamp=(String) request.getParameter("timestamp")!=null?(String) request.getParameter("timestamp"):"";
 			JsonArrayBuilder jsonArry = takeQuizDao.getActiveQuizList(studentid, timestamp);
-			jsonObject = Json.createObjectBuilder().add("activeQuizList", jsonArry).build();
+			//check isGroupLeader, if yes return GroupQuizes with Availability Status
+			JsonArrayBuilder jsonGroupQuizArry = Json.createArrayBuilder();
+			if (takeQuizDao.isGroupLeader(studentid)) {
+				jsonGroupQuizArry = takeQuizDao.getActiveGroupQuizList(studentid, timestamp);
+			}
+			
+			jsonObject = Json.createObjectBuilder()
+					.add("activeQuizList", jsonArry)
+					.add("activeGroupQuizList", jsonGroupQuizArry)
+					.build();
 			
 			break;
 		case "getQuizDetails":
@@ -87,11 +99,15 @@ public class TakeQuizServlet extends HttpServlet {
 			}
 			else {
 				takeQuizDao.clearAnswersForThisQuiz(relnid);
-				jsonObject = Json.createObjectBuilder().add("quiz", 
-						takeQuizDao.getQuizWithId(quizid, 1, relnid))
-						.add("relnid", relnid)
-						.add("groupid", groupid)
-						.build();
+				if(isgroupquiz==0) {
+					jsonObject = Json.createObjectBuilder().add("quiz", 
+							takeQuizDao.getQuizWithId(quizid, 1, relnid))
+							.add("relnid", relnid)
+							.add("groupid", groupid)
+							.add("isgroupquiz", isgroupquiz)
+							.build();	
+				}
+				
 			}
 			break;
 		case "getQuestion":
@@ -99,10 +115,12 @@ public class TakeQuizServlet extends HttpServlet {
 					takeQuizDao.getQuizWithId(quizid, questionNumber, relnid))
 					.add("relnid", relnid)
 					.add("groupid", groupid)
+					.add("isgroupquiz", isgroupquiz)
 					.build();
 			break;
 		case "submitAnswer":
 			takeQuizDao.submitAnswer(relnid, questid, selectedOption);
+			//submitGroupAnswer(relnid, questid, selectedOption);  // get instant feedback right/wrong
 			break;
 		case "finishQuiz":
 			takeQuizDao.finishQuiz(studentid, groupid, quizid);
