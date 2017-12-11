@@ -35,9 +35,6 @@
 						<div class="quizBody">
 							
 						</div>
-						<div class="groupQuizBody">
-							
-						</div>
 					</div>
 					<!-- End panel-body -->
 				</div>
@@ -50,7 +47,7 @@
 		<!-- Message Modal -->
 		<div class="modal fade" id="msgModal" tabindex="-1" role="dialog"
 			aria-labelledby="myModalLabel">
-			<div class='modal-dialog modal-sm alert'>
+			<div class='modal-dialog modal-sm alert '>
 				<button type='button' class='close' data-dismiss='modal' aria-label='Close'>
 					<span aria-hidden='true'>&times;</span>
 				</button><p id='msgModalContent'></p>

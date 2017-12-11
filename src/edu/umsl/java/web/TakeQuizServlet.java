@@ -99,28 +99,36 @@ public class TakeQuizServlet extends HttpServlet {
 			}
 			else {
 				takeQuizDao.clearAnswersForThisQuiz(relnid);
-				if(isgroupquiz==0) {
-					jsonObject = Json.createObjectBuilder().add("quiz", 
-							takeQuizDao.getQuizWithId(quizid, 1, relnid))
-							.add("relnid", relnid)
-							.add("groupid", groupid)
-							.add("isgroupquiz", isgroupquiz)
-							.build();	
-				}
-				
+				jsonObject = Json.createObjectBuilder().add("quiz", 
+						takeQuizDao.getQuizWithId(groupid, quizid, 1, relnid, isgroupquiz))
+						.add("relnid", relnid)
+						.add("groupid", groupid)
+						.add("isgroupquiz", isgroupquiz)
+						.build();	
 			}
 			break;
 		case "getQuestion":
 			jsonObject = Json.createObjectBuilder().add("quiz", 
-					takeQuizDao.getQuizWithId(quizid, questionNumber, relnid))
+					takeQuizDao.getQuizWithId(groupid, quizid, questionNumber, relnid, isgroupquiz))
 					.add("relnid", relnid)
 					.add("groupid", groupid)
 					.add("isgroupquiz", isgroupquiz)
 					.build();
 			break;
 		case "submitAnswer":
-			takeQuizDao.submitAnswer(relnid, questid, selectedOption);
-			//submitGroupAnswer(relnid, questid, selectedOption);  // get instant feedback right/wrong
+			if(isgroupquiz==0) {
+				takeQuizDao.submitAnswer(relnid, questid, selectedOption);
+				jsonObject = Json.createObjectBuilder()
+						.add("submitresultstr","Your Answer is submitted!")
+						.add("isgroupquiz", isgroupquiz)
+						.add("classalert", " alert-info")
+						.build();
+			} else {
+				String questAtmtStr = (String) request.getParameter("questattemptcount");
+				int questAtmtCnt = Integer.parseInt(questAtmtStr);
+				jsonObject = takeQuizDao.submitGroupAnswer(relnid, questid, selectedOption, questAtmtCnt);  // get instant feedback right/wrong
+				
+			}
 			break;
 		case "finishQuiz":
 			takeQuizDao.finishQuiz(studentid, groupid, quizid);

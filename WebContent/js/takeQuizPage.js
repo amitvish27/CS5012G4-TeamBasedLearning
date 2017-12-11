@@ -90,7 +90,7 @@ $(document).on("click",".startQuiz",  function(){
 	var groupid = $(this).parents()[2].children[0].children[1].value;
 	var isgroupquiz = $(this).parents()[2].children[0].children[2].value;
 	var token = $(this).parents()[2].children[0].children[4].firstChild.value;
-	
+	console.log(token)
 	$.ajax({
 		url : "TakeQuiz",
 		type : "POST",
@@ -189,6 +189,8 @@ $(document).on('click', '.submitAnswer', function() {
 	var relnid = $("#relnid").val(); 
 	var questid = $("#questid").val();
 	var isgroupquiz = $("#isgroupquiz").val();
+	var questattemptcount = $("#questattemptcount").val();
+	
 	$.ajax({
 		url : "TakeQuiz",
 		type : "POST",
@@ -198,19 +200,33 @@ $(document).on('click', '.submitAnswer', function() {
 			selectedOption:selectedOption,
 			questid:questid,
 			relnid:relnid,
-			isgroupquiz:isgroupquiz
+			isgroupquiz:isgroupquiz,
+			questattemptcount:questattemptcount
 		},
 		success : function(data) {
-			//if isgroup and right/wrong show alert with msgModal
+			var modalClass = $('#msgModal').children().first().attr('class');
+			$('#msgModal').children().first().attr('class', modalClass + data.classalert);
+			$('#msgModalContent').html(data.submitresultstr);
+			$('#msgModal').modal('show');
+			$(".submitAnswer").attr('disabled','disabled');
+			if ( data.isgroupquiz ){
+				if(data.submitresult==='incorrect'){ 
+					var atcount = parseInt($("#questattemptcount").val());
+					atcount = (atcount+1);
+					$("#questattemptcount").val(atcount);
+				} else if(data.submitresult==='fail' || data.submitresult==='correct'){ 
+					$(".nextQuestionQuiz").removeAttr('disabled');
+				}	
+			}
 		}
 	});
-	$(".submitAnswer").attr('disabled','disabled')
+	
 });
 
-//TODO if isgroupquiz -> then change the body to show other user's answers
 function getQuestionBody(data, relnid, groupid, isgroupquiz) {
 	var htmlData = "";
 	htmlData += "<div class='quizBodyHeader'>"
+		+ "<div class='col-xs-8'>"
 			+ "		<input type='hidden' id='relnid' value='"+relnid+"'>"
 			+ "		<input type='hidden' id='groupid' value='"+groupid+"'>"
 			+ "		<input type='hidden' id='isgroupquiz' value='"+isgroupquiz+"'>"
@@ -218,40 +234,58 @@ function getQuestionBody(data, relnid, groupid, isgroupquiz) {
 			+ "		<input type='hidden' id='questid' value='"+data.questid+"'>"
 			+ "		<input type='hidden' id='quizQuestNumber' value='"+data.currQuest+"'>"
 			+ "		<input type='hidden' id='totalQuizQuest' value='"+data.totalQuest+"'>"
+			+ "		<input type='hidden' id='questattemptcount' value='1'>"
 			+ "		<div class='questionNumber'> Question "+data.currQuest+" of "+data.totalQuest+"</div>"	
-			+ "		<div class='question h4'>" + data.quest
-			+ "		</div>"
+			+ "		<div class='question h4'>" + data.quest + " </div>"
 			+ "		<div class='question_options'>";
 	
-	$.each(data.options, function(index,value) {
-		htmlData += "<div class='radio'>"
-			  	+ "		<label><input type='radio' name='option' value='"+(index+1)+"'";
-		if( data.answer == (index+1))
-		{
-			htmlData+=" checked>"+value+"</label>";
-		}
-		else {
-			htmlData+=">"+value+"</label>";
-				
-		}
-		htmlData+= "</div>";
-	});
+		$.each(data.options, function(index,value) {
+			htmlData += "<div class='radio'>"
+				  	+ "		<label><input type='radio' name='option' value='"+(index+1)+"'";
+			if( data.answer == (index+1))
+			{
+				htmlData+=" checked>"+value+"</label>";
+			}
+			else {
+				htmlData+=">"+value+"</label>";
+			}
+			htmlData+= "</div>";
+		});
 	
 	htmlData += "</div></div>";
+	//if groupquiz true show answers from other group members
+	if(isgroupquiz){
+		htmlData+="<div class='col-xs-4'> Answers by GroupMembers: <div class='groupAnswers'>";
+		htmlData+="<div class='row h5'>";
+		htmlData+="<div class='col-xs-6'><strong>Student ID</strong></div>";
+		htmlData+="<div class='col-xs-6'><strong>Answer</strong></div>";
+		htmlData+="</div>"
+		$.each(data.groupanswerslist, function(index,value) {
+			htmlData+="<div class='row'>";
+			htmlData+="<div class='col-xs-6'>"+value.studentid+"</div>";
+			htmlData+="<div class='col-xs-6'>"+value.answer+"</div>";
+			htmlData+="</div>"; // end row div
+		});
+		htmlData+="</div></div>";//end of group answer col-xs-4
+	}
+	
+	htmlData +=	"</div>"; //end of quizbodyheader
 	htmlData += "<div class='quizBodyFooter float-right'>";
 	htmlData += "<button type='button' class='btn btn-link btn-sm submitAnswer' disabled>" //enabled only when radio box is changed
 		+"<span class='glyphicon glyphicon-floppy-disk'></span> SubmitAnswer</button>"; 
-	
-	if (data.currQuest<=1)
-	{
-		htmlData += "<button type='button' class='btn btn-link btn-sm prevQuestionQuiz' disabled>"
-				+"<span class='glyphicon glyphicon-triangle-left'></span> PreviousQuestion</button>"
+	//for group quiz hide prev, else show prev button
+	if(!isgroupquiz){
+		if (data.currQuest<=1)
+		{
+			htmlData += "<button type='button' class='btn btn-link btn-sm prevQuestionQuiz' disabled>"
+					+"<span class='glyphicon glyphicon-triangle-left'></span> PreviousQuestion</button>"
+		}
+		else {
+			htmlData +="<button type='button' class='btn btn-link btn-sm prevQuestionQuiz'>"
+			+"<span class='glyphicon glyphicon-triangle-left'></span> Previous Question</button>"
+		}
 	}
-	else {
-		htmlData +="<button type='button' class='btn btn-link btn-sm prevQuestionQuiz'>"
-		+"<span class='glyphicon glyphicon-triangle-left'></span> Previous Question</button>"
-	}
-	if (data.currQuest>=data.totalQuest)
+	if (data.currQuest>=data.totalQuest || isgroupquiz)
 	{
 		htmlData+="<button type='button' class='btn btn-link btn-sm nextQuestionQuiz' disabled>Next Question "
 				+"<span class='glyphicon glyphicon-triangle-right'></span></button>"
@@ -260,6 +294,8 @@ function getQuestionBody(data, relnid, groupid, isgroupquiz) {
 		htmlData+="<button type='button' class='btn btn-link btn-sm nextQuestionQuiz'>NextQuestion "
 			+"<span class='glyphicon glyphicon-triangle-right'></span></button>"
 	}
+
+	
 	htmlData+="<button type='button' class='btn btn-link btn-sm finishQuiz'>"
 			+" <span class='glyphicon glyphicon-off'></span> Finish Quiz</button></div>";
 	
@@ -318,3 +354,8 @@ function countdown(minutes, seconds) {
 		}
 	}, 1000);
 }
+
+$(document).on('hidden.bs.modal', '#msgModal' , function() { 
+	$('#msgModal').children().first().attr('class', 'modal-dialog modal-sm alert ');
+	$('#msgModalContent').html('');
+});
