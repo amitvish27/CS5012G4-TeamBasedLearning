@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 10, 2017 at 11:09 PM
+-- Generation Time: Dec 11, 2017 at 04:39 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -35,6 +35,36 @@ CREATE TABLE `answer_quiz` (
   `answer` int(11) NOT NULL COMMENT 'option selected',
   `score` int(11) NOT NULL COMMENT 'score earned'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `answer_quiz`
+--
+
+INSERT INTO `answer_quiz` (`id`, `sgroup_quiz_id`, `questid`, `answer`, `score`) VALUES
+(27, 1, 43, 1, 1),
+(28, 1, 44, 2, 1),
+(29, 1, 45, 3, 1),
+(30, 1, 46, 1, 0),
+(31, 1, 47, 2, 0),
+(32, 1, 48, 2, 0),
+(33, 1, 49, 1, 0),
+(34, 1, 50, 3, 0),
+(35, 1, 51, 1, 1),
+(36, 1, 52, 3, 0),
+(37, 1, 53, 1, 0),
+(38, 1, 54, 1, 0),
+(39, 5, 43, 1, 1),
+(40, 5, 44, 2, 1),
+(41, 5, 45, 3, 1),
+(42, 5, 46, 4, 1),
+(43, 5, 47, 1, 0),
+(44, 5, 48, 4, 0),
+(45, 5, 52, 1, 0),
+(46, 5, 53, 4, 0),
+(47, 5, 54, 3, 1),
+(78, 4, 45, 1, 0),
+(79, 4, 46, 3, 0),
+(80, 4, 47, 3, 0);
 
 -- --------------------------------------------------------
 
@@ -365,13 +395,13 @@ CREATE TABLE `quiz` (
 --
 
 INSERT INTO `quiz` (`id`, `courseid`, `number`, `time_limit`, `start_time`, `end_time`, `created`, `instructorid`, `deleted`) VALUES
-(1, 31, 4, 30, '2017-12-08 17:00:00', '2017-12-11 17:30:00', '0000-00-00 00:00:00', '7', 0),
-(2, 22, 6, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
-(3, 21, 7, 30, '2018-03-08 20:00:00', '2018-03-08 20:30:00', '0000-00-00 00:00:00', '7', 0),
-(4, 24, 8, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
-(5, 25, 9, 40, '2018-03-08 19:00:00', '2018-03-08 19:40:00', '0000-00-00 00:00:00', '7', 0),
-(6, 10, 10, 40, '2018-03-08 17:00:00', '2018-03-08 17:40:00', '0000-00-00 00:00:00', '7', 0),
-(7, 30, 12, 60, '2017-12-09 00:00:00', '2017-12-11 02:00:00', '0000-00-00 00:00:00', '7', 0);
+(1, 31, 1, 30, '2017-12-08 17:00:00', '2017-12-12 17:30:00', '0000-00-00 00:00:00', '7', 0),
+(2, 22, 2, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
+(3, 21, 3, 30, '2018-03-08 20:00:00', '2018-03-08 20:30:00', '0000-00-00 00:00:00', '7', 0),
+(4, 24, 4, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
+(5, 25, 5, 40, '2018-03-08 19:00:00', '2018-03-08 19:40:00', '0000-00-00 00:00:00', '7', 0),
+(6, 10, 6, 40, '2018-03-08 17:00:00', '2018-03-08 17:40:00', '0000-00-00 00:00:00', '7', 0),
+(7, 30, 7, 60, '2017-12-09 00:00:00', '2017-12-12 02:00:00', '0000-00-00 00:00:00', '7', 0);
 
 -- --------------------------------------------------------
 
@@ -399,11 +429,11 @@ INSERT INTO `sgroup` (`groupid`, `courseid`, `groupnumber`, `instructorid`, `del
 (4, 30, 4, 'instructor', 0, 'student'),
 (5, 30, 5, 'instructor', 0, 'student'),
 (6, 30, 6, 'instructor', 0, 'student'),
-(7, 29, 1, 'instructor', 0, 'student'),
-(8, 29, 2, 'instructor', 0, 'student'),
-(9, 30, 7, 'instructor', 0, 'student'),
-(10, 30, 8, 'instructor', 0, 'student'),
-(12, 30, 9, 'instructor', 0, 'student');
+(7, 29, 7, 'instructor', 0, 'student'),
+(8, 29, 8, 'instructor', 0, 'student'),
+(9, 30, 9, 'instructor', 0, 'student'),
+(10, 30, 10, 'instructor', 0, 'student'),
+(12, 30, 12, 'instructor', 0, 'student');
 
 -- --------------------------------------------------------
 
@@ -426,17 +456,17 @@ CREATE TABLE `sgroup_quiz` (
 --
 
 INSERT INTO `sgroup_quiz` (`relnid`, `studentid`, `groupid`, `quizid`, `token`, `isgroupquiz`, `deleted`) VALUES
-(1, 'student', 1, 7, '3sdf3s', 0, 0),
+(1, 'student', 2, 7, 'CMPLTD', 0, 0),
 (2, 'student', 2, 1, 'CMPLTD', 0, 0),
-(3, 'cdgsyj', 2, 7, '938jdj', 0, 0),
-(4, 'cdgsyj', 3, 7, '*7udjf', 0, 0),
-(5, 'cjqxc2', 4, 7, '3jLJFD', 0, 0),
-(6, 'dt4pyv', 5, 7, 'asdfn4', 0, 0),
-(7, 'dcjlpi', 6, 7, 'sdf212', 0, 0),
-(8, 'dmsb34', 9, 7, 'vcxmnn', 0, 0),
-(9, 'dcxvbb', 10, 7, 'dsfdsf', 0, 0),
-(10, 'dcrs4p', 11, 7, 'sfnxkw', 0, 0),
-(11, 'ewxf91', 12, 7, '122wkJ', 0, 0);
+(3, 'student', 2, 7, 'qa12ws', 1, 0),
+(4, 'cdgsyj', 3, 7, 'qa12ws', 0, 0),
+(5, 'cjqxc2', 2, 7, 'CMPLTD', 0, 0),
+(6, 'dt4pyv', 5, 7, 'qa12ws', 0, 0),
+(7, 'dcjlpi', 6, 7, 'qa12ws', 0, 0),
+(8, 'dmsb34', 9, 7, 'qa12ws', 0, 0),
+(9, 'dcxvbb', 10, 7, 'qa12ws', 0, 0),
+(10, 'dcrs4p', 11, 7, 'qa12ws', 0, 0),
+(11, 'ewxf91', 12, 7, 'qa12ws', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -789,7 +819,7 @@ ALTER TABLE `sgroup`
 --
 ALTER TABLE `sgroup_quiz`
   ADD PRIMARY KEY (`relnid`),
-  ADD UNIQUE KEY `studentid` (`studentid`,`groupid`,`quizid`);
+  ADD UNIQUE KEY `studentid` (`studentid`,`groupid`,`quizid`,`isgroupquiz`) USING BTREE;
 
 --
 -- Indexes for table `student_course`
@@ -833,7 +863,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer_quiz`
 --
 ALTER TABLE `answer_quiz`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'internal id', AUTO_INCREMENT=19;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'internal id', AUTO_INCREMENT=81;
 --
 -- AUTO_INCREMENT for table `course`
 --
