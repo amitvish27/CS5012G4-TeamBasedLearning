@@ -110,7 +110,7 @@ div.relative {
 
 			<div class="alert alert-success">
 				<strong>Success: </strong> Success. Uploaded filename:
-				<%=filePath + fileName%>
+				<%=fileName%><!-- filePath -->
 			</div>
 			<%
 				//out.println("Sucess. Uploaded Filename: " + filePath + fileName + "<br>");

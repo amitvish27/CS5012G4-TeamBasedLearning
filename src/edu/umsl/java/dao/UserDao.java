@@ -33,6 +33,7 @@ public class UserDao {
 	private PreparedStatement deleteRecord;
 	private PreparedStatement updateRecord;
 	private PreparedStatement addRecord;
+	private PreparedStatement addBulkRecord;
 
 	public UserDao() throws Exception {
 		try {
@@ -68,6 +69,7 @@ public class UserDao {
 			addRecord = connection.prepareStatement(
 					"INSERT INTO `user` (`ssoid`,`pswd`,`fname`,`lname`,`email`,`dept`,`createdby`,`modifiedby`,`role`,`active`, `deleted`) VALUES (?,?,?,?,?,?,?,?,?,?,?)");
 
+			addBulkRecord = connection.prepareStatement("INSERT INTO `user` (`ssoid`,`fname`,`lname`,`email`,`role`,`dept`) VALUES (?,?,?,?,?,?);");
 			deleteRecord = connection.prepareStatement("UPDATE `user` SET `deleted`=1 WHERE `id`=?");
 
 			updateRecord = connection.prepareStatement(
@@ -309,13 +311,14 @@ public class UserDao {
 
 		int err = 0;
 		try {
-			addRecord.setString(1, user.getSsoid());
-			addRecord.setString(2, user.getFname());
-			addRecord.setString(3, user.getLname());
-			addRecord.setString(4, user.getEmail());
-			addRecord.setInt(5, user.getRole());
-			addRecord.setString(6, user.getDept());
-			addRecord.executeUpdate();
+			//"INSERT INTO `user` (`ssoid`,`fname`,`lname`,`email`,`role`,`dept`) VALUES (?,?,?,?,?,?)");
+			addBulkRecord.setString(1, user.getSsoid());
+			addBulkRecord.setString(2, user.getFname());
+			addBulkRecord.setString(3, user.getLname());
+			addBulkRecord.setString(4, user.getEmail());
+			addBulkRecord.setInt(5, user.getRole());
+			addBulkRecord.setString(6, user.getDept());
+			addBulkRecord.executeUpdate();
 
 		} catch (SQLException sqlException) {
 			System.out.println("Error: Duplicate Entry");
@@ -335,7 +338,9 @@ public class UserDao {
 			deleteRecord.close();
 			updateRecord.close();
 			addRecord.close();
+			addBulkRecord.close();
 			connection.close();
+			
 		} catch (SQLException sql_ex) {
 			sql_ex.printStackTrace();
 		}
