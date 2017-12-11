@@ -154,7 +154,7 @@
 											$('[data-toggle="tooltip"]')
 													.tooltip();
 										</script>
-										<a href="#" rel="tooltip" data-placement="right"
+										<a rel="tooltip" data-placement="right"
 											title="Minimum 6 characters,
 Should have Uppercase letter,
 Should have Lowercase letter,

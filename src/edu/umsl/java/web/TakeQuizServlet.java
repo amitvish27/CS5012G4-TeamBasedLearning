@@ -69,17 +69,30 @@ public class TakeQuizServlet extends HttpServlet {
 		String groupidStr=(String) request.getParameter("groupid");
 		int groupid = Integer.parseInt(!(groupidStr==null || groupidStr.equals(""))?groupidStr:"-1");
 		
+		String isgroupquizStr=(String) request.getParameter("isgroupquiz");
+		int isgroupquiz = Integer.parseInt(!(isgroupquizStr==null || isgroupquizStr.equals(""))?isgroupquizStr:"-1");
+		
 		
 		switch (action) {
 		case "getActiveQuizList":
 			String timestamp=(String) request.getParameter("timestamp")!=null?(String) request.getParameter("timestamp"):"";
 			JsonArrayBuilder jsonArry = takeQuizDao.getActiveQuizList(studentid, timestamp);
-			jsonObject = Json.createObjectBuilder().add("activeQuizList", jsonArry).build();
+			//check isGroupLeader, if yes return GroupQuizes with Availability Status
+			JsonArrayBuilder jsonGroupQuizArry = Json.createArrayBuilder();
+			if (takeQuizDao.isGroupLeader(studentid)) {
+				jsonGroupQuizArry = takeQuizDao.getActiveGroupQuizList(studentid, timestamp);
+			}
+			
+			jsonObject = Json.createObjectBuilder()
+					.add("activeQuizList", jsonArry)
+					.add("activeGroupQuizList", jsonGroupQuizArry)
+					.build();
+			
 			break;
 		case "getQuizDetails":
 			String token = (String) (request.getParameter("token"));
 			
-			if(!takeQuizDao.checkTokenValidation(quizid, token))
+			if(!takeQuizDao.checkTokenValidation(studentid, groupid, quizid, token))
 			{
 				jsonObject = Json.createObjectBuilder()
 						.add("error", "Token Validation Failed").build();
@@ -87,21 +100,35 @@ public class TakeQuizServlet extends HttpServlet {
 			else {
 				takeQuizDao.clearAnswersForThisQuiz(relnid);
 				jsonObject = Json.createObjectBuilder().add("quiz", 
-						takeQuizDao.getQuizWithId(quizid, 1, relnid))
+						takeQuizDao.getQuizWithId(groupid, quizid, 1, relnid, isgroupquiz))
 						.add("relnid", relnid)
 						.add("groupid", groupid)
-						.build();
+						.add("isgroupquiz", isgroupquiz)
+						.build();	
 			}
 			break;
 		case "getQuestion":
 			jsonObject = Json.createObjectBuilder().add("quiz", 
-					takeQuizDao.getQuizWithId(quizid, questionNumber, relnid))
+					takeQuizDao.getQuizWithId(groupid, quizid, questionNumber, relnid, isgroupquiz))
 					.add("relnid", relnid)
 					.add("groupid", groupid)
+					.add("isgroupquiz", isgroupquiz)
 					.build();
 			break;
 		case "submitAnswer":
-			takeQuizDao.submitAnswer(relnid, questid, selectedOption);
+			if(isgroupquiz==0) {
+				takeQuizDao.submitAnswer(relnid, questid, selectedOption);
+				jsonObject = Json.createObjectBuilder()
+						.add("submitresultstr","Your Answer is submitted!")
+						.add("isgroupquiz", isgroupquiz)
+						.add("classalert", " alert-info")
+						.build();
+			} else {
+				String questAtmtStr = (String) request.getParameter("questattemptcount");
+				int questAtmtCnt = Integer.parseInt(questAtmtStr);
+				jsonObject = takeQuizDao.submitGroupAnswer(relnid, questid, selectedOption, questAtmtCnt);  // get instant feedback right/wrong
+				
+			}
 			break;
 		case "finishQuiz":
 			takeQuizDao.finishQuiz(studentid, groupid, quizid);
