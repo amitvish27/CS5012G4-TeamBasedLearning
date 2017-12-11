@@ -280,18 +280,15 @@ public class CourseDao {
 		return tempList;
 	}
 
-	//TODO: wip
 	public List<CourseBean> getCourseList(String col, String dir, String searchText, int start, int end) {
 		List<CourseBean> courseList = new ArrayList<CourseBean>();
 		col = (col.equals("")) ? "created" : col;
 		dir = (dir.equals("")) ? "ASC" : dir;
 		searchText = "'%" + searchText + "%'";
-		//"SELECT id, code, title, year, semester, instructor "
-		//+ "FROM course WHERE deleted=0 " + "ORDER BY created DESC LIMIT ?, ?"
 		String query = "SELECT id, code, title, year, semester, instructor FROM course "
 						+ "WHERE deleted=0 AND (id LIKE "+searchText+" OR code LIKE "+searchText+" OR title LIKE "+searchText+" "
 						+ "OR year LIKE "+searchText+" OR semester LIKE "+searchText+" OR instructor LIKE "+searchText+") "
-						+ "ORDER BY "+col+" "+dir+"  LIMIT "+start+", "+end;
+						+ "ORDER BY "+col+" "+dir+"  LIMIT "+(start-1)+", "+end;
 		
 		try {
 			PreparedStatement getRecords_sorted = connection.prepareStatement(query);

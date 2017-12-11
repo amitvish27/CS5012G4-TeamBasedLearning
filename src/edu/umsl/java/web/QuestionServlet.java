@@ -28,7 +28,9 @@ public class QuestionServlet extends HttpServlet {
 			throws ServletException, IOException {
 		
 		QuestionDao questionDao = null;
-
+		String idsearchtext = request.getParameter("search");
+		idsearchtext = (idsearchtext==null)?"":idsearchtext ; 
+		
 		int pg = 0;
 		String initpg = request.getParameter("pg");
 
@@ -45,27 +47,26 @@ public class QuestionServlet extends HttpServlet {
 		}
 
 		try {
-			// userId = String.valueOf(session.getAttribute("userId"));
-
 			questionDao = new QuestionDao();
-			// questionDao.setQuestionInstructor(userId);
-			// List<Question> questionListInstructor =
-			// questionDao.getQuestionListByInstructor();
-			// request.setAttribute("questionListByInstructor", questionListInstructor);
+			
 			int count = questionDao.getQuestionCount();
-
 			int totalpg = (int) Math.ceil(count / 10.0);
-			List<QuestionBean> questionList = questionDao.getQuestionListByPage(pg);
-
+			
+			//Entries per page
+			String recPerPgStr = (String) request.getParameter("ent");
+			int entries = (recPerPgStr!=null)? Integer.parseInt(recPerPgStr):10;
+			
 			if (pg < 1) {
 				pg = 1;
 			} else if (pg > totalpg) {
 				pg = totalpg;
 			}
-
+			
+			List<QuestionBean> questionList = questionDao.getQuestionListByPage(idsearchtext, pg, entries);
 			request.setAttribute("pcrtpg", pg);
 			request.setAttribute("pmaxpg", totalpg);
 			request.setAttribute("questionList", questionList);
+			request.setAttribute("recPerPgStr", entries);
 
 		} catch (Exception ex) {
 			ex.printStackTrace();

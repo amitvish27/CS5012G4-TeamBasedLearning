@@ -60,7 +60,6 @@ public class UserDao {
 			// for admin role - user management
 			getCount = connection.prepareStatement("SELECT COUNT(*) as count FROM `user`");
 
-			// TODO need to see why the sort is not working here
 			getRecords_sorted = connection.prepareStatement(
 					"SELECT `id`, `ssoid`, `fname`, `lname`, `email`,`dept`, `role`, `deleted`, `active` FROM `user` "
 							+ "WHERE `ssoid` LIKE ? OR `fname` LIKE ? OR `lname` LIKE ? OR `email` LIKE ? OR `dept` LIKE ?"
@@ -259,7 +258,6 @@ public class UserDao {
 
 	public List<UserBean> getUserListSorted(int start, int end, String col, String dir, String searchText)
 			throws SQLException {
-		// TODO need to work for sorting and pagination on search
 		col = (col.equals("")) ? "created" : col;
 		dir = (dir.equals("")) ? "ASC" : dir;
 		searchText = "'%" + searchText + "%'";
@@ -291,7 +289,6 @@ public class UserDao {
 		return userList;
 	}
 
-	//TODO wip
 	public void addUser(UserBean user) throws SQLException {
 		addRecord.setString(1, user.getSsoid());
 		addRecord.setString(2, user.getPswd());

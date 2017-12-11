@@ -258,7 +258,6 @@ $(document).on("click", "#addStudentBtn", function () {
 	$(".chckstdnt:checkbox:checked").each(function () {
 		studentList.push($(this).val());
 	});
-	console.log(studentList);
 	$.ajax({
 		url: "Group",
 		type: "POST",

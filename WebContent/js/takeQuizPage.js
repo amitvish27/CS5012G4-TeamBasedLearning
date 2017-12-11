@@ -90,7 +90,6 @@ $(document).on("click",".startQuiz",  function(){
 	var groupid = $(this).parents()[2].children[0].children[1].value;
 	var isgroupquiz = $(this).parents()[2].children[0].children[2].value;
 	var token = $(this).parents()[2].children[0].children[4].firstChild.value;
-	console.log(token)
 	$.ajax({
 		url : "TakeQuiz",
 		type : "POST",
@@ -183,7 +182,6 @@ $(document).on('change', 'input[type=radio][name=option]', function (){
 	$(".submitAnswer").removeAttr('disabled')
 });
 
-//TODO add function for submitAnswer -> attempt 4 - 2 - 1 - 0
 $(document).on('click', '.submitAnswer', function() {
 	var selectedOption = $('input[type=radio][name=option]:checked').val();
 	var relnid = $("#relnid").val(); 

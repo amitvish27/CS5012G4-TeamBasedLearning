@@ -251,7 +251,6 @@ private Connection connection;
 			e.printStackTrace();
 		}
 	}
-//TODO work in progress
 	public JsonObject submitGroupAnswer(int relnid, int questid, int selectedOption, int questAtmtCnt) {
 		JsonObjectBuilder jsonObject = Json.createObjectBuilder();
 		String submitresultstr="";

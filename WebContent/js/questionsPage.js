@@ -118,5 +118,7 @@ function onRefresh() {
 	document.location.href = "Question";
 }
 function showEntries(){
-	
+	var entries = $("#selShowEntries").val();
+	var crtpg = parseInt(document.getElementById("pcrtpg").value);
+	document.location.href = "Question?pg=" + crtpg + "&ent=" + entries;
 }

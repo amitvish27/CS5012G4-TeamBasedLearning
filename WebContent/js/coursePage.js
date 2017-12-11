@@ -61,7 +61,6 @@ function editThisCourseAjax(v) {
 	var titleVal = $("#title" + v).text();
 	var yearVal = $("#year" + v).text();
 	var semVal = $("#semester" + v).text();
-	console.log("codeval " + codeVal);
 	var codeHtml = "<input class='form-control' type='text' value='"+codeVal+"'></input>";
 	var titleHtml = "<input class='form-control' type='text' value='"+titleVal+"'></input>";
 	
@@ -132,23 +131,6 @@ function clearCreateNewModal() {
 
 
 function changeSortIcon(v) {
-	/*var sortDir = document.getElementById("idSortDir").value
-	var iconClass = $("#" + v + "SortIcon").attr('class');
-	if( iconClass === "glyphicon glyphicon-sort")
-	{
-		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort-by-attributes');
-		$("#" + v + "SortDir").val('ASC');
-	} 
-	else if (iconClass === "glyphicon glyphicon-sort-by-attributes")
-	{
-		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort-by-attributes-alt');
-		$("#" + v + "SortDir").val('DESC');
-	}
-	else if(iconClass === "glyphicon glyphicon-sort-by-attributes-alt")
-	{	
-		$("#" + v + "SortIcon").attr('class', 'glyphicon glyphicon-sort');
-		$("#" + v + "SortDir").val('');
-	}*/
 	var sortDir = document.getElementById("idSortDir").value
 
 	if (sortDir === "" || sortDir == undefined) {
@@ -185,22 +167,6 @@ function sortColumn(v) {
 	} else {
 		url += "?sort=" + v + "&dir=" + d; // if no sort already then add
 	}
-
-/*/	enable when sorting fixed
- 	var d = $("#" + v + "SortDir").val();
-	var url = window.location.search;
-	var sortIndex = url.indexOf('sort=');
-	var dirIndex = url.indexOf('dir=');
-	if (sortIndex > -1) {
-		url = url.substr(0, sortIndex - 1);
-	}
-	if (url.indexOf('?') > -1) {
-		url += "&sort=" + v + "&dir=" + d; // if no sort already then add
-	} else {
-		url += "?sort=" + v + "&dir=" + d; // if no sort already then add
-	}*/
-
-	//console.log("new url :" + url);
 	document.location.href = "Course" + url;
 }
 

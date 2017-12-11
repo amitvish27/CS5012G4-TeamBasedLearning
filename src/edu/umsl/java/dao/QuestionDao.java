@@ -142,19 +142,45 @@ public class QuestionDao {
 
 		return count;
 	}
+	
 
-	public List<QuestionBean> getQuestionListByPage(int pg) {
-
+	public List<QuestionBean> getQuestionListByPage(String searchText, int start, int end) {
 		questionList = new ArrayList<QuestionBean>();
+		searchText = "'%" + searchText + "%'";
+		
+		String query = "SELECT id, content, opt_a, opt_b, opt_c, opt_d, answer, kywd FROM question "
+				+ "WHERE deleted=0 AND kywd LIKE "+searchText+" "
+				+ "ORDER BY created DESC LIMIT "+(start-1)+", "+end+";";
+		try {
+			PreparedStatement getRecords_sorted = connection.prepareStatement(query);
+			ResultSet res = getRecords_sorted.executeQuery();
+			while (res.next()) {
+				QuestionBean question = new QuestionBean();
 
+				question.setId(res.getInt(1));
+				question.setContent(res.getString(2));
+				question.setOptA(res.getString(3));
+				question.setOptB(res.getString(4));
+				question.setOptC(res.getString(5));
+				question.setOptD(res.getString(6));
+				question.setAnswer(res.getString(7));
+				question.setKywd(res.getString(8));
+
+				questionList.add(question);
+			}
+		}catch (SQLException e ) {
+			e.printStackTrace();
+		}
+		
+		return questionList;
+	}
+	public List<QuestionBean> getQuestionListByPage(int pg) {
+		questionList = new ArrayList<QuestionBean>();
 		int st = 10 * (pg - 1);
-
 		try {
 			questionpg.setInt(1, st);
 			questionpg.setInt(2, 10);
-
 			ResultSet res = questionpg.executeQuery();
-
 			while (res.next()) {
 				QuestionBean question = new QuestionBean();
 
@@ -220,8 +246,6 @@ public class QuestionDao {
 	public void addQuestion(String content, String opta, String optb, String optc, String optd, String answer,
 			String kywd, String instructor) {
 		try {
-			//FIXME "INSERT INTO question (content, opt_a, opt_b, opt_c, opt_d, answer, kywd, insID) "
-					//+ "VALUES (?,?,?,?,?,?,?,?)"
 			addQuestion.setString(1, content);
 			addQuestion.setString(2, opta);
 			addQuestion.setString(3, optb);

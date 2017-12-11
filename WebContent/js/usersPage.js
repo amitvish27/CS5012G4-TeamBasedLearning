@@ -24,8 +24,6 @@ function goToUsersPage() {
 	var nextPage = $("#userpage").val();
 	if (nextPage != undefined) {
 		$("#userpage").val('');
-		//console.log("crtpg = " + crtpg);
-		//console.log("maxpg = " + maxpg);
 		if (nextPage >= 0 && nextPage <= maxpg) {
 			document.location.href = "ManageUser?page=" + nextPage + "&ent="
 					+ entries;
@@ -38,7 +36,6 @@ function goToUsersPage() {
 function loadUsersAtPage(u) {
 	var entries = $("#selShowEntries").val();
 	var pgnum = parseInt(document.getElementById("crtpg").value);
-	//console.log("pgnum = " + pgnum);
 	if (u == 0) {
 		pgnum--;
 	} else {
@@ -167,7 +164,6 @@ function sortColumn(v) {
 		url += "?sort=" + v + "&dir=" + d; // if no sort already then add
 	}
 
-	//console.log("new url :" + url);
 	document.location.href = "ManageUser" + url;
 }
 
@@ -183,7 +179,6 @@ function resetPassword(){
 	//ssoid
 	var ssoid = $("#mod_user_ssoId").val();
 	
-	console.log(">>>"+ssoid);
 	$.post("ResetPassword",{
 		ssoid:ssoid
 	}, function(data,status){
