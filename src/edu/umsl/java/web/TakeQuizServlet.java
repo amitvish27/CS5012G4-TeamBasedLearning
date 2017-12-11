@@ -75,11 +75,12 @@ public class TakeQuizServlet extends HttpServlet {
 			String timestamp=(String) request.getParameter("timestamp")!=null?(String) request.getParameter("timestamp"):"";
 			JsonArrayBuilder jsonArry = takeQuizDao.getActiveQuizList(studentid, timestamp);
 			jsonObject = Json.createObjectBuilder().add("activeQuizList", jsonArry).build();
+			
 			break;
 		case "getQuizDetails":
 			String token = (String) (request.getParameter("token"));
 			
-			if(!takeQuizDao.checkTokenValidation(quizid, token))
+			if(!takeQuizDao.checkTokenValidation(studentid, groupid, quizid, token))
 			{
 				jsonObject = Json.createObjectBuilder()
 						.add("error", "Token Validation Failed").build();

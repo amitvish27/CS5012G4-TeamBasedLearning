@@ -80,6 +80,12 @@ $(document).on("click",".startQuiz",  function(){
 				var htmlData = getQuestionBody(data.quiz, data.relnid, data.groupid);	
 				countdown(time_limit, 0);
 				$('.quizBody').html(htmlData);
+				window.onbeforeunload = function() {
+				    return "Refresh is Disabled currently for your quiz. " +
+				    		"Are you sure you want to leave? " +
+				    		"You may lose any unsafe changes.";
+				}
+
 			}
 		}
 	});
@@ -249,6 +255,7 @@ function finishClicked(){
 			htmlData+="<div><button type='button' class='btn btn-link btn-sm' onclick='location.reload();'>"
 					+" <span class='glyphicon glyphicon-refresh'></span> Go Home</button><div>"
 			$('.quizBody').html(htmlData);
+			window.onbeforeunload = null;
 		}
 	});
 }

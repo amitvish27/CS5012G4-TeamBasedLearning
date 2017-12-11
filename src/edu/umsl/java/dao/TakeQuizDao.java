@@ -47,7 +47,7 @@ private Connection connection;
 						.add("relnid", res.getInt("relnid"))
 						);
 			}
-			
+			res.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
@@ -112,16 +112,27 @@ private Connection connection;
 				.add("answer", quiz.getAnswer())
 				.add("options", j_opts);
 			
-			
+			res.close();
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		return jsonObject;
 	}
 
-	public boolean checkTokenValidation(int quizId, String token) {
-		if (token.equals("quiz"+quizId))
-			return true;
+	public boolean checkTokenValidation(String studentid, int groupid, int quizid, String token) {
+		String query="SELECT token FROM sgroup_quiz "
+				+ "WHERE studentid='"+studentid+"' AND groupid='"+groupid+"' AND quizid='"+quizid+"';";
+		try {
+			ResultSet rs = connection.prepareStatement(query).executeQuery();
+			if(rs.next() && rs.getString("token").equals(token)) {
+				return true;
+			}
+			rs.close();
+		}catch(SQLException e)
+		{
+			e.printStackTrace();
+		}
+		
 		return false;
 	}
 
@@ -143,6 +154,7 @@ private Connection connection;
 					+ "'"+relnid+"', '"+questid+"', '"+selectedOption+"',  '"+score+"');";
 			connection.prepareStatement(query).executeUpdate();
 			
+			rs.close();
 		} catch(SQLException e) {
 			e.printStackTrace();
 		}
