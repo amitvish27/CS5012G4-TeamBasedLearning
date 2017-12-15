@@ -92,7 +92,7 @@ public class TakeQuizServlet extends HttpServlet {
 		case "getQuizDetails":
 			String token = (String) (request.getParameter("token"));
 			
-			if(!takeQuizDao.checkTokenValidation(studentid, groupid, quizid, token))
+			if(!takeQuizDao.checkTokenValidation(relnid, token))
 			{
 				jsonObject = Json.createObjectBuilder()
 						.add("error", "Token Validation Failed").build();
@@ -131,7 +131,7 @@ public class TakeQuizServlet extends HttpServlet {
 			}
 			break;
 		case "finishQuiz":
-			takeQuizDao.finishQuiz(studentid, groupid, quizid);
+			takeQuizDao.finishQuiz(relnid);
 			break;
 		default:
 			break;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 11, 2017 at 04:39 PM
+-- Generation Time: Dec 15, 2017 at 11:29 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.8
 
@@ -41,30 +41,8 @@ CREATE TABLE `answer_quiz` (
 --
 
 INSERT INTO `answer_quiz` (`id`, `sgroup_quiz_id`, `questid`, `answer`, `score`) VALUES
-(27, 1, 43, 1, 1),
-(28, 1, 44, 2, 1),
-(29, 1, 45, 3, 1),
-(30, 1, 46, 1, 0),
-(31, 1, 47, 2, 0),
-(32, 1, 48, 2, 0),
-(33, 1, 49, 1, 0),
-(34, 1, 50, 3, 0),
-(35, 1, 51, 1, 1),
-(36, 1, 52, 3, 0),
-(37, 1, 53, 1, 0),
-(38, 1, 54, 1, 0),
-(39, 5, 43, 1, 1),
-(40, 5, 44, 2, 1),
-(41, 5, 45, 3, 1),
-(42, 5, 46, 4, 1),
-(43, 5, 47, 1, 0),
-(44, 5, 48, 4, 0),
-(45, 5, 52, 1, 0),
-(46, 5, 53, 4, 0),
-(47, 5, 54, 3, 1),
-(78, 4, 45, 1, 0),
-(79, 4, 46, 3, 0),
-(80, 4, 47, 3, 0);
+(130, 5, 7, 4, 0),
+(133, 3, 7, 3, 1);
 
 -- --------------------------------------------------------
 
@@ -88,7 +66,7 @@ CREATE TABLE `course` (
 --
 
 INSERT INTO `course` (`id`, `code`, `title`, `year`, `semester`, `created`, `instructor`, `deleted`) VALUES
-(1, 'NU3886', 'Pharmacology & Nursing Care', 2016, 'Winter', '2017-11-04 22:38:22', 'jh6q3t', 0),
+(1, 'NU3886', 'Pharmacology & Nursing Care', 2016, 'Winter', '2017-11-04 22:38:22', 'instructor', 0),
 (2, 'MA3153', 'Introduction To Partial Differ', 2017, 'Summer', '2017-11-04 22:38:22', 'jppdle', 0),
 (3, 'CS1198', 'Computer Science Principles', 2016, 'Winter', '2017-11-04 22:38:22', 'fr5rae', 0),
 (4, 'IS3624', 'Concepts Of Information System', 2016, 'Summer', '2017-11-04 22:38:22', 'instructor', 0),
@@ -133,6 +111,46 @@ CREATE TABLE `course_inst` (
   `instid` varchar(10) NOT NULL COMMENT 'fk to user internal id',
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `course_inst`
+--
+
+INSERT INTO `course_inst` (`relnid`, `courseid`, `instid`, `deleted`) VALUES
+(1, 1, 'jh6q3t', 0),
+(2, 2, 'jppdle', 0),
+(3, 3, 'fr5rae', 0),
+(4, 4, 'instructor', 0),
+(5, 5, 'instructor', 0),
+(6, 6, 'jppdle', 0),
+(7, 7, 'jh6q3t', 0),
+(8, 8, 'fr5rae', 0),
+(9, 9, 'yt1234', 0),
+(10, 10, 'fr5rae', 0),
+(11, 11, 'jh6q3t', 0),
+(12, 12, 'jppdle', 0),
+(13, 13, 'jh6q3t', 0),
+(14, 14, 'fr5rae', 0),
+(15, 15, 'jh6q3t', 0),
+(16, 16, 'fr5rae', 0),
+(17, 17, 'instructor', 0),
+(18, 18, 'jppdle', 0),
+(19, 19, 'instructor', 0),
+(20, 20, 'jh6q3t', 0),
+(21, 21, 'fr5rae', 0),
+(22, 22, 'jh6q3t', 0),
+(23, 23, 'jppdle', 0),
+(24, 24, 'fr5rae', 0),
+(25, 25, 'jh6q3t', 0),
+(26, 26, 'jh6q3t', 0),
+(27, 27, 'asv123', 0),
+(28, 28, 'instructor', 0),
+(29, 29, 'instructor', 0),
+(30, 30, 'asv123', 0),
+(31, 31, 'instructor', 0),
+(32, 32, 'instructor', 0),
+(65, 3, 'instructor', 0),
+(66, 1, 'instructor', 0);
 
 -- --------------------------------------------------------
 
@@ -325,52 +343,29 @@ CREATE TABLE `quest_quiz` (
 --
 
 INSERT INTO `quest_quiz` (`relnid`, `questid`, `quizid`, `deleted`) VALUES
-(1, 7, 1, 0),
-(2, 14, 1, 0),
-(3, 15, 1, 0),
-(4, 17, 1, 0),
-(8, 19, 3, 0),
-(9, 20, 3, 0),
-(10, 21, 3, 0),
-(11, 22, 3, 0),
-(12, 23, 3, 0),
-(13, 24, 3, 0),
-(15, 5, 2, 0),
-(16, 6, 2, 0),
-(17, 8, 2, 0),
-(18, 11, 2, 0),
-(19, 16, 2, 0),
-(20, 18, 2, 0),
-(22, 25, 4, 0),
-(23, 26, 4, 0),
-(24, 27, 4, 0),
-(25, 28, 4, 0),
-(26, 29, 4, 0),
-(27, 30, 4, 0),
-(29, 31, 5, 0),
-(30, 32, 5, 0),
-(31, 32, 5, 0),
-(32, 33, 5, 0),
-(33, 34, 5, 0),
-(34, 35, 5, 0),
-(36, 36, 6, 0),
-(37, 37, 6, 0),
-(38, 38, 6, 0),
-(39, 39, 6, 0),
-(40, 40, 6, 0),
-(41, 41, 6, 0),
-(43, 42, 7, 0),
-(44, 43, 7, 0),
-(45, 44, 7, 0),
-(46, 45, 7, 0),
-(47, 45, 7, 0),
-(48, 46, 7, 0),
-(49, 47, 7, 0),
-(50, 48, 7, 0),
-(51, 49, 7, 0),
-(52, 50, 7, 0),
-(53, 51, 7, 0),
-(54, 52, 7, 0);
+(1, 1, 4, 0),
+(2, 2, 2, 0),
+(3, 3, 5, 0),
+(4, 4, 5, 0),
+(5, 5, 8, 0),
+(6, 6, 8, 0),
+(7, 7, 7, 0),
+(8, 8, 2, 0),
+(9, 9, 6, 0),
+(10, 10, 5, 0),
+(11, 11, 1, 0),
+(12, 12, 4, 0),
+(13, 13, 8, 0),
+(14, 14, 1, 0),
+(15, 15, 2, 0),
+(16, 16, 2, 0),
+(17, 17, 8, 0),
+(18, 18, 2, 0),
+(19, 1, 7, 0),
+(20, 2, 7, 0),
+(21, 3, 7, 0),
+(22, 4, 7, 0),
+(23, 5, 7, 0);
 
 -- --------------------------------------------------------
 
@@ -395,13 +390,14 @@ CREATE TABLE `quiz` (
 --
 
 INSERT INTO `quiz` (`id`, `courseid`, `number`, `time_limit`, `start_time`, `end_time`, `created`, `instructorid`, `deleted`) VALUES
-(1, 31, 1, 30, '2017-12-08 17:00:00', '2017-12-12 17:30:00', '0000-00-00 00:00:00', '7', 0),
+(1, 31, 1, 30, '2017-12-08 17:00:00', '2017-12-15 17:30:00', '0000-00-00 00:00:00', '7', 0),
 (2, 22, 2, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
 (3, 21, 3, 30, '2018-03-08 20:00:00', '2018-03-08 20:30:00', '0000-00-00 00:00:00', '7', 0),
 (4, 24, 4, 30, '2018-03-08 17:00:00', '2018-03-08 17:30:00', '0000-00-00 00:00:00', '7', 0),
 (5, 25, 5, 40, '2018-03-08 19:00:00', '2018-03-08 19:40:00', '0000-00-00 00:00:00', '7', 0),
 (6, 10, 6, 40, '2018-03-08 17:00:00', '2018-03-08 17:40:00', '0000-00-00 00:00:00', '7', 0),
-(7, 30, 7, 60, '2017-12-09 00:00:00', '2017-12-12 02:00:00', '0000-00-00 00:00:00', '7', 0);
+(7, 30, 7, 20, '2017-12-09 00:00:00', '2017-12-15 02:00:00', '0000-00-00 00:00:00', '7', 0),
+(8, 32, 8, 30, '2017-12-11 15:00:00', '2017-12-15 15:00:00', '2017-12-12 15:25:17', 'instructor', 0);
 
 -- --------------------------------------------------------
 
@@ -456,17 +452,17 @@ CREATE TABLE `sgroup_quiz` (
 --
 
 INSERT INTO `sgroup_quiz` (`relnid`, `studentid`, `groupid`, `quizid`, `token`, `isgroupquiz`, `deleted`) VALUES
-(1, 'student', 2, 7, 'CMPLTD', 0, 0),
-(2, 'student', 2, 1, 'CMPLTD', 0, 0),
-(3, 'student', 2, 7, 'qa12ws', 1, 0),
-(4, 'cdgsyj', 3, 7, 'qa12ws', 0, 0),
-(5, 'cjqxc2', 2, 7, 'CMPLTD', 0, 0),
-(6, 'dt4pyv', 5, 7, 'qa12ws', 0, 0),
-(7, 'dcjlpi', 6, 7, 'qa12ws', 0, 0),
-(8, 'dmsb34', 9, 7, 'qa12ws', 0, 0),
-(9, 'dcxvbb', 10, 7, 'qa12ws', 0, 0),
-(10, 'dcrs4p', 11, 7, 'qa12ws', 0, 0),
-(11, 'ewxf91', 12, 7, 'qa12ws', 0, 0);
+(1, 'student', 2, 7, 'aq1234', 0, 0),
+(2, 'student', 2, 1, 'aq1234', 0, 0),
+(3, 'student', 2, 7, 'aq1234', 1, 0),
+(4, 'cdgsyj', 3, 7, 'aq1234', 0, 0),
+(5, 'cjqxc2', 2, 7, 'aq1234', 0, 0),
+(6, 'dt4pyv', 5, 7, 'aq1234', 0, 0),
+(7, 'dcjlpi', 6, 7, 'aq1234', 0, 0),
+(8, 'dmsb34', 9, 7, 'aq1234', 0, 0),
+(9, 'dcxvbb', 10, 7, 'aq1234', 0, 0),
+(10, 'dcrs4p', 11, 7, 'aq1234', 0, 0),
+(11, 'ewxf91', 12, 7, 'aq1234', 0, 0);
 
 -- --------------------------------------------------------
 
@@ -658,6 +654,112 @@ CREATE TABLE `topic_inst` (
   `deleted` int(1) NOT NULL DEFAULT '0' COMMENT 'is deleted? 0-No, 1-Yes'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+--
+-- Dumping data for table `topic_inst`
+--
+
+INSERT INTO `topic_inst` (`relnid`, `topicid`, `instructorid`, `deleted`) VALUES
+(1, 1, 'offn92', 0),
+(2, 2, 'offn92', 0),
+(3, 3, 'instructor', 0),
+(4, 4, 'tfyvww', 0),
+(5, 5, 'lbwl17', 0),
+(6, 6, 'offn92', 0),
+(7, 7, 'instructor', 0),
+(8, 8, 'fr5rae', 0),
+(9, 9, 'offn92', 0),
+(10, 10, 'tfyvww', 0),
+(11, 11, 'jppdle', 0),
+(12, 12, 'fr5rae', 0),
+(13, 13, 'or7hui', 0),
+(14, 14, 'or7hui', 0),
+(15, 15, 'or7hui', 0),
+(16, 16, 'fr5rae', 0),
+(17, 17, 'lbwl17', 0),
+(18, 18, 'fr5rae', 0),
+(19, 19, 'lbwl17', 0),
+(20, 20, 'fr5rae', 0),
+(21, 21, 'jh6q3t', 0),
+(22, 22, 'instructor', 0),
+(23, 23, 'instructor', 0),
+(24, 24, 'instructor', 0),
+(25, 25, 'instructor', 0),
+(26, 26, 'jppdle', 0),
+(27, 27, 'jppdle', 0),
+(28, 28, 'nt669p', 0),
+(29, 29, 'nt669p', 0),
+(30, 30, 'jh6q3t', 0),
+(31, 31, 'nt669p', 0),
+(32, 32, 'fr5rae', 0),
+(33, 33, 'jh6q3t', 0),
+(34, 34, 'fr5rae', 0),
+(35, 35, 'jh6q3t', 0),
+(36, 36, 'nt669p', 0),
+(37, 37, 'lbwl17', 0),
+(38, 38, 'fr5rae', 0),
+(39, 39, 'instructor', 0),
+(40, 40, 'offn92', 0),
+(41, 41, 'jppdle', 0),
+(42, 42, 'jh6q3t', 0),
+(43, 43, 'nt669p', 0),
+(44, 44, 'jh6q3t', 0),
+(45, 45, 'instructor', 0),
+(46, 46, 'lbwl17', 0),
+(47, 47, 'instructor', 0),
+(48, 48, 'tfyvww', 0),
+(49, 49, 'instructor', 0),
+(50, 50, 'or7hui', 0),
+(51, 51, 'nt669p', 0),
+(52, 52, 'nt669p', 0),
+(53, 53, 'jppdle', 0),
+(54, 54, 'lbwl17', 0),
+(55, 55, 'lbwl17', 0),
+(56, 56, 'or7hui', 0),
+(57, 57, 'lbwl17', 0),
+(58, 58, 'lbwl17', 0),
+(59, 59, 'lbwl17', 0),
+(60, 60, 'fr5rae', 0),
+(61, 61, 'jppdle', 0),
+(62, 62, 'fr5rae', 0),
+(63, 63, 'jppdle', 0),
+(64, 64, 'jppdle', 0),
+(65, 65, 'jh6q3t', 0),
+(66, 66, 'or7hui', 0),
+(67, 67, 'lbwl17', 0),
+(68, 68, 'jppdle', 0),
+(69, 69, 'nt669p', 0),
+(70, 70, 'instructor', 0),
+(71, 71, 'jppdle', 0),
+(72, 72, 'nt669p', 0),
+(73, 73, 'fr5rae', 0),
+(74, 74, 'jh6q3t', 0),
+(75, 75, 'instructor', 0),
+(76, 76, 'instructor', 0),
+(77, 77, 'jh6q3t', 0),
+(78, 78, 'tfyvww', 0),
+(79, 79, 'instructor', 0),
+(80, 80, 'tfyvww', 0),
+(81, 81, 'instructor', 0),
+(82, 82, 'lbwl17', 0),
+(83, 83, 'nt669p', 0),
+(84, 84, 'fr5rae', 0),
+(85, 85, 'instructor', 0),
+(86, 86, 'jppdle', 0),
+(87, 87, 'jppdle', 0),
+(88, 88, 'jh6q3t', 0),
+(89, 89, 'jppdle', 0),
+(90, 90, 'jh6q3t', 0),
+(91, 91, 'lbwl17', 0),
+(92, 92, 'jppdle', 0),
+(93, 93, 'tfyvww', 0),
+(94, 94, 'instructor', 0),
+(95, 95, 'nt669p', 0),
+(96, 96, 'instructor', 0),
+(97, 97, 'nt669p', 0),
+(98, 98, 'instructor', 0),
+(99, 99, 'instructor', 0),
+(100, 100, 'yt1234', 0);
+
 -- --------------------------------------------------------
 
 --
@@ -755,7 +857,10 @@ INSERT INTO `user` (`id`, `ssoid`, `pswd`, `fname`, `lname`, `email`, `dept`, `c
 (69, 'asv123', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Ameet', 'Vishwakarma', 'ameet.vishwakarma@mail.com', 'Computer Science', '2017-11-04 21:46:36', 'asv123', '2017-11-04 21:46:36', 'asv123', 0, 2, 1, 43526252),
 (70, 'yh1234', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Yang', 'Huang', 'yang.huang@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1, NULL),
 (71, 'yt1234', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Yuneus', 'Tanudyaya', 'yuneus.tanudyaya@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1, NULL),
-(72, 'fz1234', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Frank', 'Zhao', 'frank.zhao@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1, NULL);
+(72, 'fz1234', 'z8wu3FgaSQXplSyAWd+UDA==:rqMGlGj7foeYP7NvdWELvA==', 'Frank', 'Zhao', 'frank.zhao@mail.com', 'Computer Science', '2017-11-04 21:46:37', 'asv123', '2017-11-04 21:46:37', 'asv123', 0, 2, 1, NULL),
+(76, 'as2133h3', NULL, 'June', 'Jones', 'june.jones@umsl.edu', 'CS', '2017-12-11 18:36:39', NULL, '2017-12-11 18:36:39', NULL, 0, 1, 0, NULL),
+(77, '7ds223h1', NULL, 'Graham', 'Jones', 'june.jones@umsl.edu', 'CS', '2017-12-11 18:36:39', NULL, '2017-12-11 18:36:39', NULL, 0, 1, 0, NULL),
+(78, '75wds1h2', NULL, 'Richard', 'Jones', 'june.jones@umsl.edu', 'CS', '2017-12-11 18:36:39', NULL, '2017-12-11 18:36:39', NULL, 0, 1, 0, NULL);
 
 --
 -- Indexes for dumped tables
@@ -863,7 +968,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `answer_quiz`
 --
 ALTER TABLE `answer_quiz`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'internal id', AUTO_INCREMENT=81;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT COMMENT 'internal id', AUTO_INCREMENT=134;
 --
 -- AUTO_INCREMENT for table `course`
 --
@@ -873,7 +978,7 @@ ALTER TABLE `course`
 -- AUTO_INCREMENT for table `course_inst`
 --
 ALTER TABLE `course_inst`
-  MODIFY `relnid` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=67;
 --
 -- AUTO_INCREMENT for table `question`
 --
@@ -888,12 +993,12 @@ ALTER TABLE `question_course`
 -- AUTO_INCREMENT for table `quest_quiz`
 --
 ALTER TABLE `quest_quiz`
-  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=55;
+  MODIFY `relnid` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=24;
 --
 -- AUTO_INCREMENT for table `quiz`
 --
 ALTER TABLE `quiz`
-  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=8;
+  MODIFY `id` int(6) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=9;
 --
 -- AUTO_INCREMENT for table `sgroup`
 --
@@ -923,12 +1028,12 @@ ALTER TABLE `topic`
 -- AUTO_INCREMENT for table `topic_inst`
 --
 ALTER TABLE `topic_inst`
-  MODIFY `relnid` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id';
+  MODIFY `relnid` int(5) NOT NULL AUTO_INCREMENT COMMENT 'internal record id', AUTO_INCREMENT=101;
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'Internal table id, AutoIncrement', AUTO_INCREMENT=73;
+  MODIFY `id` int(5) NOT NULL AUTO_INCREMENT COMMENT 'Internal table id, AutoIncrement', AUTO_INCREMENT=79;
 --
 -- Constraints for dumped tables
 --
