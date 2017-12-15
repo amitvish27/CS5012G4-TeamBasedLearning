@@ -181,7 +181,7 @@ private Connection connection;
 				//for each group member get their answer
 				query = "SELECT s1.studentid, a.answer from answer_quiz a RIGHT JOIN "
 						+ "(SELECT * FROM sgroup_quiz WHERE quizid="+quiz.getQuizid()+" "
-						+ "AND groupid=2 AND token='CMPLTD' AND isgroupquiz=0 ) s1 "
+						+ "AND groupid="+groupid+" AND token='CMPLTD' AND isgroupquiz=0 ) s1 "
 						+ "ON s1.relnid = a.sgroup_quiz_id AND a.questid="+quiz.getQuestionid()+";";
 				res = connection.prepareStatement(query).executeQuery();
 				while(res.next()) {
@@ -210,10 +210,9 @@ private Connection connection;
 		return jsonObject;
 	}
 
-	public boolean checkTokenValidation(String studentid, int groupid, int quizid, String token) {
+	public boolean checkTokenValidation(int relnid, String token) {
 		String query="SELECT token FROM sgroup_quiz "
-				+ "WHERE studentid='"+studentid+"' AND groupid='"+groupid+"' "
-						+ "AND quizid='"+quizid+"' AND NOT(token='CMPLTD');";
+				+ "WHERE relnid='"+relnid+"' AND NOT(token='CMPLTD');";
 		try {
 			ResultSet rs = connection.prepareStatement(query).executeQuery();
 			if(rs.next() && rs.getString("token").equals(token)) {
@@ -309,9 +308,8 @@ private Connection connection;
 		return jsonObject.build();
 	}
 	
-	public void finishQuiz(String studentid, int groupid, int quizid) {
-		String query = "UPDATE sgroup_quiz SET token='CMPLTD' "
-				+ "WHERE studentid='"+studentid+"' AND groupid='"+groupid+"' AND quizid='"+quizid+"';";
+	public void finishQuiz(int relnid) {
+		String query = "UPDATE sgroup_quiz SET token='CMPLTD' WHERE relnid="+relnid+" ;";
 		try {
 			connection.prepareStatement(query).executeUpdate();
 		} catch(SQLException e) {
